@@ -1,0 +1,14 @@
+<div id="file_iframe_image">
+<% for i in @image.default %>
+  <%= link_to_remote image_tag(i.public_filename(:smallSq)), {:url => {:controller => '/rubycms_filemanager', :action => 'edit_image_caption', :id => i.id, :url => params[:url]}}, :title => i.caption  %>
+<% end %>
+</div>
+
+  <% if @image["edit_caption"] == true %>
+    <% form_remote_tag(:url => {:controller => '/rubycms_filemanager', :action => 'update_image_caption', :id => @image["current"].id, :url => params[:url]}) do %> 
+	
+	  <%= text_area_tag 'caption', @image["current"].caption, :size => '24x2' %>
+      <%= submit_tag 'ok' %>
+	  <%= link_to_remote 'cancel', :url => {:controller => '/rubycms_filemanager', :action => 'cancel_image_caption', :url => params[:url]} %>
+    <% end %>
+  <% end %>

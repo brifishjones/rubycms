@@ -1,0 +1,2 @@
+module Rubycms::ImagesideHelper
+end

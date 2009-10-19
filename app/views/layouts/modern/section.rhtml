@@ -1,0 +1,60 @@
+<%= render(:partial => "layouts/modern/head") %>
+
+<body id="section">
+  <div id="body">
+    <div id="head">
+      <div id="navmain">
+        <div class="column span-20">
+        	&nbsp;
+        </div class="column span-20">
+	    <div class="column span-60">
+      	  <%= main_navigation %>
+	    </div class="column span-60">
+	    <div class="column span-18 last">
+      	  <%= render(:partial => "layouts/modern/search") %>
+	    </div class="column span-18 last">
+	  </div>  <!-- id="navmain" -->
+	  
+	  <div id="navglobal">	
+	    <div class="column span-20 ">
+	  	  &nbsp;
+	    </div class="column span-20">
+	    <div class="column span-78 last">
+	      <%= global_navigation %>
+	    </div class="column span-78 last">
+	  </div>  <!-- id="navglobal" -->
+	  
+      <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %>
+	  <div id="logotitle">
+	  <div class="column span-20 ">
+	  	<div id="logo">
+          <a href="/" title="Home"><span></span>
+	        <img alt="RubyCMS Home" src="/images/modern/rubylogo50.gif"  />
+	      </a>
+        </div>
+	  </div class="column span-20">
+	  <div class="column span-78 last">
+	    <%= title %>
+		<%= breadcrumbs %>
+	  </div class="column span-78 last">
+	  </div id="logotitle">  
+    </div id="head">
+  
+    <%= render(:partial => "layouts/modern/section") %>
+    <% end %>  <!-- form_for :page -->
+  </div id="body">
+  
+  <div id="footrow">
+  <div class="column span-20 ">
+  	<%= username %>
+  	&nbsp;
+  </div class="column span-20">
+  <div class="column span-78 last">
+    <%= render(:partial => "layouts/modern/foot") %>
+  </div class="column span-78 last">
+  </div id="footrow">
+	
+  
+</body>
+
+</html>

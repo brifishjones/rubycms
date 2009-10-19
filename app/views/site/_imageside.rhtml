@@ -1,0 +1,45 @@
+
+  <% section = 0 %>
+  <% show = 0 %>
+  <% background = ['#5E3989', '#005A9C', '#549534', '#E7BD57'] %>
+  <% imageside = false %>
+  <% for i in @imageside.default %>
+
+    <% if i.show == true %>
+      
+	  <!-- <div class="imagesideframe" style="background: <%= background[show.modulo(4)]  %> "> -->
+	  <div class="imagesideframe">
+
+	  <% if editing_page %>
+	    
+        <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/imageside/' + @imageside["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'imageside -100px', targetY: 'imageside -50px', width: 340, height: 650} )" title="edit left sidebar images">	 
+        <%= image_tag i.public_filename(:mediumEx), :title => 'Edit sidebar images...' %>   
+	    <%= '</a>' %>  
+      <% else %>
+	    <% if i.href != nil && i.href != "" %>
+	      <a href="<%= i.href %>">
+	      <%= image_tag i.public_filename(:mediumEx) %>
+	    <% else %>
+		  <a href="<%= i.public_filename() %>" onclick="return hs.expand(this)">
+		  <img src="<%= i.public_filename(:mediumEx) %>" border="0" alt="<%= i.caption %>" title="Click to enlarge"/>
+		<% end %>	 
+		</a>
+	  <% end %>
+
+	  </div class="imagesideframe">
+	  
+	  <% imageside = true %>
+	  <% show += 1 %>
+	<% end %> 
+	<% section += 1 %>
+  <% end %>
+
+
+
+<% if editing_page && imageside == false %>
+  <div class="ifile">
+    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/imageside/' + @imageside["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'imageside -100px', targetY: 'imageside -50px', width: 340, height: 650} )" >
+	  <%= '<div id="imagesidefrm" title="Create and add links to sidebar images ...">Sidebar images</div>' %>
+    </a>
+  </div>
+<% end %>

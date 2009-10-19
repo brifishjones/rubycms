@@ -1,0 +1,87 @@
+.bannercontainer {
+ background-color: #AAAAAA;
+ height: 140px;
+ width: 300px;
+ position: relative;
+ left: 10px;
+}
+
+.bannerframe {
+ background-color: #4F6666;
+ height: 86px;
+ width: 243px;
+ position: relative;
+ top: 5px;
+ left: 5px;
+}
+
+.bannerframe img {
+ position: absolute;
+ /*top: 0px;*/
+ left: 0px;
+ /*border: 0;*/
+
+}
+.bannerframeinput {
+ position: absolute;
+ top: 0px;
+ right: 0px;
+}
+
+.bannerframeshow {
+ position: relative;
+ top: 10px;
+ left: -121px;
+}
+
+.bannerframedelete {
+ position: relative;
+ top: -16px;
+ left: 140px;
+}
+
+.bannerframedelete a {
+  background-color: #AAAAAA;
+  border:none;
+  color:#D7D7C7;
+  font-size:1.5em; 
+}
+.bannerframedelete a:hover {
+  background-color: #AAAAAA;
+  color:#FFE8B8;
+}
+
+.bannerframehref {
+ position: relative;
+ top: 10px;
+ left: -11px;
+ 
+}
+.bannerframeupload {
+ position: relative;
+ height: 86px;
+ width: 300px;
+ top: 14px;
+ left: 8px;
+ 
+}
+.bannerframehref input {
+ width: 240px;
+}
+.bannerframe input {
+ background-color: #4F6666;
+ border: 0;
+ font-family: 'trebuchet ms', arial, helvetica, sans serif;
+ font-size:1.32em;
+ font-weight: bold;
+ font-style: italic;
+ width: 124px;
+ height: 18px;
+ padding-left: 5px;
+ margin: 0;
+ color: #F0F0F0;
+}
+
+.bannerframe input:hover {
+ background-color: #5F7777;
+}

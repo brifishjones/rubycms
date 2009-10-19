@@ -1,0 +1,64 @@
+
+  <% section = 0 %>
+  <% show = 0 %>
+  
+  <% banner = false %>
+  
+  <% for i in @banner.default %>
+    <% if i.show == true %>
+	  
+	  <div class="bannercontainer">
+	  <div class="bannerframe">
+	  
+	  <% if editing_page %>
+	    
+        <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" title="edit banners">	 
+        <%= image_tag i.public_filename(:thumb), :title => 'Edit banners...' %>   
+	    <%= '</a>' %>  
+      <% else %>
+	    <a href="<%= i.href %>">	 
+		<%= image_tag i.public_filename(:thumb) %>
+		</a>
+	  <% end %>
+	  
+	  
+	  <% cap = i.caption.split('\n') %>
+	  
+	  
+	  <div class="bannerframetext bg<%= show.modulo(5) + 1 %>">
+	  
+	  <%= '<ul>' %>
+	
+	  
+      <% 0.upto(3) do |j| %>
+	    <%= '<li>'  %>
+		  <% if cap[j] == '' %>
+		    <%= '<br />' %>
+		  <% else %>
+	        <%= cap[j]  %>
+		  <% end %>
+	    <%= '</li>' %>
+	    	  
+	  <% end %>
+	  
+	  </ul>
+	  </div class="bannerframetext">
+	  
+	  </div class="bannerframe">
+	  </div class="bannercontainer">
+	  <% banner = true %>
+	  <% show += 1 %>
+	  
+	<% end %> 
+	<% section += 1 %>
+	
+  <% end %>
+
+
+<% if editing_page && banner == false %>
+  <div class="ifile">
+    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" >
+	  <%= '<div id="bannerfrm" title="Create and edit images and captions for banner ads...">Banner ads</div>' %>
+    </a>
+  </div>
+<% end %>

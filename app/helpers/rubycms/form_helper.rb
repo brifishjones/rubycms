@@ -1,0 +1,2 @@
+module Rubycms::FormHelper
+end

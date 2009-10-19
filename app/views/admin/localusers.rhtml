@@ -1,0 +1,54 @@
+<h1>Local Users</h1>
+<p>
+	Note that users present in LDAP could also be present in this list if validation is required when LDAP is unavailable.
+</p>
+<table>	
+  
+  <% if @localusers != nil %>
+  
+    <th>Local Username</th>
+	<th>E-mail</th>
+	<th>Delete</th>
+	<% i = 0 %>
+    <% for localuser in @localusers %>
+      <tr>
+        <td><%=h localuser.name %></td>
+		<td><%=h localuser.email %></td>
+		<td><%=link_to("&times;", "/admin/delete_localuser/" + localuser.id.to_s, :confirm => 'Permanently delete  "' + localuser.name + '"?', :title => 'delete') if localuser.name != "admin" %></td>
+		<% i += 1 %>
+      </tr>    
+    <% end %>
+
+  <% end %>
+
+</table>
+
+<p>
+<%= error_messages_for 'usr', 
+            :header_message => "Username not saved.",
+            :message => "" %>
+
+<% form_for :localuser do |@form| %>
+   
+    <%= @form.label :name, "User name:" %><br />
+    <%= @form.text_field :name %><br />
+
+  
+
+    <%= @form.label :password, "Password:" %><br />
+    <%= @form.password_field :password %><br />
+
+
+ 
+    <%= @form.label :email, "E-mail:" %><br />
+    <%= @form.text_field :email %>
+
+  
+  
+
+  <%= submit_tag "New user" , :title => "Add local user" %>
+  
+<% end %>
+</p>
+
+<p>Enter username, password, and e-mail.  Information will be stored locally, not in LDAP.</p>

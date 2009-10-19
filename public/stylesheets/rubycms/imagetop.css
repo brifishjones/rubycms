@@ -1,0 +1,28 @@
+/* file iframe for choosing top image */
+
+#imagetopframecaption {
+  margin-bottom: 5px;
+}
+#imagetopframecaption img {
+  width: 530px;
+}
+
+#imagetopthumbs {
+  margin:10px 0 10px 0;
+}
+
+#imagetopthumbs a img {
+  border: 1px solid #E0E0E0;
+}
+#imagetopthumbs a img:hover {
+  border-color: #FFFFFF;
+}
+#imagetopthumbs a {
+  padding:0 0 1px 1px;
+}
+#imagetopthumbs a:link,
+#imagetopthumbs li a:visited,
+#imagetopthumbs li a:hover,
+#imagetopthumbs li a:active {
+  background-color: #AABBBB; 
+}

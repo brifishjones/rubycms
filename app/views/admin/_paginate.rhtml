@@ -1,0 +1,6 @@
+<span >
+<%= link_to '&lArr Prev &ensp', { :page => @page_pages.current.previous} if @page_pages.current.previous %>
+<%= link_to 'Next &rArr', { :page => @page_pages.current.next} if @page_pages.current.next %> 
+&ensp <%= pagination_links(@page_pages) %>
+&ensp <%= image_tag("/images/bullets/diamond/pr_sqdi.gif", :height => 8)  if @page_pages.current.previous || @page_pages.current.next %>
+</span>

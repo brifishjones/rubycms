@@ -1,0 +1,275 @@
+  
+    <% # Include TinyMCE before other JavaScript includes to avoid problems -%>
+    <!-- javascript_include_tiny_mce_if_used -->
+	<%= include_tiny_mce_js_if_needed %>
+	
+	
+	
+	<% # Change content_css when layout is altered -%>
+	<% @tiny_mce_options[:content_css] = '/stylesheets/' + session[:layout].to_s.sub(/\/.*$/, "") + '/screen.css' if session[:layout] != nil %>
+	
+    <!-- tiny_mce if using_tiny_mce? -->
+	<%= tiny_mce_init_if_needed %>
+	
+	
+    <script language="javascript" type="text/javascript">
+    	
+    function tinyCleanup(type, value) {
+	switch (type) {
+		case "get_from_editor":
+			//alert("Value HTML string: " + value);
+
+			// Do custom cleanup code here
+
+			break;
+
+		case "insert_to_editor":
+			//alert("Value HTML string: " + value);
+
+			// Do custom cleanup code here
+
+			break;
+
+		case "get_from_editor_dom":
+			//alert("Value DOM Element " + value);
+
+			// Do custom cleanup code here
+
+			break;
+
+		case "insert_to_editor_dom":
+			//alert("Value DOM Element: " + value);
+
+			// Do custom cleanup code here
+
+			break;
+	}
+	return value;
+    }
+    function myOnKeyDown() {
+      //alert("keydown");
+    }
+    function myprint(e) {
+
+	  alert(e.type);
+	  //tinyMCE.addEvent(document, "mouseup", mymouseup(e));
+	
+    }
+	function fixSize(w, h, wh){
+	// when an image is resized within the tinyMCE editor, only allow one of three (small, medium, or large) predetermined sizes.
+		aspect = w/h;
+		inst = tinyMCE.selectedInstance;
+		newel = tinyMCE.activeEditor.selection.getNode();
+		newwh =  Math.min(newel.width, newel.height);
+		imgsrc = newel.src.replace(new RegExp('https?:\/\/[a-zA-Z0-9_\.\-\:]+?\/', ''), '/');
+		// strip off any ? followed by numbers after file extension
+		imgsrc = imgsrc.replace(new RegExp('[\?][0-9]+$', ''), '');
+		//alert(wh + "  " + w + "  " + h + "  " + newel.width + "  " + newel.height + "  " + el.src + "  " + el.nodeName );
+		//alert(wh + "  " + w + "  " + h + "  " + newel.width + "  " + newel.height + "  " + newel.src + "  " + newel.alt + "   " + imgsrc);
+		
+		if (newwh <= 85 && (newel.width != w || newel.height != h)) {	
+			if (w <= h) {
+				newel.width = 60;
+				newel.height = 60 * h / w;
+			} else {
+				newel.height = 60;
+				newel.width = 60 * w / h;		
+			}
+			imgsrchtml = imgsrc.replace(new RegExp('\/([a-zA-Z0-9_.\-]+)_(tiny|small|medium|large)Ex\.([a-zA-Z0-9\-]+?)$'), '/' + '$1' + '_smallEx.' + '$3');
+			html = inst.getDoc().body.innerHTML;
+			//alert(imgsrc + '----' + imgsrchtml);
+		    html = html.replace(new RegExp(imgsrc, 'gi'), imgsrchtml);
+			// Firefox on a Mac inserts style="width: __px; height: __px;" so remove it.
+			html = html.replace(new RegExp('style="width: [0-9]+px; height: [0-9]+px;"'), '');
+		    //alert(html);
+			inst.getDoc().body.innerHTML = html;
+			tinyMCE.activeEditor.execCommand('mceRepaint');
+		}
+		
+		else if (newwh > 85 && newwh <= 140 && (newel.width != w || newel.height != h)) {
+			if (w <= h) {
+				newel.width = 100;
+				newel.height = 100 * h / w;
+			} else {
+				newel.height = 100;
+				newel.width = 100 * w / h;		
+			}
+			imgsrchtml = imgsrc.replace(new RegExp('\/([a-zA-Z0-9_.\-]+)_(tiny|small|medium|large)Ex\.([a-zA-Z0-9\-]+?)$'), '/' + '$1' + '_mediumEx.' + '$3');
+			html = inst.getDoc().body.innerHTML;
+		    html = html.replace(new RegExp(imgsrc, 'gi'), imgsrchtml);
+			// Firefox on a Mac inserts style="width: __px; height: __px;" so remove it.
+			html = html.replace(new RegExp('style="width: [0-9]+px; height: [0-9]+px;"'), '');
+		    inst.getDoc().body.innerHTML = html;
+			tinyMCE.activeEditor.execCommand('mceRepaint');
+	
+		}
+		else if (newwh > 140 && (newel.width != w || newel.height != h)) {
+			if (w <= h) {
+				newel.width = 180;
+				newel.height = 180 * h / w;
+			} else {
+				newel.height = 180;
+				newel.width = 180 * w / h;		
+			}
+			imgsrchtml = imgsrc.replace(new RegExp('\/([a-zA-Z0-9_.\-]+)_(tiny|small|medium|large)Ex\.([a-zA-Z0-9\-]+?)$'), '/' + '$1' + '_largeEx.' + '$3');
+			html = inst.getDoc().body.innerHTML;
+		    html = html.replace(new RegExp(imgsrc, 'gi'), imgsrchtml);
+			// Firefox on a Mac inserts style="width: __px; height: __px;" so remove it.
+			html = html.replace(new RegExp('style="width: [0-9]+px; height: [0-9]+px;"'), '');
+		    inst.getDoc().body.innerHTML = html;
+			tinyMCE.activeEditor.execCommand('mceRepaint');
+		}
+		
+		//alert(aspect + "  " + wh + "  " + w + "  " + h + "  " + newel.width + "  " + newel.height + "  " + inst.getDoc().location.hostname + "  " + imgsrc + "  " + newel.alt + "  " + newel.nodeName);
+		//alert(html);
+		
+		//newel.width = '';
+		//newel.height = '';
+		//html = inst.getDoc().body.innerHTML;
+		//alert(html);
+		//html = html.replace(new RegExp('_smallEx', ''), '_mediumEx');
+		//tinyMCE.setInnerHTML(inst.getBody(), html);
+		//return false;
+		//tinyMCE.activeEditor.execCommand('mceRepaint');
+		return true;
+	}
+	function processDragDrop(){
+		html = tinyMCE.selectedInstance.getDoc().body.innerHTML;
+		//alert('tinyInitInstanceCallback: ' + e.id + e.type + e.target.nodeName + "\n" + html);
+		//console.debug('tinyInitInstanceCallback: ' + e.id + e.type + e.target.nodeName);
+		//html = html.replace(new RegExp('_smallSq', 'gi'), '_mediumEx');
+		//html = html.replace(new RegExp('_smallSq\.([a-zA-Z0-9\-]+)[\?]*[0-9]*', 'gi'), '_mediumEx'+ '$1');
+		//html = html.replace(new RegExp('return false;" title="(.*?)">', 'gi'), 'return false;" title="Click to enlarge">');
+		
+		html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '<a href="' + '$3' + '.' + '$4' + '" onclick="' + 'return hs.expand(this)"><img src="' + '$3' + '_mediumEx.' + '$4' + '" title="Click to enlarge"></a>');
+		tinyMCE.selectedInstance.getDoc().body.innerHTML = html;
+		return true;
+	}
+	
+	function tinyInitInstanceCallback(ed) {
+    if (tinymce.isIE) {
+        tinymce.dom.Event.add(ed.getWin(), 'dragdrop', function(e) {
+			setTimeout("processDragDrop()",100);
+            //console.debug('tinyInitInstanceCallback: ' + e.id + e.type + e.target.nodeName);
+			//html = ed.getDoc().body.innerHTML;
+			//html = html.replace(new RegExp('_smallSq', 'gi'), '_mediumEx');
+			//html = html.replace(new RegExp('_smallSq\.([a-zA-Z0-9\-]+)[\?]*[0-9]*', 'gi'), '_mediumEx'+ '$1');
+			//html = html.replace(new RegExp('return false;" title="(.*?)">', 'gi'), 'return false;" title="Click to enlarge">');
+			//ed.getDoc().body.innerHTML = html;
+			return true;	
+        });
+        
+    } else {
+        tinymce.dom.Event.add(ed.getDoc(), 'dragdrop', function(e) {
+			setTimeout("processDragDrop()",100);
+			//html = ed.getDoc().body.innerHTML;
+		   // html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '*******' + '<a href="' + '$3' + '.' + '$4' + '"><img src="' + '$3' + '_mediumEx.' + '$4' + '"></a>' + '*******');
+		    //ed.getDoc().body.innerHTML = html;
+			return true;	
+        });
+ 
+    }
+	
+}
+	
+	
+	function tinySetup (ed) {
+      // Display an alert onclick
+      ed.onClick.add(function(ed, e) {
+        console.debug('Editor was clicked: ' + e.id + e.type + e.target.nodeName);
+      });
+	  
+	  ed.onMouseUp.add(function(ed, e) {
+          console.debug('Mouse up event: ' + e.id + e.type + e.target.nodeName);
+      });
+	  
+	  //ed.onChange.add(function(ed, l) {
+      //    console.debug('Editor contents modified. Contents: ' + l.content);
+      //});
+
+
+	  
+	  ed.onExecCommand.add(function(ed, cmd, ui, val) {
+          ed.windowManager.alert('Command was executed: ' + cmd);
+      });
+	  
+      ed.onActivate.add(function(ed) {
+          console.debug('Editor was activated: ' + ed.id);
+      });
+
+
+    }
+	  
+    // tinyHandleEvent captures events and does post-processing after
+    // tinyMCE handles drag/drop events.
+    function tinyHandleEvent(e, ed, o) {
+	  //window.status = "event:" + e.type;
+	  if (e.type == "mouseup") {
+        //mySelection = e.target;
+		//elm = tinyMCE.selectedInstance.getFocusElement();
+		elm = tinyMCE.activeEditor.selection.getNode();
+		wh = Math.min(elm.width, elm.height);
+		w = elm.width;
+		h = elm.height;
+		//alert(e.type + "  " + e.target + "  " + elm.width + "  " + elm.height + "  " + elm.tagName);
+        if (elm.tagName == "IMG") {
+			//alert (elm.src.indexOf("showPhoto"));
+            
+                setTimeout("fixSize(w, h, wh)",100);
+            
+        }
+    }
+
+	  if (e.type == 'dragdrop') {
+		//myprint(e);
+		//tinyMCE.addEvent(document,"mouseup",myOnKeyDown(e));
+		//alert(e.type);
+		//alert("The HTML is now:" + inst.getBody().innerHTML);
+		//e.setContent('<strong>Hello world!</strong>');
+		//tinyMCE.getActiveEditor.selection.getContent({format : 'text'});
+		//tinyMCE.triggerNodeChange();
+
+		var inst = tinyMCE.selectedInstance;
+		var html = inst.getDoc().body.innerHTML;
+		
+		//alert(html);
+		window.setTimeout("tinyMCE.execCommand('afterDragDrop',false,'this is a test');", 100);
+	  }
+	  return true; // Continue handling
+    }
+    function tinyCustomExecCommandHandler (editor_id, elm, command, user_interface, value) {
+      var linkElm, imageElm, inst, html;
+      switch (command) {
+      case "afterDragDrop":
+			
+			inst = tinyMCE.get(editor_id);  //inst = tinyMCE.getInstanceById(editor_id);
+			imageElm = inst.dom.getParent(inst.selection.getNode(), "img");  //imageElm = tinyMCE.getParentElement(inst.selection.getFocusElement(), "img");
+            html = inst.getDoc().body.innerHTML;
+			html = html.replace(new RegExp('_smallSq', 'gi'), '_mediumEx');
+			html = html.replace(new RegExp('_smallSq\.([a-zA-Z0-9\-]+)[\?]*[0-9]*', 'gi'), '_mediumEx'+ '$1');
+			html = html.replace(new RegExp('return false;" title="(.*?)">', 'gi'), 'return false;" title="Click to enlarge">');
+			
+			
+			
+			tinyMCE.DOM.setInnerHTML(inst.getBody(), html);//tinyMCE.setInnerHTML(inst.getBody(), html);
+			//alert(value + html);
+			//if (imageElm)
+			//	alert("mceReplace dialog has been overriden. Found image src: " + tinyMCE.getAttrib(imageElm, "src"));
+			//else
+			//	alert("mceReplace dialog has been overriden.");
+
+			return true;			
+	  }
+      return false; // Pass to next handler in chain
+    }
+    //function tinyOnChangeHandler(inst) {
+    //    html = inst.getBody().innerHTML;
+    //    if (html_old == html_new) { return }
+    //    PasteFixKnooppunt();
+    //    return true; // Continue handling
+    //
+    //}
+
+    </script>
+	
+

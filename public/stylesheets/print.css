@@ -1,0 +1,38 @@
+/* CSS Document */
+
+@import url("formatting.css");
+
+#body,
+#head,
+#content,
+#right,
+#left,
+#foot {
+ border:0;
+ float:none !important; 
+ margin:0;
+ padding:0;
+ width:auto;
+}
+#left,
+#content,
+#foot {
+ margin:0 5%;
+}
+#audiences,
+#global,
+#nav,
+#foot ul {
+ display:none;
+}
+#crumbs {
+ font-size:.9em;
+}
+#foot {
+ border-top:thin solid #666;
+ font-size:.9em;
+ text-align:center;
+}
+img {
+ border:0;
+}

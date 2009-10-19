@@ -1,0 +1,76 @@
+<!--
+<p>cur_navlist_item = <%= @navigation["current"] %></p>
+<p>navlist = <%= @navigation["list"].inspect %></p>
+<p>navlist size = <%= @navigation["list"].nav_list.size %></p>
+<p>editing page = <%= editing_page %></p>
+<p>page id = <%= @page.id %></p>
+<p>order params = <%= @order_params %></p>
+-->
+
+<% if editing_page %>  
+  <div id="editnav">
+  <ul id="navlist"> 
+  <% 0.upto(@navigation["list"].nav_list.size - 1) do |i| %> 
+    <%= content_tag("li", '<span class="handle">&loz;&nbsp;</span>' +
+      (link_to_remote @navigation["list"].nav_list[i].name, {:url => {:controller => '/rubycms_navigation', :action => 'set_to_edit_mode', :page => @page.id, :cur_navlist_item => i}}, :title => 'edit') +
+      (link_to_remote '&nbsp&times;', {:url => {:controller => '/rubycms_navigation', :action => 'delete_from_navlist', :page => @page.id, :cur_navlist_item => i}, :confirm => 'Delete "' + @navigation["list"].nav_list[i].name + '" link?'}, :title => 'delete'),
+      :id => 'listitem_' + i.to_s) %>      
+  <% end %>
+  
+  </ul>
+  <% constrain = session[:layout] =~ /^modern.*/ ? 'horizontal' : 'vertical' %>
+  <%= sortable_element 'navlist',
+      :update => 'editnav',
+      :constraint => constrain,
+      :handle => 'handle',  
+      :url => {:controller => '/rubycms_navigation', :action => 'order_navlist', :page => @page.id, :cur_navlist_item => @navigation["current"]} %>	
+	
+  <div id="list">  
+  <%= link_to_remote 'Add', {:url => {:controller => '/rubycms_navigation', :action => 'add_to_navlist', :page => @page.id}}, :title => 'add new link to navigation list', :class => 'button' %> 
+  <%= link_to_remote 'Import', {:url => {:controller => '/rubycms_navigation', :action => 'import_navlist', :page => @page.id}}, :title => 'import navigation from an existing page', :class => 'button' %> 
+  <%= link_to_remote 'Revert', {:url => {:controller => '/rubycms_navigation', :action => 'revert_navlist', :page => @page.id}}, :title => 'restore navigation to its original state', :class => 'button' %> 
+  </div>
+  
+  
+  <% if @navigation["current"] != nil %>
+    <div id="navlist_form">
+    <% form_remote_tag(:url => {:controller => '/rubycms_navigation', :action => 'update_navlist', :page => @page.id, :cur_navlist_item => @navigation["current"]}) do %>
+      
+	  <% if @navigation["current"].to_i < @navigation["list"].nav_list.size %>
+	    <%= text_field_tag 'name', @navigation["list"].nav_list[@navigation["current"].to_i].name %>
+        <%= text_field_tag 'href', @navigation["list"].nav_list[@navigation["current"].to_i].href %>
+	  <% else %>
+	    <%= text_field_tag 'name', '(Enter link name)' %>
+        <%= text_field_tag 'href', '(Enter link url)' %>
+	  <% end %>
+      <%= submit_tag 'ok', :class => 'button' %>
+	  <%= link_to_remote 'cancel', {:url => {:controller => '/rubycms_navigation', :action => 'refresh_navlist', :page => @page.id}}, :class => 'button' %>
+    <% end %>
+	</div>
+  <% end %>
+  
+  <% if @import_navlist == true %>
+    <div id="navlist_form">
+    <% form_remote_tag(:url => {:controller => '/rubycms_navigation', :action => 'replace_navlist', :page => @page.id, :cur_navlist_item => @navigation["current"]}) do %>
+	  <%= text_field_tag 'importpath' , '(Enter existing page)' %>
+      <%= submit_tag 'ok', :class => 'button' %>
+	  <%= link_to_remote 'cancel', {:url => {:controller => '/rubycms_navigation', :action => 'refresh_navlist', :page => @page.id}}, :class => 'button' %>
+	<% end %>
+	</div>
+  <% end %>
+  
+  
+  
+  </div>  <!-- id="editnav" -->
+ 
+<% else %>
+  <ul>
+  <% 0.upto(@navigation["list"].nav_list.size - 1) do |i| %>
+    <% if @navigation["list"].nav_list[i].href.chomp('/').reverse.chomp('/').reverse == @page.filename.name %>
+	  <%= content_tag("li class=linolink", @navigation["list"].nav_list[i].name) %>
+	<% else %>
+      <%= content_tag("li", link_to(@navigation["list"].nav_list[i].name, @navigation["list"].nav_list[i].href)) %>
+	<% end %>
+  <% end %>
+  </ul>
+<% end %>

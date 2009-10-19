@@ -1,0 +1,92 @@
+<div class="gallery-images">	
+<p style="color: green"><%= flash[:notice] %></p>	
+  <div id="editgallery">
+  	<div id="gallerycontainer">
+  <%=  '<ul id="galleryimages">' %>
+  
+  <% j = 0 %>
+  <% for i in @gallery.default %>
+    <%= '<li id="imageitem_' + j.to_s + '">' %>
+    
+    <div class="galleryframe">
+    <div class="file_iframe_image">
+    
+    <span class="handle">&hArr;</span>
+	<%= '<div class="hide-image" title="hidden">&empty;</div>' if i.show != true %>
+	<div class="delete-image">
+	<%= (link_to_remote '&times;', {:url => {:controller => '/rubycms_gallery', :action => 'delete_gallery_image', :url => params[:url], :index => j}, :confirm => 'Remove image from gallery?'}, :title => 'delete') %>
+	</div>
+	<%= (link_to_remote image_tag(i.public_filename(:smallSq)), {:url => {:controller => '/rubycms_gallery', :action => 'edit_gallery_caption', :id => i.id, :url => params[:url]}}, :title => i.caption) %>
+	
+	</div class="file_iframe_image">
+	
+	</div class="galleryframe">
+	</li>
+
+ <% j += 1 %> 
+  
+    
+  
+  <% end %>
+ </ul id="galleryimages"> 
+ </div id="gallerycontainer">
+
+  <%= sortable_element 'galleryimages',
+      :tag => 'li',
+      :overlap => 'horizontal',
+      :format => '/^imageitem_(.*)$/',
+      :handle => 'handle',
+      :update => 'editgallery',
+      :constraint => 'false',
+      :url => {:controller => '/rubycms_gallery', :action => 'order_gallery_images', :page => @page.id, :sorting => true, :url => params[:url]} %>
+	  
+  
+<!-- id="editgallery" -->
+<!-- class="gallery-images" -->
+
+
+
+  <% if @gallery["edit_caption"] == true %>
+  <div id="gallerycaption">
+    <% form_remote_tag(:url => {:controller => '/rubycms_gallery', :action => 'update_gallery_caption', :id => @gallery["current"].id, :url => params[:url]}) do %> 
+	    <%= text_area_tag 'caption', @gallery["current"].caption, :size => '34x2' %>
+		<div class="button" id="galleryframeokcancel">
+          <%= submit_tag 'ok' %>
+	      <%= link_to_remote 'cancel', :url => {:controller => '/rubycms_gallery', :action => 'cancel_gallery_caption', :url => params[:url]} %>
+	    </div>
+	  <div id="galleryframeshow"> 		
+	    <%= check_box_tag 'show', '1', @gallery["current"].show %>&nbsp;show
+	  </div>
+    <% end %>
+	<div id="gallerylargeimage">
+	  <% if @gallery["current"].width < @gallery["current"].height %>
+	    <%= image_tag(@gallery["current"].public_filename, :height => '400') %>
+	  <% else %>
+	    <%= image_tag(@gallery["current"].public_filename, :width => '400') %>
+	  <% end %>
+	</div>
+  </div>
+  <% end %>
+  
+<div id="galleryframeupload">  
+<% if @gallery["edit_caption"] != true  && @upload_privileges == true %>
+<h3>File manager</h3>
+<% form_for(:gallery, :url => {:controller => '/rubycms_gallery', :action => :gallery_upload, :path => params[:url], :size => @gallery.default.size}, :html => { :multipart => true }) do |f| %>
+  <p>
+    <label for="uploaded_data"></label>
+    <%= f.file_field :uploaded_data %>
+  </p>
+  <p>
+    <%= submit_tag "Upload Gallery" %>
+  </p>
+<% end %>
+<% elsif @upload_privileges == false %>
+  <p>
+  	(You don't have privileges to upload images for galleries)
+  </p>
+<% end %>
+</div id="galleryframeupload">
+
+  </div>  <!-- id="editgallery" -->
+</div>   <!-- class="gallery-images" -->
+

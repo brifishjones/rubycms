@@ -1,0 +1,175 @@
+/* file iframe for choosing gallery */
+#gallerycontainer {
+ float: none;
+ border: 1px solid #999999;
+ background-color: #999999;
+ min-height:100px;
+ /*height: 200px;*/
+ width: 385px;
+ position: relative;
+ /*top: 20px;*/
+ left: 20px;
+ margin-bottom: 30px;
+ overflow:auto;
+ padding: 2px 2px 2px 2px;
+} 
+#gallerycontainer ul, ol {
+margin:0;
+}
+
+.galleryframe {
+ margin:2px;
+ background-color: #AABBBB;
+ width: 73px;
+ height: 90px;
+ position: relative;
+ line-height:1.0em;
+}
+#editgallery li {
+ float:left;
+} 
+
+.galleryframe a img {
+ border: 1px solid #E0E0E0;
+}
+.galleryframe a img:hover {
+ border-color: #FFFFFF;
+}
+.galleryframe a {
+ padding:0 0 1px 1px;
+}
+.galleryframe a:link,
+.galleryframe li a:visited,
+.galleryframe li a:hover,
+.galleryframe li a:active {
+ background-color: #AABBBB; 
+}
+
+.galleryframe .file_iframe_image .hide-image {
+ position: absolute;
+ top: 0px;
+ right: 62px;
+}
+.galleryframe .file_iframe_image .delete-image {
+ position: absolute;
+ top: 0px;
+ right: 2px;
+}
+.galleryframe .file_iframe_image .delete-image a {
+ padding: 0;
+ background:inherit;
+ font-weight:normal;
+ border:none;
+ color:#555555;
+ font-size:1.2em; 
+ 
+}
+.galleryframe .file_iframe_image .delete-image a:hover {
+ color:#666677;
+}
+.galleryframe .file_iframe_image .handle { 
+ cursor:move;
+ font-size:1.10em;
+ line-height:0.5;
+}
+
+#gallerycaption input[type="submit"], #gallerycaption a {
+ margin-top:-6px;
+}
+
+#galleryframeshow {
+ position: relative;
+ /*height: 10px;*/
+ width:100px;
+ top: -72px;
+ left: 310px;
+}
+#galleryframeokcancel {
+ position: relative;
+ /*height: 10px;*/
+ width:100px;
+ top: -24px;
+ left: 300px;	
+}
+
+#gallerycaption {
+ position: relative;
+ width: 400px;
+ top: 2px;
+}
+
+#gallerylargeimage {
+	position: relative;
+    left: 20px;
+	top: -20px;
+	float: left;
+	/*height: 500px;*/
+}
+
+
+#galleryframeupload {
+ position: relative;
+ height: 86px;
+ width: 429px;
+ /*left: -18px;*/
+}
+
+.gallery-info #gallerycontainer {
+ background-color: #ffffff;
+ border: 0px solid #ffffff;
+ height: auto;
+ width: 500px;
+ left: 0px;
+ top: 0px;
+ overflow: hidden;
+ /*margin-top: 0;*/
+ margin-bottom: 0;
+ margin-top: 18px;
+ 
+ /*float: none;*/
+ /*border: 1px solid #aaaaaa;*/
+ /*background-color: #aaaaaa;
+ height: 200px;
+ width: 360px;
+ position: relative; */
+ /*margin-bottom: 30px;
+ overflow:auto;*/
+} 
+
+.gallery-info #gallerycontainer .file_iframe_image {
+ margin-top: 0px;
+ margin-bottom: 0px;
+}
+
+.gallery-info .file_iframe_image img {
+ border: 0;
+ border: 2px solid #aaaa00;
+ background-color: #00dddd;
+ padding: 1px;
+}
+.gallery-info .file_iframe_image img:hover {
+ background-color: #ee00ee;
+}
+
+.gallery-info .file_iframe_image a {
+ border: 0;
+ margin: 0;
+ position: relative;
+ text-decoration: none;
+}
+.gallery-info #gallerycontainer ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	
+}
+.gallery-info #galleryimages li {
+ display:inline;
+ /*line-height:0;*/
+ padding:0;
+ text-align:right; 
+ float:left;
+ position:relative;
+ margin: 0 auto;
+} 
+

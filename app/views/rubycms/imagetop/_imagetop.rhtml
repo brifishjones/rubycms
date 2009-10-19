@@ -1,0 +1,29 @@
+
+<div id="imagetopframecaption">
+  <% if @imagetop["current"] != nil %>
+    <%= image_tag @imagetop["current"].public_filename %>
+  <% else %>
+    <div class="notice">(no top image selected)</div> 
+  <% end %>
+</div>
+
+<div class="button">
+  <%= link_to_remote 'Remove top image', :url => {:controller => '/rubycms_imagetop', :action => 'remove_imagetop', :id => @imagetop["current"], :url => params[:url]} if @imagetop["current"] != nil %>
+</div>
+
+<div id="imagetopthumbs">
+  <% for i in @imagetop.default %>
+    <%= link_to_remote image_tag(i.public_filename(:thumb)), {:url => {:controller => '/rubycms_imagetop', :action => 'edit_imagetop_caption', :id => i.id, :url => params[:url]}}, :title => i.caption  %>	
+  <% end %>
+</div>
+
+<% if @imagetop["current"] != nil %>
+    <h3>Caption</h3>
+    <% form_remote_tag(:url => {:controller => '/rubycms_imagetop', :action => 'update_imagetop_caption', :id => @imagetop["current"].id, :url => params[:url]}) do %> 
+	  <div class="button">
+	    <%= text_area_tag 'caption', @imagetop["current"].caption, :size => '24x2' %>
+        <%= submit_tag 'ok' %>
+	    <%= link_to_remote 'cancel', :url => {:controller => '/rubycms_imagetop', :action => 'cancel_imagetop_caption', :id => @imagetop["current"].id, :url => params[:url]} %>
+	  </div class="button">
+  <% end %>
+<% end %>

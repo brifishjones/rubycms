@@ -1,0 +1,70 @@
+/* base class for iframe windows (contact, file, form, gallery, layout, ... ) in highslide */
+
+.hs-iframe {
+  background-color: #ABB;
+  text-align:center;
+  padding: 0 0 5px 0;	
+}
+.hs-iframe p {
+  margin: 0 0 0.2em;
+}
+.hs-iframe h2, .hs-iframe h3 {
+  font-family: arial,helvetica,sans serif;
+  font-size:1.07em;
+  font-weight: bold;
+  margin: 20px 0 5px 0;
+  color: #333333;	
+}
+.hs-iframe a {
+  background-color: #ABB;
+  border:1px solid;
+  border-color: #ABB;
+  color:#333;
+  font-family: 'trebuchet ms', arial, helvetica, sans serif;
+  font-size:0.95em;
+  font-weight:bold;
+  padding:1px;
+  text-decoration: none;
+}
+.hs-iframe a:hover {
+  background-color: #BCC;
+}
+.hs-iframe ul, ol {
+  margin:0.7em 0 1.5em 0;
+  list-style-type:none;
+}
+.hs-iframe textarea {
+  height:32px;
+  width:200px;
+  padding:2px;
+  /*overflow:auto;*/
+  font-family: verdana,arial,helvetica,sans serif;
+  font-size:0.95em;
+  color:#222222;
+  border-color:#999999 #D9D9D9 #D9D9D9 #999999;
+  /*border-style:solid;*/
+  /*border-width:1px;*/
+}
+.hs-iframe select, select:focus {
+  border-color:#999999 #D9D9D9 #D9D9D9 #999999;
+  border-width:2px;
+  padding: 1px;
+  font-size:0.95em;
+}
+.hs-iframe .button a, .hs-iframe .button input[type=submit] {
+  background-color: #889999;
+  border:1px solid;
+  border-color: #BBCCCC;
+  color:#FFF;
+  padding:1px;
+  font-family: 'trebuchet ms', arial, helvetica, sans serif;
+  font-size:0.92em;
+  font-weight:bold;
+  margin-top: 3px;	
+}
+.hs-iframe .button a {
+  padding:2px 4px 2px 4px;
+}
+.hs-iframe .button a:hover, .hs-iframe .button a:focus, .hs-iframe .button [type=submit]:hover {
+  background-color: #778888;
+}

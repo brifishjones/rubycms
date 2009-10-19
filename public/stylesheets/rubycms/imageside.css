@@ -1,0 +1,74 @@
+.imagesidecontainer {
+ background-color: #AAAAAA;
+ height: 140px;
+ width: 300px;
+ position: relative;
+ left: 10px;
+ margin-bottom:10px;;
+}
+
+.imagesideframe {
+ height: 86px;
+ width: 300px;
+ position: relative;
+ top: 5px;
+ left: 5px;
+}
+
+.imagesideframe img {
+ position: absolute;
+ left: 0px;
+}
+
+.imagesideframeinput {
+ position: absolute;
+ top: -7px;
+ right: 10px;
+}
+
+.imagesideframeshow {
+ position: relative;
+ top: 10px;
+ left: -123px;
+}
+
+.imagesideframedelete {
+ position: relative;
+ top: -16px;
+ left: 140px;
+}
+
+.imagesideframedelete a {
+  background-color: #AAAAAA;
+  border:none;
+  color:#D7D7C7;
+  font-size:1.5em; 
+}
+.imagesideframedelete a:hover {
+  background-color: #AAAAAA;
+  color:#FFE8B8;
+}
+
+.imagesideframehref {
+ position: relative;
+ top: 10px;
+ left: -9px;
+ 
+}
+.imagesideframeupload {
+ position: relative;
+ height: 86px;
+ width: 300px;
+ top: 14px;
+ left: 8px;
+ 
+}
+.imagesideframehref input {
+ width: 243px;
+}
+.imagesideframe textarea {
+ 
+ width: 150px;
+ height: 60px;
+ 
+}

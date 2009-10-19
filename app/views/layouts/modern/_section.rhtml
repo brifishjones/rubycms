@@ -1,0 +1,38 @@
+
+<div id="imgcontent">
+<div class="column span-20 border">
+  <div id="banner">
+    <%= render(:partial => 'banner') if @page != nil %>
+  </div id="banner">
+  <div id="imageside">
+    <%= render(:partial => 'imageside') if @page != nil %>
+  </div id="imageside">
+  <div id="gallery">
+      <%= render(:partial => 'gallery') if @page != nil %>
+  </div id="gallery">
+  &nbsp; 
+</div class="column span-20">
+
+<div class="column span-43">
+  <div id="imagetop">
+    <%= render(:partial => "imagetop") if @page != nil %>
+  </div id="imagetop">	
+</div class="column span-43">
+<div class="column span-35 last borderleft">
+  <% if flash[:notice] %>	
+	<div class="success">
+	  <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+  <%= layout %>
+  
+  <%= file_manager %>
+  
+  <div id="content">
+    <%= @page != nil ? content : (yield :layout)  %>
+  </div id="content">
+  <%= formoptions %>
+</div class="column span-35 last borderleft">
+</div id="imgcontent">
+

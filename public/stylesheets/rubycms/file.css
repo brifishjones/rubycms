@@ -1,0 +1,18 @@
+/* file iframe for importing images and documents */
+
+#file_iframe_image img {
+  border:1px solid;
+  border-color: #ABB;
+}
+#file_iframe_image img:hover{
+  border-color: #899;
+}
+#file_iframe_image {
+  margin-top: 12px;	
+}
+#file_iframe_image a {
+  background-color: #ABB;
+  border:1px solid;
+  border-color: #ABB;
+  padding:0px;
+}

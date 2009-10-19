@@ -1,0 +1,24 @@
+<!--<p>session[:layout] = <%= session[:layout] %></p>
+<p>session[:url] = <%= session[:url]  %>
+<%= session[:url].join('/')  %></p> -->
+
+<p>
+<!-- get a list of all layouts in app/views/layouts -->
+<% dirlist = [] %>
+<% Dir.glob("app/views/layouts/**/[^_]*.rhtml").each do |i| %>
+  <% dirlist << i.sub(/^app\/views\/layouts\//, "").sub(/\.rhtml$/, "") %>
+<% end %>
+</p>
+
+
+<% if session[:layout] != nil %>
+  <%= select_tag 'name', options_for_select(dirlist, @layout["name"]) %>
+<% else %>
+  <%= select_tag 'name', options_for_select(dirlist) %>
+<% end %>
+<%= observe_field 'name',
+                      :url => {:controller => '/rubycms_layout', :action => 'change_layout', :page => @page.id, :cur_layout => @layout["name"], :url => params[:url]},
+                      :update => 'layoutcap',
+                      :with => "'name=' + encodeURIComponent(value)",
+                      :on => 'change' %>
+			

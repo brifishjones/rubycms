@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "xhtml11.dtd">
+<html>
+
+<head>
+<script type="text/javascript" src="/javascripts/highslide/highslide.js"></script>
+<script type="text/javascript" src="/javascripts/highslide/highslide-with-html.js"></script>
+<script type="text/javascript">    
+    hs.graphicsDir = '/javascripts/highslide/graphics/';
+    hs.outlineType = 'drop-shadow';
+	hs.captionEval = 'this.thumb.alt';
+	hs.outlineWhileAnimating = true;
+	hs.showCredits = false;
+</script>	
+  <%= stylesheet_link_tag 'highslide', :media => "screen" %>
+  <%= stylesheet_link_tag 'highslide-with-html', :media => "screen" %>	
+  <%= stylesheet_link_tag 'blueprint/screen978', :media => "screen" %>
+  <%= stylesheet_link_tag 'rubycms/hs-iframe', :media => "screen" %>
+  <%= stylesheet_link_tag 'rubycms/banner', :media => "screen" %>
+  <style type="text/css"> body {background-color: #ABB}</style>
+  <%= stylesheet_link_tag 'blueprint/print', :media => "print" %>  	
+  <!--<%= stylesheet_link_tag 'screen', :media => "screen" %>
+  <%= stylesheet_link_tag 'print', :media => "print" %> --> 
+  <title>Administration: <%= controller.action_name %></title>
+  
+  <!-- <%= stylesheet_link_tag 'formatting' %> -->   
+  <%= javascript_include_tag :defaults %>
+  <%= javascript_include_tag 'scriptaculous' %>
+
+
+</head>
+
+<body>
+<div class="hs-iframe">
+
+<!--
+<% url = params[:url] %>
+url: <%= url %>
+
+<% @banner_uploads.inspect %>
+-->
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+
+<div id="bannercap">
+<%= render(:partial => 'banner') %> 
+</div id="bannercap">	
+
+
+<div class="bannerframeupload">
+<% if @upload_privileges == true %>
+  <h3>File manager</h3>
+  <% form_for(:banner, :url => {:controller => '/rubycms_banner', :action => :banner_upload, :path => params[:url], :size => @banner.default.size}, :html => { :multipart => true }) do |f| %>
+    <p>
+      <label for="uploaded_data"></label>
+      <%= f.file_field :uploaded_data %>
+    </p>
+    <p>
+      <%= submit_tag "Upload Banner Image" %>
+    </p>
+  <% end %>
+<% else %>
+  <p>
+  	(No privileges to upload images for banners)
+  </p>
+<% end %>
+</div class="bannerframeupload">
+</div class="hs-iframe">
+</body>
+</html>

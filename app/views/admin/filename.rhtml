@@ -1,0 +1,27 @@
+<% if @filename != nil %>
+  <h3><%= @filename.name %></h3>
+  <table>
+	<th>Modified</th>
+	<th>Published</th>
+    <% for page in @pages %>
+      <tr>
+      	<td><%= link_to(page.modified.to_s(:db), "/pageid/" + page.id.to_s) %></td>
+		<td><%=h page.published %></td>
+      </tr>    
+    <% end %>
+  </table>
+<% else %>
+  <h3>Filename with id = <%= params[:id] %> does not exist.</h3>
+<% end %>
+
+<p>
+	<%= error_messages_for 'fn', 
+            :header_message => "Filename not renamed",
+            :message => "" %>
+
+<% form_for :filename do |@form| %>
+  
+  <%= @form.text_field :name %>
+  <%= submit_tag "Rename" , :title => "Rename page with a unique filename" %>
+<% end %>
+</p>

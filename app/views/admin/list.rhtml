@@ -1,0 +1,21 @@
+<% for column in Page.content_columns %>
+<p>
+  <b><%= column.human_name %>:  (<%= column.name %>)</b>
+</p>
+<% end %>
+
+<% for column in Navigation.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b>
+</p>
+<% end %>
+
+<% if @pages != nil %>
+  <% for page in @pages %>
+    <% for column in Page.content_columns %>
+      <p>
+        <%=h page.send(column.name) %>
+      </p>
+    <% end %>
+  <% end %>
+<% end %>

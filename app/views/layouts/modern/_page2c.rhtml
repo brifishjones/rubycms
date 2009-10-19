@@ -1,0 +1,46 @@
+<div id="navbar">
+  <div class="column span-20">
+    &nbsp;
+  </div class="column span-20">
+  <div class="column span-78">
+  	<div id="nav">
+    <%= render(:partial => 'navigation') if @page != nil || params[:controller] == 'admin' %>
+	</div id="nav">
+  </div class="column span-78">
+  <div class="column span-1 last">
+	&nbsp;
+  </div class="column span-1 last">
+</div id="navbar">
+
+<div id="imgcontent">
+<div class="column span-20 border">
+  <div id="banner">
+    <%= render(:partial => 'banner') if @page != nil %>
+  </div id="banner">
+  <div id="imageside">
+    <%= render(:partial => 'imageside') if @page != nil %>
+  </div id="imageside">
+  <div id="gallery">
+      <%= render(:partial => 'gallery') if @page != nil %>
+  </div id="gallery">
+  &nbsp; 
+</div class="column span-20">
+
+<div class="column span-78 last borderleft">
+  <% if flash[:notice] %>	
+	<div class="success">
+	  <%= flash[:notice] %>
+    </div>
+  <% end %>
+  
+  <%= layout %>
+  
+  <%= file_manager %>
+  
+  <div id="content">
+    <%= @page != nil ? content : (yield :layout)  %>
+  </div id="content">
+  <%= formoptions %>
+</div class="column span-78 last borderleft">
+</div id="imgcontent">
+

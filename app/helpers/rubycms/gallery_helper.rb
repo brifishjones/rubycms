@@ -1,0 +1,2 @@
+module Rubycms::GalleryHelper
+end

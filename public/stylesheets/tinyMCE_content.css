@@ -1,0 +1,113 @@
+body {
+ font-family: verdana, arial, helvetica, sans serif;
+ font-size: 12px;
+ background-color: #F0F0EE;
+ background-color: #Ffffff;
+}
+
+body p {
+ line-height: 1.5;
+ font-size: 92%;
+}
+body a {
+ font-size: 100%;
+}
+body h1 {
+ font-family: arial, helvetica, sans serif;
+}
+body h2 {
+ font-family: arial, helvetica, sans serif;
+ color:#777;
+ font-size:1.6em;
+ line-height: 1.0em;
+}
+body h3 {
+ font-family: arial, helvetica, sans serif;
+ color:#777;
+ font-size:1.2em;
+ line-height: 1.1em;
+}
+body h4 {
+ font-family: arial, helvetica, sans serif;
+ color:#777;
+ font-size:1.1em;
+ line-height: 1.1em;
+}
+body h5, h6 {
+ font-family: arial, helvetica, sans serif;
+ color:#777;
+ font-size:1.0em;
+ line-height: 1.1em;
+}
+/*
+.figure {
+ width:35%;
+ float:right;
+ margin-left:15px;
+ margin-right:8px;
+ margin-top:5px;
+ margin-bottom:5px;
+ text-align:center;
+ font-style:italic;
+}
+.figure img {
+ border:thin solid silver;
+ padding:3px;
+ width:100%;
+}
+*/
+.figure {
+  float:right;
+  margin: 4px;
+  /*width: 100px;*/
+  text-align:center;
+  font-style:italic;
+}
+.figure img {
+  padding:3px;
+  border:thin silver solid; 
+}
+img {
+  float: right;
+  margin: 8px 2px 8px 2px;
+  padding:3px;
+  border:thin silver solid;
+  /* to prevent resizing in tinyMCE editor */
+  /*width: auto !important;
+  height: auto !important;*/
+}
+
+body table {
+ font-family: verdana, arial, helvetica, sans serif;
+ font-size:95%;
+ text-align: left;
+ border-spacing: 1px;
+ background-color: #f0f0f0;
+ border-color: #888;
+ border-style: solid;
+ border-width: 1px;;
+ border-collapse: collapse;
+}
+body th {
+ padding: 2px;
+ border-style: solid;
+ border-width: 1px;;
+ border-color: #888;
+}
+body td {
+ padding: 2px;
+ border-style: solid;
+ border-width: 1px;;
+ border-color: #888;
+}
+body *:link img,
+body *:visited img,
+body a img,
+body fieldset,
+body img,
+body area {
+ margin-bottom: -2px;
+}
+
+
+

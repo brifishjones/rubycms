@@ -1,0 +1,36 @@
+<h1>Administrators</h1>
+<table>	
+  
+  <% if @administrators != nil %>
+  
+    <th>Administrators</th>
+    <th>Remove</th>
+	<% i = 0 %>
+	
+    <% for administrator in @administrators %>
+      <tr>
+        <td><%=h administrator.name %></td>
+		<td><%=link_to("&times;", "/admin/remove_administrator/" + administrator.id.to_s, :confirm => 'Remove  "' + administrator.name + '"?', :title => 'remove') if administrator.name != "admin" %></td>
+		<% i += 1 %>
+      </tr>    
+    <% end %>
+
+  <% end %>
+
+</table>
+
+
+<p>
+<%= error_messages_for 'usr', 
+            :header_message => "Username not saved.",
+            :message => "" %>
+
+<% form_for :administrator do |@form| %>
+  
+  <%= @form.text_field :name %>
+  <%= submit_tag "New admin" , :title => "Add administrator" %>
+  
+<% end %>
+</p>
+
+<p>Enter administrator name.</p>

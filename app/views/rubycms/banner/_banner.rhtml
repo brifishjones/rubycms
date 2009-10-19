@@ -1,0 +1,71 @@
+
+<div class="banner-left">	
+	
+  <div id="editbanner">
+  <%=  '<ul id="banner">' %>
+  <% section = 0 %>
+  <% for i in @banner.default %>
+  
+    <%= '<li id="sectionitem_' + section.to_s + '">' %>
+	<div class="bannercontainer">
+	<div class="bannerframe">
+	<!--<div id="file_iframe_image"> -->
+	<span class="handle">
+      <%= image_tag(i.public_filename(:thumb)) %>
+	</span>	
+    <!--</div> -->
+	<% cap = i.caption.split('\n') %>
+	<%= '<ul id="sublist_' + section.to_s + '">' %>
+	
+	<div class="bannerframeinput">
+    <% 0.upto(3) do |j| %>
+	  <%= '<li id="banneritem_' + j.to_s + '">'  %>
+	  <%= text_field_tag 'bli_' + section.to_s + '_' + j.to_s, cap[j] %>
+	  <%= '</li>' %>
+	  <%= observe_field 'bli_' + section.to_s + '_' + j.to_s,
+                      :url => {:controller => '/rubycms_banner', :action => 'update_banner_text_field', :page => @page.id, :section => section, :line => j},
+                      :update => 'bannercap',
+                      :with => "'update_banner_text_field=' + encodeURIComponent(value)",
+                      :on => 'change' %>		  
+	<% end %>
+	</div class="bannerframeinput">
+	</ul>
+	</div class="bannerframe">
+	<div class="bannerframehref"> 		
+	<%= text_field_tag 'href_' + section.to_s, i.href %>&nbsp;href
+	</div>
+    <%= observe_field 'href_' + section.to_s,
+                      :url => {:controller => '/rubycms_banner', :action => 'update_banner_href_text_field', :page => @page.id, :section => section},
+                      :update => 'bannercap',
+                      :with => "'update_banner_href_text_field=' + encodeURIComponent(value)",
+                      :on => 'change' %>
+	<div class="bannerframeshow"> 		
+	<%= check_box_tag 'show_' + section.to_s, '1', i.show %>&nbsp;show
+	</div>
+	<%= observe_field 'show_' + section.to_s,
+                      :url => {:controller => '/rubycms_banner', :action => 'update_banner_show', :page => @page.id, :section => section},
+                      :update => 'bannercap',
+                      :with => 'update_banner_show' %>
+	<div class="bannerframedelete">
+	<%= (link_to_remote '&times;', {:url => {:controller => '/rubycms_banner', :action => 'delete_banner', :page => @page.id, :section => section}, :confirm => 'Delete banner?'}, :title => 'delete') %>
+	</div>
+	</div class="bannercontainer">
+	</li>
+	
+  <% section += 1 %>
+  <% end %>
+  
+  </ul>
+  <%= sortable_element 'banner',
+      :format => '/^sectionitem_(.*)$/',
+      :update => 'editbanner',
+      :constraint => 'vertical',
+      :handle => 'handle',  
+      :url => {:controller => '/rubycms_banner', :action => 'order_banner_sections', :page => @page.id} %>
+	  
+  
+  </div>  <!-- id="editbanner" -->
+</div>   <!-- class="banner-left" -->
+
+
+

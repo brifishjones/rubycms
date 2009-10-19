@@ -1,0 +1,41 @@
+<p style="color: green"><br /><%= flash[:notice] %></p>
+
+	<table>	
+  
+    <% if @privileges != nil %>
+  
+    <th>Filename regex</th>
+	<th>publishers</th>
+	<th>writers</th>
+	<th>readers</th>
+	<% i = 0 %>
+    <% for priv in @privileges %>
+      <tr>
+        <td>
+        	<%= link_to_remote priv.regex, {:url => {:action => 'edit_regex', :priv => priv.id}}, :title => 'Edit privileges' %>
+        </td>
+		<td>
+			<%= create_list(priv.user_publish_list, priv.group_publish_list) %>
+	    </td>
+		<td>
+            <%= create_list(priv.user_write_list, priv.group_write_list) %>
+		</td>
+		<td>
+            <%= create_list(priv.user_read_list, priv.group_read_list) %>
+		</td>
+		
+		<% i += 1 %>
+      </tr>    
+    <% end %>
+
+  <% end %>
+
+</table>
+
+<div id="list">  
+  <%= link_to_remote 'Add', {:url => {:action => 'add_regex'}}, :title => 'New privilege' %> 
+</div>
+
+<div id="regexedit">
+</div>
+

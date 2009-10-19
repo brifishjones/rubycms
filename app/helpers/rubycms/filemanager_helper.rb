@@ -1,0 +1,2 @@
+module Rubycms::FilemanagerHelper
+end

@@ -1,0 +1,61 @@
+
+<div class="image-side">	
+	
+  <div id="editimageside">
+  <%=  '<ul id="imageside">' %>
+  <% section = 0 %>
+  <% for i in @imageside.default %>
+  
+    <%= '<li id="sectionitem_' + section.to_s + '">' %>
+	<div class="imagesidecontainer">
+	<div class="imagesideframe">
+	
+	<span class="handle">
+      <%= image_tag(i.public_filename(:thumbSq)) %>
+	</span>	
+    
+	<div class="imagesideframeinput">
+	  <%= text_area_tag 'caption_' + section.to_s, i.caption %>&nbsp;caption
+	  <%= observe_field 'caption_' + section.to_s,
+                      :url => {:controller => '/rubycms_imageside', :action => 'update_imageside_text_field', :page => @page.id, :section => section},
+                      :update => 'imagesidecap',
+                      :with => "'update_imageside_text_field=' + encodeURIComponent(value)",
+                      :on => 'change' %>		  
+	
+	</div class="bannerleftframeinput">
+	</div class="imagesideframe">
+	<div class="imagesideframehref"> 		
+	<%= text_field_tag 'href_' + section.to_s, i.href %>&nbsp;href
+	</div>
+    <%= observe_field 'href_' + section.to_s,
+                      :url => {:controller => '/rubycms_imageside', :action => 'update_imageside_href_text_field', :page => @page.id, :section => section},
+                      :update => 'imagesidecap',
+                      :with => "'update_imageside_href_text_field=' + encodeURIComponent(value)",
+                      :on => 'change' %>
+	<div class="imagesideframeshow"> 		
+	<%= check_box_tag 'show_' + section.to_s, '1', i.show %>&nbsp;show
+	</div>
+	<%= observe_field 'show_' + section.to_s,
+                      :url => {:controller => '/rubycms_imageside', :action => 'update_imageside_show', :page => @page.id, :section => section},
+                      :update => 'imagesidecap',
+                      :with => 'update_imageside_show' %>
+	<div class="imagesideframedelete">
+	  <%= (link_to_remote '&times;', {:url => {:controller => '/rubycms_imageside', :action => 'delete_imageside', :page => @page.id, :section => section}, :confirm => 'Delete image?'}, :title => 'delete') %>
+	</div>
+	</div class="imagesidecontainer">
+	</li>
+	
+  <% section += 1 %>
+  <% end %>
+  
+  </ul>
+  <%= sortable_element 'imageside',
+      :format => '/^sectionitem_(.*)$/',
+      :update => 'editimageside',
+      :constraint => 'vertical',
+      :handle => 'handle',  
+      :url => {:controller => '/rubycms_imageside', :action => 'order_imageside_sections', :page => @page.id} %>
+	  
+  
+  </div id="editimageside">
+</div class="image-side">

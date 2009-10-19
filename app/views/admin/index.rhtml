@@ -1,0 +1,30 @@
+<h1>Page List</h1>
+<table>	
+  
+  <% if @filenames != nil %>
+  
+    <th>Page</th>
+	<th>Modified</th>
+	<th>Pub</th>
+	<th>Del</th>
+	<!--<th>Export</th>-->
+	<% i = 0 %>
+    <% for filename in @filenames %>
+      <tr>
+      	<% if filename.name.length >= 45 %>
+          <td><%= link_to("..." + filename.name[-45..-1], "/staging/" + filename.name, :title => filename.name) %></td>
+		<% else %>
+		  <td><%= link_to(filename.name, "/staging/" + filename.name) %></td>
+		<% end %>
+		<td><%= link_to(@pages[i][0].modified.to_date, "/admin/filename/" + filename.id.to_s) if @pages[i][0] != nil %></td>
+		<td><%=h @pages[i][0].published if @pages[i][0] != nil %></td>
+		<td><%=link_to("&times;", "admin/delete_filename/" + filename.id.to_s, :confirm => 'Permanently delete all versions of "' + filename.name + '"?', :title => 'delete') if @pages[i][0] != nil %></td>
+		<!--<td><%=link_to("&times;", "admin/export/" + filename.id.to_s, :title => 'export') if @pages[i][0] != nil %></td>-->
+		
+		<% i += 1 %>
+      </tr>    
+    <% end %>
+
+  <% end %>
+
+</table>

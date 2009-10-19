@@ -1,0 +1,2 @@
+module Rubycms::NavigationHelper
+end

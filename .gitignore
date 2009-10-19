@@ -1,0 +1,7 @@
+log/*.log
+tmp/**/*
+db/development.*
+public/system
+.DS_Store
+.loadpath
+.project

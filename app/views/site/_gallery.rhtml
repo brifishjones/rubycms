@@ -1,0 +1,38 @@
+
+<div class="gallery-info">
+  
+  <% show = 0 %>
+  <% gallery = false %>
+  
+      <% for i in @gallery.default %>
+        <% if i.show == true %>
+		  <%= '<div id="gallerycontainer"><ul id="galleryimages">' if i.show == true && gallery == false %>
+	      <li>
+            <div class="file_iframe_image">
+    	      <% if editing_page %>
+	            
+                <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/gallery/' + @gallery["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'gallery -340px', targetY: 'gallery -100px', width: 450, height: 910} )" title="edit gallery images">	 
+                  <%= image_tag i.public_filename(:largeSq), :title => 'Edit gallery images...' %>   
+	            </a> 
+              <% else %>
+			    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + i.public_filename + '"' %> onclick="return hs.expand(this)">
+		        <%= image_tag i.public_filename(:largeSq), :alt => i.caption, :title => 'Click to enlarge' %>
+				</a>
+	          <% end %>
+	        </div class="file_iframe_image">
+	      </li>
+		  <% gallery = true %>
+	      <% show += 1 %>
+		<% end %>
+	  <% end %>
+	  <%= '</ul id="galleryimages"></div id="gallerycontainer">' if gallery == true %>
+	
+</div class="gallery-info">	  
+
+<% if editing_page && gallery == false %>
+  <div class="ifile">
+    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/gallery/' + @gallery["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'galleryfrm -340px', targetY: 'galleryfrm -100px', width: 450, height: 910} )" class="highslide">
+	  <%= '<div id="galleryfrm" title="Import images and create a photo gallery...">Image gallery </div>' %>
+    </a>
+  </div>
+<% end %>

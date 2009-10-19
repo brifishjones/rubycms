@@ -1,0 +1,36 @@
+<p>
+  <% if request.request_uri =~ /^\/staging/ || @version_list == "hide version list" %>
+  	<% published = Page.find_published(params[:url].join("/")) %>
+    <% if published != nil && published == @page %>
+	  <%= "Most recent version is " + link_to("published", "/" + @page.filename.name) + ": " + @page.modified.to_s + " (" + @page.user.name + ")" %>
+	<% elsif published != nil %>
+	  <%= "Most recently saved version: " + @page.modified.to_s + " (" + @page.user.name + ")" + "<br/>" %>
+	  <%= "Last " + link_to("published", "/" + @page.filename.name) + " version: " + published.modified.to_s + " (" + @page.user.name + ")" %>
+	<% elsif published == nil %>
+	  <%= "Most recently saved version: " + @page.modified.to_s + " (" + @page.user.name + ")" + "<br/>" %>
+	  <%= "This page is not published." %>
+	<% end %>
+	<%= link_to_remote '<br />&oplus;', {:url => {:action => 'show_version_list', :page => @page.id, :filename => @filename, :url => params[:url]}}, :title => 'show all versions' %> 
+
+  <% elsif request.request_uri =~ /^\/pageid/ || @version_list != nil %>
+	<%= link_to_remote '&otimes;', {:url => {:action => 'hide_version_list', :page => @page.id, :filename => @filename, :url => params[:url]}}, :title => 'hide version list' if request.request_uri !~ /^\/pageid/ %>
+     Version list: &nbsp;&nbsp;(&radic; = published)<br />
+	<% @version_list.each do |v| %>
+	  <% if v.published == true && v != @page && v != @version_list.first %>
+	    <%= link_to(v.modified.to_s, "/pageid/" + v.id.to_s, :title => 'view this version') + " (" + v.user.name + ") &radic;" %>
+	  <% elsif v.published == true && v != @page && v == @version_list.first %>
+	    <%= link_to(v.modified.to_s, "/staging/" + @page.filename.name, :title => 'view this version') + " (" + v.user.name + ") &radic;" %>
+	  <% elsif v.published == true && v == @page %>
+	    <%= v.modified.to_s + " (" + v.user.name + ") &radic;" %>
+	  <% elsif  v != @page && v != @version_list.first %>
+	    <%= link_to(v.modified.to_s, "/pageid/" + v.id.to_s, :title => 'view this version') + " (" + v.user.name + ")" %>
+	  <% elsif  v != @page && v == @version_list.first %>
+	    <%= link_to(v.modified.to_s, "/staging/" + @page.filename.name, :title => 'view this version') + " (" + v.user.name + ")" %>
+	  <% elsif  v == @page %>
+	    <%= v.modified.to_s + " (" + v.user.name + ")" %>
+	  <% end %>
+	  <%= link_to_remote '&diams;', {:url => {:action => 'make_version_current', :page => @page.id, :filename => @filename}}, :title => 'make this version current' if v == @page && v != @version_list.first %>
+	  <br />
+	<% end %>
+  <% end %>
+</p>

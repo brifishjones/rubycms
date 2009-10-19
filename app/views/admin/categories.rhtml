@@ -1,0 +1,37 @@
+<h1>Categories (Keywords)</h1>
+<p>Categories or keywords exist sitewide, and will appear in a drop-down list as a suggestion when a user enters keywords for a given page.</p>
+<table>	
+  
+  <% if @categories != nil %>
+  
+    <th>Category</th>
+    <th>Remove</th>
+	<% i = 0 %>
+	
+    <% for category in @categories %>
+      <tr>
+        <td><%=h category.name %></td>
+		<td><%=link_to("&times;", "/admin/remove_category/" + category.id.to_s, :confirm => 'Remove  "' + category.name + '"?', :title => 'remove') %></td>
+		<% i += 1 %>
+      </tr>    
+    <% end %>
+
+  <% end %>
+
+</table>
+
+
+<p>
+<%= error_messages_for 'keyword', 
+            :header_message => "Category not saved.",
+            :message => "" %>
+
+<% form_for :category do |@form| %>
+  
+  <%= @form.text_field :name %>
+  <%= submit_tag "New keyword" , :title => "Add category (keyword) to list" %>
+  
+<% end %>
+</p>
+
+<p>Enter keyword.</p>

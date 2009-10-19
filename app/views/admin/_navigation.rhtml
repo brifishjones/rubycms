@@ -1,0 +1,11 @@
+
+  <ul>
+  <% { "Pages" => "/admin", "Privileges" => "/admin/privileges", "Active Users" => "/admin/users", "Local Users" => "/admin/localusers", "Administrators" => "/admin/administrators", "Keyword list" => "/admin/categories", "Global Navigation" => "/admin/navglobal" }.each do |key, value| %>
+      <% if params[:action] != 'index' && params[:action] != value.split('/')[2] || params[:action] == 'index' && value != '/admin' %>
+	<%= content_tag("li", link_to(key, value)) %>
+      <% else %>
+        <%= content_tag("li class=linolink", key) %>
+      <% end %>
+
+<% end %>
+  </ul>

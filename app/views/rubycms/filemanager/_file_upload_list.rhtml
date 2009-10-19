@@ -1,0 +1,9 @@
+<div id="fupload">
+<ul>
+<% for i in @fileupload.default %>
+  <li>
+    <%= link_to i.filename, i.public_filename  %>
+  </li>
+<% end %>
+</ul>
+</div id="fupload">

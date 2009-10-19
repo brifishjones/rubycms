@@ -1,0 +1,17 @@
+<% form_remote_tag(:url => {:action => 'update_navglobal'}) do %>
+
+<h3>Global Navigation</h3>
+<p>
+<%= text_area_tag 'gn', @globalnav, :rows => "16", :cols => "58" %>
+</p>
+
+<h3>Main Navigation</h3>
+
+<p>
+<%= text_area_tag 'mn', @mainnav, :rows => "16", :cols => "58" %>	
+</p>
+
+<%= submit_tag 'ok' %>
+<%= link_to_remote 'cancel', :url => {:action => 'refresh_navglobal', :globalnav => @globalnav, :mainnav => @mainnav} %>
+
+<% end %>

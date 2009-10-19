@@ -1,0 +1,21 @@
+<p>
+<!-- get a list of all forms in app/controllers/forms -->
+<% dirlist = [] %>
+<% dirlist << '----- (no form) -----' %>
+<% Dir['app/controllers/forms/**/*.*'].each do |i| %>
+  <% dirlist << i.sub(/^app\/controllers\/forms\//, "").sub(/(_controller)?\.rb$/, "") %>
+<% end %>
+</p>
+
+
+<% if session[:form] != nil %>
+  <%= select_tag 'name', options_for_select(dirlist, @form["name"]) %>
+<% else %>
+  <%= select_tag 'name', options_for_select(dirlist) %>
+<% end %>
+<%= observe_field 'name',
+                      :url => {:controller => '/rubycms_form', :action => 'change_form', :page => @page.id, :cur_form => @form["name"], :url => params[:url]},
+                      :update => 'fmcap',
+                      :with => "'name=' + encodeURIComponent(value)",
+                      :on => 'change' %>
+		

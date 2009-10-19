@@ -1,0 +1,102 @@
+/* file iframe for contact information */
+
+.contact-info {
+ margin:0 20px;
+}
+.contact-info h2,
+.contact-info h3 {
+ font-family: verdana, arial, helvetica, sans serif;
+ font-size:1.00em;
+ margin:2ex 0 1ex;
+}
+.contact-info input,
+.contact-info label {
+ color:#555555;
+}
+
+
+#contact_form #editcontact {
+ width:260px;
+ background-color: #F0F0F0;
+ margin: 10px 0 5px 0;
+ padding-bottom: 10px;
+}
+#contact_form #editcontact h2,
+#contact_form #editcontact h3{
+ background-color: #CCCCCC;
+ padding:2px 5px;
+}
+#contact_form #editcontact input {
+ background-color: #F0F0F0;
+ border:1px solid;
+ border-color: #F0F0F0;
+ font-family: verdana, arial, helvetica, sans serif;
+ font-size:1.05em;
+ padding:2px;
+ width: 210px;
+}
+#contact_form #editcontact h2 input,
+#contact_form #editcontact h3 input {
+ background-color: #CCCCCC;
+ border:1px solid;
+ border-color: #CCCCCC;
+}
+#contact_form #editcontact input:hover {
+ background-color: #FBFBF7;
+}
+#contact_form #editcontact h2 input:hover,
+#contact_form #editcontact h3 input:hover {
+ background-color: #D5D5D0;
+}
+#editcontact a {
+  background-color: #F0F0F0;
+  border:1px solid;
+  border-color: #F0F0F0;
+  color:#AAAABB;
+  font-size:1.35em;
+  line-height:0.5em;
+}
+#contact_form ul {
+  margin-bottom: 0.5em;
+}
+#contact_form li {
+  line-height:0.5em;
+}
+#contact_form h2 a, #contact_form h3 a {
+  background-color: #CCCCCC;
+  border:1px solid;
+  border-color: #CCCCCC;
+  padding:0;
+}
+#editcontact a:hover {
+  color:#808070;
+}
+
+#contactframeimportreverthide {
+ position: relative;
+ height: 86px;
+ width: 260px;
+ left: 20px;
+}
+
+#contactframeimportreverthide #hide_checkbox {
+ position: relative;
+ float: left;
+ top: 4px;
+ left: 65px;	
+}
+#contactframeimportreverthide #revert_button {
+ position: relative;
+ float: left;
+ top: 9px;
+ left: 85px;	
+}
+
+#contact_form .handle {
+/* background-color:#E8A400; */
+cursor:move;
+font-size:1.30em;
+font-weight:bold;
+color: #AAAABB;
+
+}

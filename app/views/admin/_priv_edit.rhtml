@@ -1,0 +1,47 @@
+<br/><p>Note: Enter * to grant publish, write, or read privileges to all users who can log in to the system.</p>
+
+  
+    <% form_remote_tag(:url => {:action => 'update_privileges', :cur_regex => @cur_regex}) do %>
+	
+	  <div class="form-entry">
+        <%= label 'regex', "Filename regular expression:" %>
+        <%= text_field_tag 'regex',  (@cur_regex.regex if @cur_regex != nil) %>
+      </div>
+
+      <div class="form-entry">
+        <%= label 'user_publish_list', "<b>Users</b> with permissions to <b>publish</b>: (separated by a comma)" %>
+        <%= text_area_tag 'user_publish_list', (@cur_regex.user_publish_list if @cur_regex != nil) %>
+      </div> 
+	  
+	  <div class="form-entry">
+        <%= label 'group_publish_list', "<b>Groups</b> with <b>publish</b> permissions: (separated by a comma)" %>
+        <%= text_area_tag 'group_publish_list', (@cur_regex.group_publish_list if @cur_regex != nil) %>
+      </div>
+	  
+	  <div class="form-entry">
+        <%= label 'user_write_list', "<b>Users</b> who may <b>write</b> drafts: (separated by a comma)" %>
+        <%= text_area_tag 'user_write_list', (@cur_regex.user_write_list if @cur_regex != nil) %>
+      </div>
+	  
+	  <div class="form-entry">
+        <%= label 'group_write_list', "<b>Groups</b> with <b>write</b> permissions: (separated by a comma)" %>
+        <%= text_area_tag 'group_write_list', (@cur_regex.group_write_list if @cur_regex != nil) %>
+      </div>
+	  
+	  <div class="form-entry">
+        <%= label 'user_read_list', "<b>Users</b> with <b>read</b> privileges: (separated by a comma)" %>
+        <%= text_area_tag 'user_read_list', (@cur_regex.user_read_list if @cur_regex != nil) %>
+      </div> 
+	  
+	  <div class="form-entry">
+        <%= label 'group_read_list', "<b>Groups</b> with <b>read</b> privileges: (separated by a comma)" %>
+        <%= text_area_tag 'group_read_list', (@cur_regex.group_read_list if @cur_regex != nil) %>
+      </div>       
+	  
+	  
+      <%= submit_tag 'ok' %>
+	  <%= link_to_remote 'cancel', :url => {:action => 'refresh_privileges', :cur_regex => @cur_regex} %>
+	  <%= link_to_remote 'delete', :url => {:action => 'delete_privilege', :cur_regex => @cur_regex},
+          :confirm => "Are you sure you want to delete this privilege definition?" %>
+    <% end %>
+

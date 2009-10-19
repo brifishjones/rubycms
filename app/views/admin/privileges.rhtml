@@ -1,0 +1,18 @@
+<h1>Privileges</h1>
+    <p>All publishers also have write privileges so it isn't
+	necessary to include publishers again as writers.  Specifying readers
+	restricts view access.  If no readers are listed everyone can view filenames
+	matching the given pattern.</p>
+	
+	<p>Regular expression examples:
+	<ul>
+		<li>http://www.luther.edu/academics inclusive: <i>^academics(.*)</i></li>
+		<li>http://www.luther.edu/english/faculty only: <i>^english\/faculty</i></li>
+		<li>http://www.luther.edu/departments/topsecret (exclude topsecret and below): <i>^departments(?!\/topsecret)(.*)</i></li>
+		<li>http://www.luther.edu/departments/topsecret (exclude directories under topsecret): <i>^departments(?!\/topsecret\/.)(.*)</i></li>
+	</ul>
+	</p>
+	
+<div id="privs">
+	<%= render(:partial => 'privileges') %>
+</div>

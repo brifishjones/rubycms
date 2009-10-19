@@ -1,0 +1,37 @@
+<% return '<div class="notice">Page <i>' + params[:url].join("/") + '</i> does not exist on this server.</div>' + sitetree if @page == nil %>
+<% if @read_access_error == true %>
+  <% @page = nil %>
+    <% if session[:username] == nil %>
+	  <% session[:original_uri] = request.request_uri %> 
+	  <% session[:previous_uri] = nil %>
+	  <% return '<div class="notice">Login required to read the page: <i>' + params[:url].join("/") + '</i></div><br />' + link_to("[login]", :controller => "login") %>
+	<% else %>
+	  <% return '<div class="error">Access denied.  You do not have privileges to read this page.</div>' %>
+	<% end %>
+  <% session[:original_uri] = request.request_uri if session[:username] == nil %>
+  <% session[:previous_uri] = nil if session[:username] == nil %>
+  <% return '<div class="notice">Login required to read page: <i>' + params[:url].join("/") + '</i></div>' + ('<br />' + link_to("[login]", :controller => 'login') if session[:username] == nil) %>
+<% end %>
+
+<div id="pagetitle">
+<h1>
+  <!-- InstanceBeginEditable name="Title" -->
+  <%= @page.title %>
+  <!-- InstanceEndEditable -->
+</h1>
+</div>  <!-- id="pagetitle" -->
+
+
+<% if request.request_uri =~ /^\/staging/ || request.request_uri =~ /^\/pageid/ || @version_list != nil %>
+  <div id="staging-versions">
+    <%= render(:partial => "staging") %>
+  </div>
+<% end %>
+
+<%= '<div id="spotlightcontent">' if request.request_uri =~ /^\/(staging\/|edit\/)?spotlights\// %>
+<!-- InstanceBeginEditable name="Content" -->    
+<%= @page.content %>
+<!-- InstanceEndEditable -->
+<%= '</div id="spotlightcontent">' if request.request_uri =~ /^\/(staging\/|edit\/)?spotlights\// %>   
+  
+
