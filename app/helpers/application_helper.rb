@@ -293,6 +293,21 @@ def content
   return c
 end
 
+def formbegin
+  return if @page == nil || !editing_page
+  o = []
+ # o << (form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| )
+
+  return o
+end
+
+def formend
+  return if @page == nil || !editing_page
+  o = []
+ # o << (end)
+  return o
+end
+
 def formoptions
   return if @page == nil || !editing_page
   o = []
@@ -389,9 +404,7 @@ def username
   end
   u = []
   u << '<div id="username">'
-  u << link_to("+&nbsp;", "/edit/new-page", :title => 'new page')
-  #u << '<a href= "/rubycms/newpage/" onclick="return hs.htmlExpand(this, { objectType: \'iframe\', targetX: \'galleryfrm -340px\', targetY: \'galleryfrm -100px\', width: 450, height: 910} )" class="highslide"
-  #  title="new page">+&nbsp; </a>'
+  u << link_to("+&nbsp;", "/edit/add-new-page", :title => 'new page')
   u << link_to("&bull;&nbsp;", r, :title => 'edit page')
   u << session[:username]
   u << '&nbsp; &nbsp;'

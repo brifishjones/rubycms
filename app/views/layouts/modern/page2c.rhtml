@@ -24,7 +24,6 @@
 	    </div class="column span-78 last">
 	  </div>  <!-- id="navglobal" -->
 	  
-      <!--% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %-->
 	  <div id="logotitle">
 	  <div class="column span-20 ">
 	  	<div id="logo">
@@ -33,15 +32,18 @@
 	      </a>
         </div>
 	  </div class="column span-20">
-	  <div class="column span-78 last">
-	    <%= title %>
-		<%= breadcrumbs %>
-	  </div class="column span-78 last">
-	  </div id="logotitle">  
-    </div id="head">
-  
-    <%= render(:partial => "layouts/modern/page2c") %>
-    <!--% end %-->  <!-- form_for :page -->
+	  
+	  <% if editing_page %>
+	    <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %>
+	      <%= render(:partial => "layouts/modern/page2c") %>
+		<% end %>  <!-- form_for :page -->
+	  <% else %>
+	  	<%= render(:partial => "layouts/modern/page2c") %>
+	  <% end %>
+	  
+	  
+
+	
   </div id="body">
   
   <div id="footrow">

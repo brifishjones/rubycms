@@ -6,8 +6,8 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Major.create(:name => 'Daley', :city => cities.first)
         
-  fn = Filename.create(:name => "new-page")
+  fn = Filename.create(:name => "add-new-page")
   u = User.find(:first, :conditions => ["name = ?", 'admin'])
-  Page.create(:filename_id => fn.id , :published => false, :modified => Time.now , :user_id => u.id)
+  Page.create(:filename_id => fn.id , :title => '(New page)', :published => false, :modified => Time.now , :user_id => u.id)
   
-  Privilege.create(:regex => '^new\-page$', :user_read_list => "*", :user_publish_list => u.id.to_s)
+  Privilege.create(:regex => '^add\-new\-page$', :user_read_list => "*", :user_publish_list => u.id.to_s)
