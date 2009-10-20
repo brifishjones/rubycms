@@ -10,7 +10,7 @@ class Filename < ActiveRecord::Base
     self.name.gsub!(/\/{2,}/, "/")
     self.name = self.name.strip.chomp("/").reverse.chomp("/").reverse
     self.name.gsub!(/[^\w\-\/]/, "")
-    self.name.gsub!(/_/, "-")
+    #self.name.gsub!(/_/, "-")
   end
 
   def unique

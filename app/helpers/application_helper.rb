@@ -109,7 +109,7 @@ def breadcrumbs  # http://rubysnips.com
     
     if session[:username]
       if i == segments.size - 1 && request.request_uri =~ /^\/edit\//  #last item in list
-        r << (@pageform.text_field :breadcrumb, :title => 'edit breadcrumb')
+        r << (@pageform.text_field :breadcrumb, :title => 'edit breadcrumb') if @pageform != nil
         #r << link_to(title, "/staging/" + 
         #  (0..(i)).collect{|seg| segments[seg]}.join("/")) 
       elsif i == segments.size - 1  #last item in list
@@ -225,7 +225,7 @@ def title
   if editing_page
     c << edit_info()
     c << '<h1>'
-    c << (@pageform.text_field :title, :title => 'edit title')
+    c << (@pageform.text_field :title, :title => 'edit title') if @pageform != nil
   else
     c << '<h1>'
     c << @page.title
@@ -275,17 +275,18 @@ def content
   c = []
   if editing_page
     c << '<p>'
-    c << (@pageform.text_area :content, :class => 'mceEditor')
+    c << (@pageform.text_area :content, :class => 'mceEditor') if @pageform != nil
     c << '</p>'
   else
     if request.request_uri =~ /^\/staging/ || request.request_uri =~ /^\/pageid/ || @version_list != nil
       c << '<div class="notice">' + @page_valid_message + '</div>' if @page_valid_message != ''
       c << '<div id="staging-versions">'
+       
       c << (render(:partial => "staging"))
       c << '</div>'
     end
     c << '<div id="spotlightcontent">' if request.request_uri =~ /^\/(staging\/|edit\/)?spotlights\//
-    c << (@page.content)
+    c << (@page.content) if @page.content != nil
     c << '</div id="spotlightcontent">' if request.request_uri =~ /^\/(staging\/|edit\/)?spotlights\//
   end
   
@@ -319,16 +320,16 @@ def formoptions
   
   o << '<div class="form-entry form-publish">'
   o << '<label for="published" title="Check to publish, uncheck to write draft">Publish:</label>'
-  o << (@pageform.check_box :published)
+  o << (@pageform.check_box :published) if @pageform != nil
   o << '</div>'
   
   o << '<div class="form-entry form-publish">'
   o << '<label for="valid_from" title="(Optional) Enter valid date/time range.  Leave blank to have page always available.">Valid from:</label>'
-  o << (@pageform.text_field :valid_from, :title => 'valid from')
+  o << (@pageform.text_field :valid_from, :title => 'valid from') if @pageform != nil
   o << '</div>'
   o << '<div class="form-entry form-publish">'
   o << '<label for="valid_to" title="(Optional) Enter valid date/time range.  Leave blank to have page always available.">Valid to:</label>'
-  o << (@pageform.text_field :valid_to, :title => 'valid to')
+  o << (@pageform.text_field :valid_to, :title => 'valid to') if @pageform != nil
   o << '</div>'
   
   o << '<div class="form-publish">'
@@ -388,6 +389,9 @@ def username
   end
   u = []
   u << '<div id="username">'
+  u << link_to("+&nbsp;", "/edit/new-page", :title => 'new page')
+  #u << '<a href= "/rubycms/newpage/" onclick="return hs.htmlExpand(this, { objectType: \'iframe\', targetX: \'galleryfrm -340px\', targetY: \'galleryfrm -100px\', width: 450, height: 910} )" class="highslide"
+  #  title="new page">+&nbsp; </a>'
   u << link_to("&bull;&nbsp;", r, :title => 'edit page')
   u << session[:username]
   u << '&nbsp; &nbsp;'

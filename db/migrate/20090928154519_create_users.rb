@@ -4,6 +4,11 @@ class CreateUsers < ActiveRecord::Migration
       t.column :name,             :string
       t.timestamps
     end
+    
+    # create a default account called admin
+    User.create(
+      [{:name  => "admin"}])    
+    
   end
 
   def self.down

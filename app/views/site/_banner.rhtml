@@ -12,7 +12,7 @@
 	  
 	  <% if editing_page %>
 	    
-        <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" title="edit banners">	 
+        <a href=<%= '"/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" title="edit banners">	 
         <%= image_tag i.public_filename(:thumb), :title => 'Edit banners...' %>   
 	    <%= '</a>' %>  
       <% else %>
@@ -57,7 +57,7 @@
 
 <% if editing_page && banner == false %>
   <div class="ifile">
-    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" >
+    <a href=<%= '"/rubycms/banner/' + @banner["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'banner -100px', targetY: 'banner -50px', width: 340, height: 650} )" >
 	  <%= '<div id="bannerfrm" title="Create and edit images and captions for banner ads...">Banner ads</div>' %>
     </a>
   </div>

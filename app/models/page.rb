@@ -46,7 +46,7 @@ class Page < ActiveRecord::Base
   end
   
   def clean_content_before_save
-
+    return if self.content == nil
     # change images that were dragged into tinyMCE content editor to utilize highslide
     #self.content.gsub!(/<a href="[\.\/\w]+?"\s+(title="(.*?)"\s+)?onclick=.*?return false;"><img src="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<a href="/' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="/' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a>')
     #self.content.gsub!(/<a href="\S+"\s+(title="(.*?)"\s+)?onclick="new Ajax\.Request\S+\s+\{asynchronous:true, evalScripts:true\}\); return false;"><img\ssrc="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<div class="figure"><a href="' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a></div>')
@@ -68,6 +68,7 @@ class Page < ActiveRecord::Base
   end
   
   def add_captions_when_editing(pathname)
+    return if self.content == nil
     # strip out the "Click to enlarge" title and replace it with the image caption
     image_uploads = Image.find(:all, :conditions => {:pathname => pathname})
     for i in image_uploads
@@ -89,6 +90,7 @@ class Page < ActiveRecord::Base
   end
   
   def add_captions_to_images
+    return if self.content == nil
     require 'RMagick'
     # XiLU6h3xB7r4NyzV is a randomly generated string
     #self.content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_mediumEx\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '<span><div class="figure" style="width: 110px">' + '\1' + '\2' + '\4' + '\3' + '</div></span>')
@@ -151,7 +153,7 @@ class Page < ActiveRecord::Base
     if valid_from == nil
       return false if Time.now > Time.valid_to
     elsif valid_to == nil 
-      false if Time.now < Time.valid_from
+      return false if Time.now < Time.valid_from
     end
     return true
   end

@@ -275,7 +275,7 @@ class SiteController < ApplicationController
 
   end
 
-def edit_refresh
+  def edit_refresh
   # called to resest instance variables after a page edit has been posted
   # and user does not have write or publish privileges
   # or after layout has changed and edit info needs to be refreshed in the new layout
@@ -303,7 +303,22 @@ def edit_refresh
     @page.valid_to = p.valid_to
     session[:update_layout] = nil
 
-end
+  end
+
+  def page_valid(valid_from, valid_to)
+  # determine if page has expired or is valid at a future date.
+  # return the message to be displayed if not valid ('' if valid)
+    valid_from = '' if valid_from == nil
+    valid_to = '' if valid_to == nil
+    return '' if valid_from == '' && valid_to == ''
+
+    if valid_from == ''
+      return 'Page expired: ' + valid_to if Time.now > Time.parse(valid_to)
+    elsif valid_to == ''
+      return 'Page will become active: ' + valid_from if Time.now < Time.parse(valid_from)
+    end
+    return ''
+  end
 
   def read_access(filename)
   # test if a user has read access to the given filename

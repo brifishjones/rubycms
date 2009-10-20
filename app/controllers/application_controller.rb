@@ -132,6 +132,7 @@ class ApplicationController < ActionController::Base
 
   def process_hashes
   # searches for #rubycms_news, #rubycms_people, #rubycms_events hashes and replaces with appropriate ruby code for a given list
+    return if @page.content == nil
     @page.content.gsub!(/#rubycms_headlines/, rubycms_headlines)
     @page.content.gsub!(/#rubycms_news/, rubycms_news)
   end
