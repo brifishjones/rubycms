@@ -1,6 +1,6 @@
 <%= render(:partial => "layouts/modern/head") %>
 
-<body id="section">
+<body id="page2c">
   <div id="body">
     <div id="head">
       <div id="navmain">
@@ -11,7 +11,7 @@
       	  <%= main_navigation %>
 	    </div class="column span-60">
 	    <div class="column span-18 last">
-      	  <%= render(:partial => "layouts/modern/search") %>
+      	  <%= render(:partial => "layouts/search") %>
 	    </div class="column span-18 last">
 	  </div>  <!-- id="navmain" -->
 	  
@@ -28,9 +28,9 @@
 	  <div class="column span-20 ">
 	  	<div id="logo">
           <a href="/" title="Home"><span></span>
-	        <img alt="RubyCMS Home" src="/images/modern/rubylogo50.gif"  />
+	        <img alt="Home" src="/images/modern/rubylogo50.gif"  />
 	      </a>
-        </div>
+        	</div>
 	  </div class="column span-20">
 	  
 	  <% if editing_page %>
@@ -40,9 +40,6 @@
 	  <% else %>
 	  	<%= render(:partial => "layouts/modern/page2c") %>
 	  <% end %>
-	  
-	  
-
 	
   </div id="body">
   
