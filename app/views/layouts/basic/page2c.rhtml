@@ -1,0 +1,44 @@
+<%= render(:partial => "layouts/basic/head") %>
+
+<body id="pageLC">
+  <div class="container">
+
+    <div id="head">
+      <div class="column span-16">
+        <div id="logo">
+          <a href="/" title="Home"><span></span>
+            <img alt="Home" src="/images/basic/logo.jpg"  />
+          </a>
+        </div>
+	  </div class="column span-16">
+	  <div class="container">
+        <div class="column span-82 box last">
+        	<%= main_navigation %>
+        </div class="column span-82 last">
+	    <div class="column span-82 last">
+	    	
+	      <%= render(:partial => "layouts/search") %>
+		  
+	    </div class="column span-82 last">
+	    <div class="column span-82 last">
+	      <%= global_navigation %>
+	    </div class="column span-82 last">
+	  </div class="container">
+    </div id="head">
+	
+	<% if editing_page %>
+	  <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %>
+	    <%= render(:partial => "layouts/basic/page2c") %>
+	  <% end %>  <!-- form_for :page -->
+	<% else %>
+	  <%= render(:partial => "layouts/basic/page2c") %>
+	<% end %>
+
+    <div class="column span-98 last">
+      <%= render(:partial => "layouts/basic/foot") %>
+	</div class="column span-98 last">
+	
+  </div class="container">
+</body>
+
+</html>

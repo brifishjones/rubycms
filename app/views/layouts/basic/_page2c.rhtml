@@ -1,0 +1,61 @@
+
+	
+  <div class="column span-29 append-1 border">
+  	<div id="nav">
+      <%= render(:partial => 'navigation') if @page != nil || params[:controller] == 'admin' %>
+    </div id="nav">
+	
+    <%= username %>
+	
+    <div id="imageside">
+      <%= render(:partial => 'imageside') if @page != nil %>
+    </div id="imageside">
+	
+	<div id="banner">
+      <%= render(:partial => 'banner') if @page != nil %>
+    </div id="bannerleft">
+	
+    <div id="contact">
+      <%= render(:partial => 'contact') if @page != nil %>
+    </div id="contact">
+	
+  </div class="column span-29 append-1 border">
+  
+  <div class="column span-66 prepend-1 borderleft last">
+  
+    <div id="imagetop">
+      <%= render(:partial => "site/imagetop") if @page != nil %>
+    </div id="imagetop">
+	
+	<% if flash[:notice] %>	
+	  <div class="success">
+	    <%= flash[:notice] %>
+      </div>
+	<% end %>
+  
+    <%= breadcrumbs if @page != nil %>
+	
+	<%= title %>
+  
+    <%= layout %>
+  
+    <%= file_manager %>
+
+    <div id="content">
+      <%= content %>
+	</div id="content">
+ 
+    <div id="gallery">
+      <%= render(:partial => 'gallery') if @page != nil %>
+    </div id="gallery">
+	
+	    <div id="form-main">
+      <%= render(:partial => 'form') if @page != nil %>
+    </div id="form-main">
+ 
+	<%= formoptions if @page != nil %>
+  </div class="column span-66 prepend-1 last">
+  
+
+
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="en-us" />
+  <meta name="robots" content="all" />
+  <meta http-equiv="imagetoolbar" content="false" />
+  <meta name="MSSmartTagsPreventParsing" content="true" />
+
+  <%= highslideinit %>
+  
+  <%= stylesheet_link_tag 'blueprint/screen978', :media => "screen" %>
+  <%= stylesheet_link_tag 'basic/screen.css', :media => "screen" %>
+  
+  <!--<%= iframeinit %> -->
+  
+  <%= stylesheet_link_tag 'blueprint/print', :media => "print" %>  
+
+  <%= settitle %>
+  
+  <%= set_tiny_options %>
+  
+  <%= render(:partial => "layouts/tiny_init") if params[:action] == 'edit' %>  
+
+  <%= javascript_include_tag :defaults %> 
+  <%= javascript_include_tag 'scriptaculous' %>
+  
+</head>
