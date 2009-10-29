@@ -1,6 +1,6 @@
 <% if editing_page && (@contact["list"] == nil || @contact["hide"] == true) %>
   <div class="ifile">
-    <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/contact/' + @contact["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'contactfrm 250px', targetY: 'contactfrm -100px', width: 312, height: 650} )" >
+    <a href=<%= '"/rubycms/contact/' + @contact["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'contactfrm 250px', targetY: 'contactfrm -100px', width: 312, height: 650} )" >
 	  <%= '<div id="contactfrm" title="Edit contact information ...">Contact information</div>' %>
     </a>
   </div>
@@ -14,7 +14,7 @@
 	  <%= '<h3>' if i != 0 && j == 0 %>
 	  <%= '<label>' if j >= 1 %>
 	  <% if editing_page && i == 0 && j == 0 %>
-        <a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/contact/' + @contact["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'contact 250px', targetY: 'contact -100px', width: 312, height: 650} )" title="Edit contact information...">	    
+        <a href=<%= '"/rubycms/contact/' + @contact["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'contact 250px', targetY: 'contact -100px', width: 312, height: 650} )" title="Edit contact information...">	    
 	  <% end %>
 	  <% if @contact["list"].contact_list[i][j] =~ /([0-9a-zA-Z]+[-._+&amp;])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}/ %>
 	    <%= "#{$`}" + '<a class="email" href="mailto:' + "#{$&}" + '">' + "#{$&}" + '</a>' + "#{$'}" %>

@@ -10,14 +10,14 @@ class Rubycms::LayoutController < ApplicationController
     @page = Page.find(params[:page]) 
     @layout = {"name" => params[:name]}
     session[:layout] = @layout["name"]
-    render :partial => 'layout'
+    render :partial => 'rubycms/layout/layout'
   end
 
   def clear_layout
     @page = Page.find(params[:page])
     @layout = {"name" => nil}
     session[:layout] = nil
-    render :partial => 'layout'
+    render :partial => 'ruby/layout/layout'
   end
 
 end

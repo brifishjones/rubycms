@@ -444,6 +444,7 @@ class SiteController < ApplicationController
         # form[0] is google search form
         # trigger auto submit but don't save information
         page << "document.forms[1].submit();" 
+        #page << "document.redit.submit();"
       end
       return
       
@@ -468,12 +469,13 @@ class SiteController < ApplicationController
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(form)/
       update_form
       return
-    else 
+    else
       render :update do |page|
       end
       return
     end
     render :update do |page|
+        flash[:notice] = params[:url]
         page.replace_html("#{$4}", :partial => "#{$4}")
     end
   end

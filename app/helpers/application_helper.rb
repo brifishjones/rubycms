@@ -43,8 +43,9 @@ def highslideinit
       hs.showCredits = false;
   
       hs.Expander.prototype.onBeforeClose = function (sender) {
-        new Ajax.Request("/site/update_rjs", {asynchronous:true, evalScripts:true, parameters: {url: sender.a}});
-     
+      //alert (this.a.href);
+        //new Ajax.Request("/site/update_rjs", {asynchronous:true, evalScripts:true, parameters: {url: sender.a}});
+        new Ajax.Request("/site/update_rjs", {asynchronous:true, evalScripts:true, parameters: {url: sender.a.href}});
         return;
       };
     </script>'

@@ -31,13 +31,13 @@ class Layout < ActiveRecord::Base
     f = {}
     if page.layout_id == nil
       f.default = nil
-      f["name"] = "luther/pageLC"
+      f["name"] = "modern/page2c"
     else
       begin
         f.default = Layout.find(page.layout_id)
       rescue ActiveRecord::RecordNotFound
         f.default = nil
-        f["name"] = "luther/pageLC"
+        f["name"] = "modern/page2c"
       else
         f["name"] = f.default.name
       end

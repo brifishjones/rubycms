@@ -5,7 +5,7 @@
 
 <!--	imagetop<%= @imagetop %>  params_url<%= @urlx %>request_uri<%= request.request_uri%> -->
 
-<a href=<%= '"' + ActionController::AbstractRequest::relative_url_root() + '/rubycms/imagetop/' + @imagetop["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'imagetopframe -10px', targetY: 'imagetopframe -80px', width: 560, height: 680} )" >
+<a href=<%= '"/rubycms/imagetop/' + @imagetop["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'imagetopframe -10px', targetY: 'imagetopframe -80px', width: 560, height: 680} )" >
 	<%= image_tag @imagetop["current"].public_filename, :title => 'Edit top image...'  if @imagetop["current"] != nil %>
 	<%= '<div id="imagetopfrm" class="ifile" title="Import a horizontal image to fill top of page...">Top image</div>' if @imagetop["current"] == nil %>
 

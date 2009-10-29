@@ -42,16 +42,16 @@
     <%= file_manager %>
 
     <div id="content">
-      <%= content %>
+      <%= @page != nil ? content : (yield :layout)  %>
 	</div id="content">
  
     <div id="gallery">
       <%= render(:partial => 'gallery') if @page != nil %>
     </div id="gallery">
 	
-	    <div id="form-main">
+	    <div id="form">
       <%= render(:partial => 'form') if @page != nil %>
-    </div id="form-main">
+    </div id="form">
  
 	<%= formoptions if @page != nil %>
   </div class="column span-66 prepend-1 last">

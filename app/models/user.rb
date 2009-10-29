@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
     filter = Net::LDAP::Filter.eq('uid', self.name)
     ui = self.name
     ldap.search(:filter => filter) {|entry| ui = entry.dn}
-    return false if !ui.include?("uid=" + self.name + ",ou=People,dc=luther,dc=edu")
+    return false if !ui.include?("uid=" + self.name + ",ou=People," + @@ldap_base)
     return true 
   end
   
@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
     ldap = Net::LDAP.new(:host => @@ldap_host, :port => @@ldap_port, :base => @@ldap_base)
     filter = Net::LDAP::Filter.eq('cn', group)
     ldap.search(:filter => filter) do |entry| 
-      return true if entry.dn.include?("cn=" + group + ",ou=Group,dc=luther,dc=edu")
+      return true if entry.dn.include?("cn=" + group + ",ou=Group," + @@ldap_base)
     end
     return false
   end
