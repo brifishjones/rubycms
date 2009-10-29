@@ -56,6 +56,11 @@ class Contact < ActiveRecord::Base
   # initialize instance variables @contact["url"], @contact["list"], and @contact["hide"] for site controller edit_refresh definition
     return {"url" => url.dup, "list" => session[:contact_list], "hide" => session[:contact_hide]}
   end
+  
+  def self.update_rjs(session)
+  # called to refresh appropriate part of page after closing iframe in edit mode
+    return {"url" => session[:url], "list" => session[:contact_list], "hide" => session[:contact_hide]}
+  end
 
   def self.create(session)
   # initialize instance variable @contact_list and new contact for site controller create definition

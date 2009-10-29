@@ -63,6 +63,11 @@ class Form < ActiveRecord::Base
     return f
   end
   
+  def self.update_rjs(session)
+  # called to refresh appropriate part of page after closing iframe in edit mode
+    return {"url" => session[:url], "name" => session[:form]}
+  end
+  
   def self.create(session)
   # initialize instance variables @form for site controller create definition
     f = {}

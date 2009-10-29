@@ -27,7 +27,7 @@
     </div id="head">
 	
 	<% if editing_page %>
-	  <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %>
+	  <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true, :name => 'rcmsedit'} do |@pageform| %>
 	    <%= render(:partial => "layouts/basic/page2c") %>
 	  <% end %>  <!-- form_for :page -->
 	<% else %>

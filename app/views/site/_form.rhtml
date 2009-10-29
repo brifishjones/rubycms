@@ -1,6 +1,6 @@
 <% if editing_page %> 
   <div class="ifile">
-    <a href=<%= '"/rubycms/form/' + @form["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'form-main 150px', targetY: 'form-main 2px', width: 320, height: 120} )" >
+    <a href=<%= '"/rubycms/form/' + @form["url"].join("/").to_s + '"' %> onclick="return hs.htmlExpand(this, { objectType: 'iframe', targetX: 'form 150px', targetY: 'form 2px', width: 320, height: 120} )" >
 	  <%= '<div id="fmfrm" title="Include a form for this page...">Form manager </div>' %>
     </a>
   </div>

@@ -1,7 +1,7 @@
 class Rubycms::ImagetopController < ApplicationController
 
   def show
-    flash[:notice] = params[:url].inspect
+    #flash[:notice] = params[:url].inspect
     params[:url] = Array.new if params[:url] == nil
     @imagetop = {}
     @imagetop.default = Imagetop.find(:all, :conditions => {:pathname => params[:url].join("/")})

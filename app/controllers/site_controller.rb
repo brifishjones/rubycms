@@ -78,7 +78,6 @@ class SiteController < ApplicationController
         c = i.sub(/^app\/controllers\/rubycms\//, "").sub(/(_controller)?\.rb$/, "").capitalize
         self.instance_variable_set("@#{c.downcase}", ActiveRecord::Base.const_get(c).edit(@page, params[:url], session)) if defined?(ActiveRecord::Base.const_get(c).edit)
       end
-
       @page.add_captions_when_editing(params[:url].join("/"))
     
       @message_submit = ""
@@ -436,15 +435,28 @@ class SiteController < ApplicationController
   def update_rjs
   # called to refresh appropriate part of page after closing iframes rubycms_imagetop, rubycms_contact, rubycms_banner, rubycms_gallery, rubycms_filemanager, rubycms_layout, ...
     #flash[:notice] = params[:url]
-    
+
     if params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(layout)/
       session[:update_layout] = true
       render :update do |page|
         # render javascript directly -- http://railsforum.com/viewtopic.php?id=1043
         # form[0] is google search form
         # trigger auto submit but don't save information
-        page << "document.forms[1].submit();" 
-        #page << "document.redit.submit();"
+        #page << "document.forms[1].submit();" 
+        page << "document.rcmsedit.submit();"
+      end
+      return
+      
+    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(filemanager)/
+      render :update do |page|
+      # nothing to update when the image and document manager iframe is closed
+      end
+      return
+  
+    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(\w+)/
+      self.instance_variable_set("@#{$4}", ActiveRecord::Base.const_get("#{$4}".capitalize).update_rjs(session))
+      render :update do |page|
+        page.replace_html("#{$4}", :partial => "#{$4}")
       end
       return
       
@@ -453,7 +465,10 @@ class SiteController < ApplicationController
       #@imagetop_url, @imagetop, @updating = Imagetop.update_rjs(session)
       self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").update_rjs(session))
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(contact)/
-      @contact = {"url" => session[:url], "list" => session[:contact_list], "hide" => session[:contact_hide]}
+      #@contact = {"url" => session[:url], "list" => session[:contact_list], "hide" => session[:contact_hide]}
+      self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").update_rjs(session))
+      #self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").update_rjs(session))
+     
       #update_contacts
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(banner)/
       @banner = {"url" => session[:url]}
@@ -468,14 +483,14 @@ class SiteController < ApplicationController
       @gallery.default = session[:gallery]
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(form)/
       update_form
-      return
+      return  
     else
       render :update do |page|
       end
       return
     end
+    
     render :update do |page|
-        flash[:notice] = params[:url]
         page.replace_html("#{$4}", :partial => "#{$4}")
     end
   end

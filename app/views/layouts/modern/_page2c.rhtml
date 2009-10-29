@@ -28,8 +28,11 @@
     <%= render(:partial => 'imageside') if @page != nil %>
   </div id="imageside">
   <div id="gallery">
-      <%= render(:partial => 'gallery') if @page != nil %>
+    <%= render(:partial => 'gallery') if @page != nil %>
   </div id="gallery">
+  <div id="contact">
+    <%= render(:partial => 'contact') if @page != nil %>
+  </div id="contact">
   &nbsp; 
 </div class="column span-20">
 
@@ -47,6 +50,9 @@
   <div id="content">
     <%= @page != nil ? content : (yield :layout)  %>
   </div id="content">
+  <div id="form">
+    <%= render(:partial => 'form') if @page != nil %>
+  </div id="form">
   <%= formoptions %>
 </div class="column span-78 last borderleft">
 </div id="imgcontent">

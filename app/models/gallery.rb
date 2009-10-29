@@ -62,5 +62,12 @@ class Gallery < ActiveRecord::Base
     g.default = session[:gallery]
     return g
   end
+  
+  def self.update_rjs(session)
+  # called to refresh appropriate part of page after closing iframe in edit mode
+    g = {"url" => session[:url]}
+    g.default = session[:gallery]
+    return g
+  end
 
 end

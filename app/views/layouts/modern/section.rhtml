@@ -24,7 +24,7 @@
 	    </div class="column span-78 last">
 	  </div>  <!-- id="navglobal" -->
 	  
-      <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true} do |@pageform| %>
+      <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true, :name => 'rcmsedit'} do |@pageform| %>
 	  <div id="logotitle">
 	  <div class="column span-20 ">
 	  	<div id="logo">

@@ -50,5 +50,13 @@ class Banner < ActiveRecord::Base
     b.default = session[:banner]
     return b  
   end
+  
+  def self.update_rjs(session)
+  # called to refresh appropriate part of page after closing iframe in edit mode
+    s = {"url" => session[:url]}
+    s.default = session[:banner]
+    return s
+  end
+
 
 end
