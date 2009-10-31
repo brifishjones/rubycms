@@ -4,6 +4,7 @@ db/development.*
 public/system
 config/database.yml
 config/deploy
+lib/key.txt
 .DS_Store
 .loadpath
 .project

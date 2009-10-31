@@ -10,7 +10,7 @@ class Encrypter
   # encrypt fields before saving or updating
   def before_save(model)
     @attrs.each do |field|
-      blowfish = Crypt::Blowfish.new("X@6g{kqI0(V;t~\h2Zg*L>:e$sY?MpB^cw}4,x_7vU/odK8H]1T)G3|l")  # key up to 56 bytes long
+      blowfish = Crypt::Blowfish.new(File.open('lib/key.txt', 'r') {|f| f.read } )  # key up to 56 bytes long
       encryptedBlock = blowfish.encrypt_string(model[field])
       # store as series of bytes in database to avoid SQLException unrecognized token error
       sob = ""
@@ -22,7 +22,7 @@ class Encrypter
   # decrypt after saving or finding
   def after_save(model)
     @attrs.each do |field|
-      blowfish = Crypt::Blowfish.new("X@6g{kqI0(V;t~\h2Zg*L>:e$sY?MpB^cw}4,x_7vU/odK8H]1T)G3|l")  # key up to 56 bytes long
+      blowfish = Crypt::Blowfish.new(File.open('lib/key.txt', 'r') {|f| f.read } )  # key up to 56 bytes long
       ab = model[field].strip.split    # put series of bytes from db into an array
       s = ""
       ab.each {|c| s << c.to_i}   # recreate the encrypted block
