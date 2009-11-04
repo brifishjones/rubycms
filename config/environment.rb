@@ -39,6 +39,7 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
+RCMS_LAYOUT_DEFAULT = 'modern/page2c'
 MAX_BANNER = 99
 MAX_IMAGESIDE = 99
 MAX_GALLERY = 175

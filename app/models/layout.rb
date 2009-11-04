@@ -31,13 +31,13 @@ class Layout < ActiveRecord::Base
     f = {}
     if page.layout_id == nil
       f.default = nil
-      f["name"] = "modern/page2c"
+      f["name"] = RCMS_LAYOUT_DEFAULT
     else
       begin
         f.default = Layout.find(page.layout_id)
       rescue ActiveRecord::RecordNotFound
         f.default = nil
-        f["name"] = "modern/page2c"
+        f["name"] = RCMS_LAYOUT_DEFAULT
       else
         f["name"] = f.default.name
       end

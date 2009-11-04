@@ -1,6 +1,6 @@
 class LoginController < ApplicationController
 
-  layout "modern/page2c"
+  layout RCMS_LAYOUT_DEFAULT
 
   def index
     if session[:username] != nil

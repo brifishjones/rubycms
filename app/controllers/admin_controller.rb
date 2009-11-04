@@ -5,7 +5,7 @@ class AdminController < ApplicationController
   before_filter :authorize
   before_filter :is_administrator
 
-  layout "modern/page2c"
+  layout RCMS_LAYOUT_DEFAULT
 
   def index
     @filenames = Filename.find(:all,

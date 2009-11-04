@@ -20,13 +20,13 @@ class SiteController < ApplicationController
 
   def determine_layout
     if (params[:action] == "show" || params[:action] == "edit") && request.post?
-      return "modern/page2c" if session[:layout] == nil
+      return RCMS_LAYOUT_DEFAULT if session[:layout] == nil
     elsif params[:action] == "show" || params[:action] == "edit"
       page = Page.find_page(params[:url].join("/"))
       if page != nil && page.layout != nil
         return page.layout.name
       else
-        return "modern/page2c"
+        return RCMS_LAYOUT_DEFAULT
       end
     end
     return session[:layout]
