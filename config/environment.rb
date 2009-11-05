@@ -3,6 +3,11 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
+RCMS_LAYOUT_DEFAULT = 'modern/page2c'
+MAX_BANNER = 99
+MAX_IMAGESIDE = 99
+MAX_GALLERY = 175
+
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
@@ -39,7 +44,3 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
-RCMS_LAYOUT_DEFAULT = 'modern/page2c'
-MAX_BANNER = 99
-MAX_IMAGESIDE = 99
-MAX_GALLERY = 175
