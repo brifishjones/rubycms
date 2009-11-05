@@ -26,9 +26,6 @@ class CreatePages < ActiveRecord::Migration
       t.timestamps
     end
 
-    # generate a blowfish key for database encryption before tables are created.
-    File.open('lib/key.txt', 'w') {|f| f.write((0...56).collect { (35..126).to_a[Kernel.rand(91)].chr }.join) } if !File.exists?('lib/key.txt')
-
   end
 
   def self.down
