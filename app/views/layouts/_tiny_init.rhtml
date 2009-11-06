@@ -141,14 +141,16 @@
 		//html = html.replace(new RegExp('_smallSq\.([a-zA-Z0-9\-]+)[\?]*[0-9]*', 'gi'), '_mediumEx'+ '$1');
 		//html = html.replace(new RegExp('return false;" title="(.*?)">', 'gi'), 'return false;" title="Click to enlarge">');
 		
-		html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '<a href="' + '$3' + '.' + '$4' + '" onclick="' + 'return hs.expand(this)"><img src="' + '$3' + '_mediumEx.' + '$4' + '" title="Click to enlarge"></a>');
+		//html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '<a href="' + '$3' + '.' + '$4' + '" onclick="' + 'return hs.expand(this)"><img src="' + '$3' + '_mediumEx.' + '$4' + '" title="Click to enlarge"></a>');
+		html = html.replace(new RegExp('<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?</a>', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '></a>');
 		tinyMCE.selectedInstance.getDoc().body.innerHTML = html;
 		return true;
+
 	}
 	
 	function tinyInitInstanceCallback(ed) {
     if (tinymce.isIE) {
-        tinymce.dom.Event.add(ed.getWin(), 'dragdrop', function(e) {
+        tinymce.dom.Event.add(ed.getWin(), 'drop', function(e) {
 			setTimeout("processDragDrop()",100);
             //console.debug('tinyInitInstanceCallback: ' + e.id + e.type + e.target.nodeName);
 			//html = ed.getDoc().body.innerHTML;
@@ -160,7 +162,7 @@
         });
         
     } else {
-        tinymce.dom.Event.add(ed.getDoc(), 'dragdrop', function(e) {
+        tinymce.dom.Event.add(ed.getDoc(), 'drop', function(e) {
 			setTimeout("processDragDrop()",100);
 			//html = ed.getDoc().body.innerHTML;
 		   // html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '*******' + '<a href="' + '$3' + '.' + '$4' + '"><img src="' + '$3' + '_mediumEx.' + '$4' + '"></a>' + '*******');
