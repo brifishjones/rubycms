@@ -47,57 +47,49 @@ class Page < ActiveRecord::Base
   
   def clean_content_before_save
     return if self.content == nil
-    # change images that were dragged into tinyMCE content editor to utilize highslide
-    #self.content.gsub!(/<a href="[\.\/\w]+?"\s+(title="(.*?)"\s+)?onclick=.*?return false;"><img src="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<a href="/' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="/' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a>')
-    #self.content.gsub!(/<a href="\S+"\s+(title="(.*?)"\s+)?onclick="new Ajax\.Request\S+\s+\{asynchronous:true, evalScripts:true\}\); return false;"><img\ssrc="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<div class="figure"><a href="' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a></div>')
-    #self.content.gsub!(/<a href="\S+"\s+(title="(.*?)"\s+)?onclick="new Ajax\.Request\S+\s+\{asynchronous:true, evalScripts:true\}\); return false;"><img\ssrc="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<div class="figure"><a href="' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a>' + '\2' + '</div>')
-    #self.content.gsub!(/<a href="\S+"\s+(title="(.*?)"\s+)?onclick="new Ajax\.Request\S+\s+\{asynchronous:true, evalScripts:true\}\); return false;"><img src="[\.\/]*?(\S+)(_mediumEx)(\.\w+)\?\d*".*?<\/a>/, '<div class="figure" style="width: 100px"><a href="' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a>' + '\2' + '</div>')
-    self.content.gsub!(/<a href="\/\S+"\s+(title="(.*?)"\s+)?onclick="new Ajax\.Request\S+\s+\{asynchronous:true, evalScripts:true\}\); return false;"><img src="[\.\/]*?(\S+)(_\w+?Ex)(\.\w+)\?\d*".*?<\/a>/, '<a href="' + '\3' + '\5' + '" class="highslide" onclick="return hs.expand(this)"><img src="' + '\3' + '\4' + '\5' + '" border="0'+ '" alt="' + '\2' + '" title="Click to enlarge"/></a>')
-    # on subsequent content edits tinyMCE strips class="highslide" when saved, so reinsert it
-    self.content.gsub!(/(<a href="[\.\/\w-]+?")\s+(onclick="return\shs\.expand\(this\)">)/, '\1' + ' class="highslide" ' + '\2')
-    # remove any inline height or width settings tinyMCE may have inserted
-    self.content.gsub!(/width="\d+"\s?/, '')
-    self.content.gsub!(/height="\d+"\s?/, '')
-    # change title from caption to "Click to enlarge"
-    # tinyMCE strips out alt="" title="" for captionless images, so reinsert.
-    self.content.gsub!(/(border="0"\s)(alt="(.*?)"\s+)?(title="(.*?)"\s?)?\/><\/a>/, 'border="0" alt="' + '\3' + '" title="Click to enlarge"/></a>')
-    # insert figure class
-    #self.content.gsub!(/(<a href="[\.\/\w]+?")\s+(onclick="return\shs\.expand\(this\)">)/, '\1' + ' class="highslide" ' + '\2')
-#self.content.gsub!(/onclick=.*?return false;"/, 'class="highslide" onclick="return hs.expand(this)"')
     
+    # clean up images that were dragged into tinyMCE content editor before writing to database
+    self.content.gsub!(/(<a href="\/\S+">)(<img src="[\.\/]*?\S+").*?\/>.*?<\/a>/, '\1' + '\2' + ' /></a>') 
   end
   
   def add_captions_when_editing(pathname)
     return if self.content == nil
-    # strip out the "Click to enlarge" title and replace it with the image caption
-    image_uploads = Image.find(:all, :conditions => {:pathname => pathname})
-    for i in image_uploads
-      #if self.content =~ Regexp.new('(' + File.basename(i.filename, ".*") + ')(_\w+Ex\.\w+" border="0"\s)(alt="(' + i.caption + ')"\s+)?(title=")(Click to enlarge)(\s?"\s?\/><\/a>)')
-      if self.content =~ /(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+\/)(\w+)(_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title=")(Click to enlarge)("\s?\/><\/a>)/
-        #if self.content =~ Regexp.new('(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+)(' + File.basename(i.filename, ".*") + ')(_\w+Ex\.\w+" border="0"\s)(alt="(' + i.caption + ')"\s+)?(title=")(Click to enlarge)(\s?"\s?\/><\/a>)')
-        #self.content.gsub!("#{$'}", "#{$1}#{$2}#{$3}#{$5}#{$4}#{$7}")
-        #if self.content =~ /(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/
-        #if "#{$2}" == File.basename(i.filename, ".*") && "#{$5}" == i.caption
-        #  self.content.gsub!("#{$&}", "#{$1}#{$2}#{$3}" + "4hKv2Qx3L1pM4zyZ" + "#{$4}#{$6}#{$5}#{$8}")
-        if "#{$2}" == File.basename(i.filename, ".*")
-          self.content.gsub!("#{$&}", "#{$1}#{$2}#{$3}" + "4hKv2Qx3L1pM4zyZ" + "#{$4}#{$6}#{$5}#{$8}")
-        end
-        #self.content.gsub!("Luther", File.basename(i.filename, ".*"))
+    # add caption to the image title field
+    # note that titles will only appear on image hovers after a page has been saved.
+    # any changes to the caption during editing using the Image and Document Manager will not propagate to the tinyMCE editor.
+    # odK8H1TG6gkqI0Vt is a randomly generated string
+    self.content.gsub!(/(<a href="\S+"><img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '\1' + ' title="odK8H1TG6gkqI0Vt" /></a>')
+
+    image_hash = {}
+    if self.imageinfo != nil && self.imageinfo != ""
+    imgi = self.imageinfo.split('=(_8^(1)')
+      0.upto(imgi.size - 1) do |i|
+        a = imgi[i].split('@@@@8^)')
+        image_hash[a[0].to_i] = a.size == 2 ? a[1] : ""
       end
-      #self.content.gsub!("Luther", File.basename(i.filename, ".*"))
     end
-    self.content.gsub!("4hKv2Qx3L1pM4zyZ" , "")
+    
+    i = self.content.scan(/<img src="(\S+_\w+Ex\.\w+)"/)
+    i.each do |j|
+      filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
+      imgfile = Image.find(:first, :conditions => ["filename = ? and pathname = ?", filename, self.filename.name])
+      if self.imageinfo != nil && self.imageinfo != "" && imgfile != nil && image_hash[imgfile.id] != ""
+        self.content.sub!(/(title=")(odK8H1TG6gkqI0Vt)(")/, '\1' + image_hash[imgfile.id].to_s + '\3')
+      elsif (self.imageinfo == nil || self.imageinfo == "") && imgfile != nil && imgfile.caption != nil
+        self.content.sub!(/(title=")(odK8H1TG6gkqI0Vt)(")/, '\1' + imgfile.caption + '\3') 
+      else
+        self.content.sub!(/(title=")(odK8H1TG6gkqI0Vt)(")/, '')
+      end
+    end
+    
   end
   
   def add_captions_to_images
     return if self.content == nil
     require 'RMagick'
     # XiLU6h3xB7r4NyzV is a randomly generated string
-    #self.content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_mediumEx\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '<span><div class="figure" style="width: 110px">' + '\1' + '\2' + '\4' + '\3' + '</div></span>')
-    #self.content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_smallEx\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '<span><div class="figure" style="width: 60px">' + '\1' + '\2' + '\4' + '\3' + '</div></span>')
-    #self.content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + '\2' + '\4' + '\3' + '</div></span>')
-    self.content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + 'alt="XiLU6h3xB7r4NyzV" ' + '\4' + 'XiLU6h3xB7r4NyzV</div></span>')
-    
+    self.content.gsub!(/(<a href="\S+")>(<img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + ' class="highslide" onclick="return hs.expand(this)">' + '\2' + ' alt="XiLU6h3xB7r4NyzV" title="Click to enlarge" /></a>' + 'XiLU6h3xB7r4NyzV</div></span>')
+
     image_hash = {}
     if self.imageinfo != nil && self.imageinfo != ""
     imgi = self.imageinfo.split('=(_8^(1)')
@@ -116,9 +108,9 @@ class Page < ActiveRecord::Base
       img = Magick::Image.read('public' + j.to_s).first
       self.content.sub!(/(<span><div class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
       filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
-      #filename = filename.sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
+      
       imgfile = Image.find(:first, :conditions => ["filename = ? and pathname = ?", filename, self.filename.name])
-      #self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, filename)
+      
       if self.imageinfo != nil && self.imageinfo != "" && imgfile != nil && image_hash[imgfile.id] != ""
         self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + image_hash[imgfile.id].to_s + '\3')
         self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/div>)/, image_hash[imgfile.id].to_s + '\2')

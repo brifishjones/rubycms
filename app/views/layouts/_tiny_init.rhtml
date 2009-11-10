@@ -142,7 +142,7 @@
 		//html = html.replace(new RegExp('return false;" title="(.*?)">', 'gi'), 'return false;" title="Click to enlarge">');
 		
 		//html = html.replace(new RegExp('(<a href=".*</a>.*)?(<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?".*?</a>)', 'i'), '$1' + '<a href="' + '$3' + '.' + '$4' + '" onclick="' + 'return hs.expand(this)"><img src="' + '$3' + '_mediumEx.' + '$4' + '" title="Click to enlarge"></a>');
-		html = html.replace(new RegExp('<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?</a>', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '></a>');
+		html = html.replace(new RegExp('<a href=".*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png).*?</a>', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '" /></a>');
 		tinyMCE.selectedInstance.getDoc().body.innerHTML = html;
 		return true;
 
