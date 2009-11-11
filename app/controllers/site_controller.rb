@@ -283,15 +283,20 @@ class SiteController < ApplicationController
     @filename = @page.filename_id == nil ? nil : Filename.find(@page.filename_id)
     @keyword = @page.keyword_id == nil ? nil : Keyword.find(@page.keyword_id)
     
-    self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").edit_refresh(@page["#{"navigation"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").edit_refresh(@page["#{"imagetop"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").edit_refresh(@page["#{"contact"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"banner"}", ActiveRecord::Base.const_get("Banner").edit_refresh(@page["#{"banner"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"imageside"}", ActiveRecord::Base.const_get("Imageside").edit_refresh(@page["#{"imageside"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"gallery"}", ActiveRecord::Base.const_get("Gallery").edit_refresh(@page["#{"gallery"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"form"}", ActiveRecord::Base.const_get("Form").edit_refresh(@page["#{"form"}" + "_id"], params[:url], session))
-    self.instance_variable_set("@#{"layout"}", ActiveRecord::Base.const_get("Layout").edit_refresh(@page["#{"layout"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").edit_refresh(@page["#{"navigation"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").edit_refresh(@page["#{"imagetop"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").edit_refresh(@page["#{"contact"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"banner"}", ActiveRecord::Base.const_get("Banner").edit_refresh(@page["#{"banner"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"imageside"}", ActiveRecord::Base.const_get("Imageside").edit_refresh(@page["#{"imageside"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"gallery"}", ActiveRecord::Base.const_get("Gallery").edit_refresh(@page["#{"gallery"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"form"}", ActiveRecord::Base.const_get("Form").edit_refresh(@page["#{"form"}" + "_id"], params[:url], session))
+    #self.instance_variable_set("@#{"layout"}", ActiveRecord::Base.const_get("Layout").edit_refresh(@page["#{"layout"}" + "_id"], params[:url], session))
 
+    Dir['app/controllers/rubycms/**/*.rb'].each do |i|
+      c = i.sub(/^app\/controllers\/rubycms\//, "").sub(/(_controller)?\.rb$/, "").capitalize
+      self.instance_variable_set("@#{c.downcase}", ActiveRecord::Base.const_get(c).edit_refresh(@page["#{c.downcase}" + "_id"], params[:url], session)) if defined?(ActiveRecord::Base.const_get(c).edit_refresh)
+    end
+    
     # want content from post not original page
     p = Page.new(params[:page])
     @page.content = p.content
