@@ -63,14 +63,14 @@ class Imageside < ActiveRecord::Base
   def self.edit(page, url, session)
     g = {"url" => url.dup, "text" => 'Edit sidebar images'}
     g.default = Imageside.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..MAX_IMAGESIDE}, :order => "rank")
-    session[:image_side] = g.default
+    session[:imageside] = g.default
     return g
   end
   
   def self.edit_refresh(id, url, session)
   # initialize instance variables @imageside_url, @imageside_uploads, and @imageside_text for site controller edit_refresh definition
     g = {"url" => url.dup, "text" => 'Edit sidebar images'}
-    g.default = session[:image_side]
+    g.default = session[:imageside]
     return g
     
   end
@@ -78,7 +78,7 @@ class Imageside < ActiveRecord::Base
   def self.update_rjs(session)
   # called to refresh appropriate part of page after closing iframe in edit mode
     s = {"url" => session[:url]}
-    s.default = session[:image_side]
+    s.default = session[:imageside]
     return s
   end
 

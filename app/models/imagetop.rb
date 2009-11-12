@@ -101,25 +101,25 @@ class Imagetop < ActiveRecord::Base
       else
       end    
     end
-    session[:image_top] = g["current"]
+    session[:imagetop] = g["current"]
     return g
   end
 
   def self.edit_refresh(id, url, session)
   # initialize instance variables @imagetop, @imagetop_url, @imagetop_uploads, and @imagetop_text for site controller edit_refresh definition
-    g = {"url" => url.dup, "text" => 'Edit top image', "current" => session[:image_top]}
+    g = {"url" => url.dup, "text" => 'Edit top image', "current" => session[:imagetop]}
     g.default = Imagetop.find(:all, :conditions => {:pathname => url})
     return g
   end
   
   def self.update_rjs(session)
   # called to refresh appropriate part of page after closing iframe in edit mode
-    return {"url" => session[:url], "current" => session[:image_top], "updating" => 'yes'}
+    return {"url" => session[:url], "current" => session[:imagetop], "updating" => 'yes'}
   end
 
   def self.create(page, filename, funique, url, session)
   # initialize instance variable @imagetop and imagetopinfo list (tli) for site controller create definition  
-    imagetop = session[:image_top]
+    imagetop = session[:imagetop]
     if imagetop != nil && funique == true
       begin
         fd = File.open("#{RAILS_ROOT}/public" + imagetop.public_filename, "rb").read

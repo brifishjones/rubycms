@@ -6,7 +6,7 @@ class Rubycms::ImagetopController < ApplicationController
     @imagetop = {}
     @imagetop.default = Imagetop.find(:all, :conditions => {:pathname => params[:url].join("/")})
     @imagetop["edit_caption"] = false
-    @imagetop["current"] = session[:image_top]
+    @imagetop["current"] = session[:imagetop]
     @upload_privileges = get_upload_privileges
   end 
   
@@ -28,7 +28,7 @@ class Rubycms::ImagetopController < ApplicationController
     if @imagetop["current"].save
       #flash[:notice] = 'Image was successfully saved.'
       @imagetop["current"].create_thumbnails()
-      session[:image_top] = @imagetop["current"]
+      session[:imagetop] = @imagetop["current"]
     else
       flash[:notice] = 'Image NOT saved.'
     end
@@ -40,7 +40,7 @@ class Rubycms::ImagetopController < ApplicationController
     @imagetop = {}
     @imagetop.default = Imagetop.find(:all, :conditions => {:pathname => params[:url].join("/")})
     @imagetop["current"] = nil
-    session[:image_top] = @imagetop["current"]
+    session[:imagetop] = @imagetop["current"]
     render :update do |page|
       page.replace_html("imagetopcap", :partial => "rubycms/imagetop/imagetop")
     end
@@ -51,7 +51,7 @@ class Rubycms::ImagetopController < ApplicationController
     @imagetop = {}
     @imagetop.default = Imagetop.find(:all, :conditions => {:pathname => params[:url].join("/")})
     @imagetop["current"] = Imagetop.find(params[:id])
-    session[:image_top] = @imagetop["current"]
+    session[:imagetop] = @imagetop["current"]
     render :update do |page|
       page.replace_html("imagetopcap", :partial => "rubycms/imagetop/imagetop")
     end
