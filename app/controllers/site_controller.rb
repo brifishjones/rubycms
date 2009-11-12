@@ -240,7 +240,7 @@ class SiteController < ApplicationController
     end
     @page.valid_to = nil if @page.valid_from != nil && @page.valid_to != nil && @page.valid_to < @page.valid_from
 
-    self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").create(session))
+    self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").create(@filename.name, funique, params[:url].join("/"), session[:navigation], MAX_NAVIGATION))
     self.instance_variable_set("@#{"layout"}", ActiveRecord::Base.const_get("Layout").create(session))
     self.instance_variable_set("@#{"form"}", ActiveRecord::Base.const_get("Form").create(session))
     self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").create(session))

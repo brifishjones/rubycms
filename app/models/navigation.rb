@@ -10,7 +10,7 @@ class Navigation < ActiveRecord::Base
   end
   
   def self.show(id, info)
-  # initialize instance variables @navigation, @nav_list, and @cur_navlist_item for site controller show definition
+  # initialize instance variables @navigation.default, @navigation["list"], and @navigation["current"] for site controller show definition
     n = {}
     if id == nil
       n.default = Navigation.new
@@ -41,14 +41,14 @@ class Navigation < ActiveRecord::Base
       n.default = Navigation.find(page.navigation_id)
     end
     n["list"] = Navlist.new(n.default)
-    session[:nav_list] = Navlist.new(n.default)
+    session[:navigation] = Navlist.new(n.default)
     n["current"] = nil
     return n
   end
   
   def self.edit_refresh(id, url, session)
-  # initialize instance variables @navigation, @nav_list, and @cur_navlist_item for site controller edit_refresh definition
-    n = {"list" => session[:nav_list], "current" => nil}
+  # initialize instance variables @navigation.default, @navigation["list"], and @navigation["current"] for site controller edit_refresh definition
+    n = {"list" => session[:navigation], "current" => nil}
     if id == nil
       n.default = nil
     else
@@ -61,9 +61,9 @@ class Navigation < ActiveRecord::Base
     return n
   end
 
-  def self.create(session)
-  # initialize instance variable @nav_list and new navigation for site controller create definition
-    n = {"list" => session[:nav_list]}
+  def self.create(fname, funique, url, session, maxrange)
+  # initialize instance variable @navigation.default and new navigation for site controller create definition
+    n = {"list" => session}
     if n["list"] != nil && n["list"].nav_list.size > 0
       n.default = Navigation.new
       names = []
