@@ -64,18 +64,22 @@ module RcmsModel
     return h
   end
 
-  def create(fname, funique, url, session, maxrange)
+  def create_full(fname, funique, url, session, maxrange)
     # initialize instance variable hash (uploads and info) for a given model.  Used by site controller when a page is saved.
     uploads = session
     if funique == false
       ul = self.find(:all, :conditions => {:pathname => fname})
       for i in ul
         i.rank = 0   # initialize all to removed status
-        i.save
-      end
-      uploads.each_index do |i|
-          uploads[i].rank = i + 1
-          uploads[i].save
+        uploads.each_index do |j|
+          if i.id == uploads[j].id
+            i.rank = j + 1
+            uploads[j].rank = j + 1
+            uploads[j].save
+            break
+          end
+        end
+        i.save if i.rank == 0
       end
     else
       rank = 1

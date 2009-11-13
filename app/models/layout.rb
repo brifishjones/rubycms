@@ -62,7 +62,7 @@ class Layout < ActiveRecord::Base
     return f
   end
   
-  def self.create(session)
+  def self.create(fname, funique, url, session)
   # initialize instance variables @form for site controller create definition
     f = {}
     if session[:layout] != nil

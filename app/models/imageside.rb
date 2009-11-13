@@ -72,7 +72,10 @@ class Imageside < ActiveRecord::Base
     g = {"url" => url.dup, "text" => 'Edit sidebar images'}
     g.default = session[:imageside]
     return g
-    
+  end
+  
+  def self.create(fname, funique, url, session)
+    return create_full(fname, funique, url, session[:imageside], MAX_IMAGESIDE)
   end
   
   def self.update_rjs(session)

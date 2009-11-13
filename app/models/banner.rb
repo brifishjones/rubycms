@@ -51,6 +51,10 @@ class Banner < ActiveRecord::Base
     return b  
   end
   
+  def self.create(fname, funique, url, session)
+    return create_full(fname, funique, url, session[:banner], MAX_BANNER)
+  end
+  
   def self.update_rjs(session)
   # called to refresh appropriate part of page after closing iframe in edit mode
     s = {"url" => session[:url]}

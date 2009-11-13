@@ -68,7 +68,7 @@ class Form < ActiveRecord::Base
     return {"url" => session[:url], "name" => session[:form]}
   end
   
-  def self.create(session)
+  def self.create(fname, funique, url, session)
   # initialize instance variables @form for site controller create definition
     f = {}
     if session[:form] != nil

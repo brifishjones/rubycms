@@ -240,20 +240,20 @@ class SiteController < ApplicationController
     end
     @page.valid_to = nil if @page.valid_from != nil && @page.valid_to != nil && @page.valid_to < @page.valid_from
 
-    self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").create(@filename.name, funique, params[:url].join("/"), session[:navigation], MAX_NAVIGATION))
-    self.instance_variable_set("@#{"layout"}", ActiveRecord::Base.const_get("Layout").create(session))
-    self.instance_variable_set("@#{"form"}", ActiveRecord::Base.const_get("Form").create(session))
-    self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").create(session))
-    self.instance_variable_set("@#{"banner"}", ActiveRecord::Base.const_get("Banner").create(@filename.name, funique, params[:url].join("/"), session[:banner], MAX_BANNER))
-    self.instance_variable_set("@#{"imageside"}", ActiveRecord::Base.const_get("Imageside").create(@filename.name, funique, params[:url].join("/"), session[:imageside], MAX_IMAGESIDE))
-    self.instance_variable_set("@#{"gallery"}", ActiveRecord::Base.const_get("Gallery").create(@filename.name, funique, params[:url].join("/"), session[:gallery], MAX_GALLERY))
-    self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").create(@page, @filename, funique, params[:url], session))
+    #self.instance_variable_set("@#{"navigation"}", ActiveRecord::Base.const_get("Navigation").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"layout"}", ActiveRecord::Base.const_get("Layout").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"form"}", ActiveRecord::Base.const_get("Form").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"banner"}", ActiveRecord::Base.const_get("Banner").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"imageside"}", ActiveRecord::Base.const_get("Imageside").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"gallery"}", ActiveRecord::Base.const_get("Gallery").create(@filename.name, funique, params[:url].join("/"), session))
+    #self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").create(@filename.name, funique, params[:url].join("/"), session))
     
     Dir['app/controllers/rubycms/**/*.rb'].each do |i|
       c = i.sub(/^app\/controllers\/rubycms\//, "").sub(/(_controller)?\.rb$/, "").capitalize
-      self.instance_variable_set("@#{c.downcase}", ActiveRecord::Base.const_get(c).create(@filename.name, funique, params[:url].join("/"), session[":" + "#{c.downcase}"], ActiveRecord::Base.const_get("MAX_" + "#{c.upcase}"))) if defined?(ActiveRecord::Base.const_get(c).create)
+      self.instance_variable_set("@#{c.downcase}", ActiveRecord::Base.const_get(c).create(@filename.name, funique, params[:url].join("/"), session)) if defined?(ActiveRecord::Base.const_get(c).create)
     end
-    
+
     self.instance_variable_set("@#{"image"}", ActiveRecord::Base.const_get("Image").create(@page, @filename, funique, params[:url], session))
     @page.content = @image["content"]
     self.instance_variable_set("@#{"fileupload"}", ActiveRecord::Base.const_get("Fileupload").create(@page, @filename, funique, params[:url], session))

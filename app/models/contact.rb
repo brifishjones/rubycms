@@ -62,7 +62,7 @@ class Contact < ActiveRecord::Base
     return {"url" => session[:url], "list" => session[:contact_list], "hide" => session[:contact_hide]}
   end
 
-  def self.create(session)
+  def self.create(fname, funique, url, session)
   # initialize instance variable @contact_list and new contact for site controller create definition
     c = {"list" => session[:contact_list]}
     if c["list"] != nil

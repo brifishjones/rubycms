@@ -61,9 +61,9 @@ class Navigation < ActiveRecord::Base
     return n
   end
 
-  def self.create(fname, funique, url, session, maxrange)
+  def self.create(fname, funique, url, session)
   # initialize instance variable @navigation.default and new navigation for site controller create definition
-    n = {"list" => session}
+    n = {"list" => session[:navigation]}
     if n["list"] != nil && n["list"].nav_list.size > 0
       n.default = Navigation.new
       names = []

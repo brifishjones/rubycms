@@ -117,7 +117,7 @@ class Imagetop < ActiveRecord::Base
     return {"url" => session[:url], "current" => session[:imagetop], "updating" => 'yes'}
   end
 
-  def self.create(page, filename, funique, url, session)
+  def self.create(fname, funique, url, session)
   # initialize instance variable @imagetop and imagetopinfo list (tli) for site controller create definition  
     imagetop = session[:imagetop]
     if imagetop != nil && funique == true
@@ -128,7 +128,7 @@ class Imagetop < ActiveRecord::Base
       else
         t = Imagetop.new(:file_data => fd)
         t.filename = imagetop.filename
-        t.pathname = filename.name
+        t.pathname = fname
         t.caption = imagetop.caption
         t.href = imagetop.href
         t.content_type = imagetop.content_type

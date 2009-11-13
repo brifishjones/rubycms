@@ -6,8 +6,9 @@
 <!--
 <% url = params[:url] %>
 url: <%= url %>
+<%= @imageside.default[0].id if @imageside.default[0] != nil %>
+<%= session[:imageside][0].show if session[:imageside][0] != nil %>
 -->
-<% @imageside.default.inspect %>
 
 
 <p style="color: green"><%= flash[:notice] %></p>

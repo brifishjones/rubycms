@@ -63,6 +63,10 @@ class Gallery < ActiveRecord::Base
     return g
   end
   
+  def self.create(fname, funique, url, session)
+    return create_full(fname, funique, url, session[:gallery], MAX_GALLERY)
+  end
+  
   def self.update_rjs(session)
   # called to refresh appropriate part of page after closing iframe in edit mode
     g = {"url" => session[:url]}
