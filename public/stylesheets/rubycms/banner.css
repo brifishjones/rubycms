@@ -36,7 +36,7 @@
 
 .bannerframedelete {
  position: relative;
- top: -16px;
+ top: -10px;
  left: 140px;
 }
 
@@ -54,7 +54,7 @@
 .bannerframehref {
  position: relative;
  top: 10px;
- left: -11px;
+ left: -8px;
  
 }
 .bannerframeupload {
@@ -66,7 +66,7 @@
  
 }
 .bannerframehref input {
- width: 240px;
+ width: 238px;
 }
 .bannerframe input {
  background-color: #4F6666;

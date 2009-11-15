@@ -1,7 +1,7 @@
 .imagesidecontainer {
  background-color: #AAAAAA;
  height: 140px;
- width: 300px;
+ width: 310px;
  position: relative;
  left: 10px;
  margin-bottom:10px;;
@@ -9,7 +9,7 @@
 
 .imagesideframe {
  height: 86px;
- width: 300px;
+ width: 310px;
  position: relative;
  top: 5px;
  left: 5px;
@@ -34,8 +34,8 @@
 
 .imagesideframedelete {
  position: relative;
- top: -16px;
- left: 140px;
+ top: -10px;
+ left: 142px;
 }
 
 .imagesideframedelete a {
@@ -52,7 +52,7 @@
 .imagesideframehref {
  position: relative;
  top: 10px;
- left: -9px;
+ left: -10px;
  
 }
 .imagesideframeupload {
@@ -68,7 +68,7 @@
 }
 .imagesideframe textarea {
  
- width: 150px;
+ width: 152px;
  height: 60px;
  
 }

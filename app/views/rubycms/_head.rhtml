@@ -15,7 +15,7 @@
   <%= stylesheet_link_tag 'highslide-with-html', :media => "screen" %>	
   <%= stylesheet_link_tag 'blueprint/screen978', :media => "screen" %>
   <%= stylesheet_link_tag 'rubycms', :media => "screen" %>
-  <%= stylesheet_link_tag 'rubycms/layout.css', :media => "screen" %>
+  <%= stylesheet_link_tag 'rubycms/' + request.request_uri.sub('_','/').split('/')[2] + '.css', :media => "screen" %>
   <style type="text/css"> body {background-color: #ABB}</style>
   <%= stylesheet_link_tag 'blueprint/print', :media => "print" %>  	
   <!--<%= stylesheet_link_tag 'screen', :media => "screen" %>

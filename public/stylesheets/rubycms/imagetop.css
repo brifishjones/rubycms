@@ -4,7 +4,8 @@
   margin-bottom: 5px;
 }
 #imagetopframecaption img {
-  width: 530px;
+  max-width: 530px;
+  max-height: 330px;
 }
 
 #imagetopthumbs {
@@ -13,6 +14,7 @@
 
 #imagetopthumbs a img {
   border: 1px solid #E0E0E0;
+  max-height: 64px;
 }
 #imagetopthumbs a img:hover {
   border-color: #FFFFFF;
