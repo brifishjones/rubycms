@@ -38,9 +38,10 @@ def highslideinit
   if params[:action] == 'edit'
     hs << '<script type="text/javascript">
       hs.graphicsDir = "/javascripts/highslide/graphics/";
-      hs.outlineType = "drop-shadow";
+      hs.outlineType = "rounded-white";
       hs.outlineWhileAnimating = true;
       hs.showCredits = false;
+      hs.wrapperClassName = "draggable-header";
   
       hs.Expander.prototype.onBeforeClose = function (sender) {
       //alert (this.a.href);

@@ -4,17 +4,12 @@
 <head>
 <script type="text/javascript" src="/javascripts/highslide/highslide-full.js"></script>
 
-<script type="text/javascript">    
-    hs.graphicsDir = '/javascripts/highslide/graphics/';
-    hs.outlineType = 'drop-shadow';
-	hs.captionEval = 'this.thumb.alt';
-	hs.outlineWhileAnimating = true;
-	hs.showCredits = false;
-</script>	
-  <%= stylesheet_link_tag 'highslide', :media => "screen" %>
-  <%= stylesheet_link_tag 'highslide-with-html', :media => "screen" %>	
+
+  <!--%= stylesheet_link_tag 'highslide', :media => "screen" %-->
+  	
   <%= stylesheet_link_tag 'blueprint/screen978', :media => "screen" %>
   <%= stylesheet_link_tag 'rubycms', :media => "screen" %>
+  
   <%= stylesheet_link_tag 'rubycms/' + request.request_uri.sub('_','/').split('/')[2] + '.css', :media => "screen" %>
   <style type="text/css"> body {background-color: #ABB}</style>
   <%= stylesheet_link_tag 'blueprint/print', :media => "print" %>  	

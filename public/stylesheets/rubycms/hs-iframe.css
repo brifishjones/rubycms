@@ -68,3 +68,10 @@
 .hs-iframe .button a:hover, .hs-iframe .button a:focus, .hs-iframe .button [type=submit]:hover {
   background-color: #778888;
 }
+
+.draggable-header .highslide-header .highslide-close a {
+	display: block;
+	height: 16px;
+	width: 16px;
+	background-image: url(/javascripts/highslide/graphics/closeX.png);
+}
