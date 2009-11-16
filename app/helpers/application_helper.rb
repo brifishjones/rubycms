@@ -75,21 +75,25 @@ def iframeinit
 end
 
 def set_tiny_options
+# sets the tinyMCE titlebar based on the chosen layout.
+# looks for file called <layout>_helper.rb in app/helpers/layouts which contains @tiny_mce_options settings
+# for the modern layout the appropriate file would be app/helpers/layouts/modern_helper.rb
   if using_tiny_mce?
-    if session[:layout]  == "modern/section"
-      @tiny_mce_options["width"] = "100%"
-      @tiny_mce_options["height"] = "420"
-      @tiny_mce_options["theme_advanced_buttons1"] = %w{bold italic underline separator strikethrough justifyleft justifycenter justifyright justifyfull}
-      @tiny_mce_options["theme_advanced_buttons2"] = %w{bullist numlist table undo redo link unlink code formatselect}
-      @tiny_mce_options["theme_advanced_buttons3"] = []
-    else
-      @tiny_mce_options["width"] = "100%"
-      @tiny_mce_options["height"] = "560"
-      @tiny_mce_options["theme_advanced_buttons1"] = %w{bold italic underline separator strikethrough justifyleft justifycenter justifyright justifyfull separator formatselect bullist numlist table undo redo link unlink code}
-      @tiny_mce_options["theme_advanced_buttons2"] = []
-      @tiny_mce_options["theme_advanced_buttons3"] = []
+    Dir.glob("app/views/layouts/*").each do |i|
+      if File.directory?(i) && i.split('/').pop == session[:layout].split('/')[0]
+        send("set_tiny_options_" + i.split('/').pop, session)
+        return
+      end
     end
+    
+    #default if file not found
+    @tiny_mce_options["width"] = "100%"
+    @tiny_mce_options["height"] = "560"
+    @tiny_mce_options["theme_advanced_buttons1"] = %w{bold italic underline separator strikethrough justifyleft justifycenter justifyright justifyfull separator formatselect bullist numlist table undo redo link unlink code}
+    @tiny_mce_options["theme_advanced_buttons2"] = []
+    @tiny_mce_options["theme_advanced_buttons3"] = []
   end
+    
   return
 end
 

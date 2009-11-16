@@ -453,56 +453,22 @@ class SiteController < ApplicationController
         # render javascript directly -- http://railsforum.com/viewtopic.php?id=1043
         # form[0] is google search form
         # trigger auto submit but don't save information
-        #page << "document.forms[1].submit();" 
+        # page << "document.forms[1].submit();"
+        # changed to use name "rcmsedit" instead of array index 
         page << "document.rcmsedit.submit();"
       end
-      return
-      
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(filemanager)/
       render :update do |page|
       # nothing to update when the image and document manager iframe is closed
       end
-      return
-  
     elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(\w+)/
       self.instance_variable_set("@#{$4}", ActiveRecord::Base.const_get("#{$4}".capitalize).update_rjs(session))
       render :update do |page|
         page.replace_html("#{$4}", :partial => "#{$4}")
       end
-      return
-      
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(imagetop)/
-      #update_imagetop
-      #@imagetop_url, @imagetop, @updating = Imagetop.update_rjs(session)
-      self.instance_variable_set("@#{"imagetop"}", ActiveRecord::Base.const_get("Imagetop").update_rjs(session))
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(contact)/
-      #@contact = {"url" => session[:url], "list" => session[:contact_list], "hide" => session[:contact_hide]}
-      self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").update_rjs(session))
-      #self.instance_variable_set("@#{"contact"}", ActiveRecord::Base.const_get("Contact").update_rjs(session))
-     
-      #update_contacts
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(banner)/
-      @banner = {"url" => session[:url]}
-      @banner.default = session[:banner]
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(imageside)/
-      #update_imageside
-      #@imageside_url, @imageside_uploads = Imageside.update_rjs(session)
-      self.instance_variable_set("@#{"imageside"}", ActiveRecord::Base.const_get("Imageside").update_rjs(session)) 
-      
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(gallery)/
-      @gallery = {"url" => session[:url]}
-      @gallery.default = session[:gallery]
-    elsif params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(form)/
-      update_form
-      return  
     else
       render :update do |page|
       end
-      return
-    end
-    
-    render :update do |page|
-        page.replace_html("#{$4}", :partial => "#{$4}")
     end
   end
 
