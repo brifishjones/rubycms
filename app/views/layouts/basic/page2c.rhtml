@@ -1,30 +1,29 @@
 <%= render(:partial => "layouts/basic/head") %>
 
 <body id="page2c">
-  <div class="container">
+  <div id="body" class="container">
 
     <div id="head">
-      <div class="column span-16">
+      <div class="column span-12">
         <div id="logo">
           <a href="/" title="Home"><span></span>
             <img alt="Home" src="/images/basic/logo.jpg"  />
           </a>
         </div>
-	  </div class="column span-16">
+	  </div class="column span-12">
 	  <div class="container">
-        <div class="column span-82 box last">
+        <div class="column span-86 box last">
         	<%= main_navigation %>
-        </div class="column span-82 last">
-	    <div class="column span-82 last">
+        </div class="column span-86 last">
+	    <div class="column span-86 last">
 	    	
 	      <%= render(:partial => "layouts/search") %>
 		  
-	    </div class="column span-82 last">
-	    <div class="column span-82 last">
+	    </div class="column span-86 last">
+	    <div class="column span-86 last">
 	      <%= global_navigation %>
-	    </div class="column span-82 last">
+	    </div class="column span-86 last">
 	  </div class="container">
-    </div id="head">
 	
 	<% if editing_page %>
 	  <% form_for :page, :url => {:action => :edit}, :html => {:multipart => true, :name => 'rcmsedit'} do |@pageform| %>
@@ -38,7 +37,7 @@
       <%= render(:partial => "layouts/basic/foot") %>
 	</div class="column span-98 last">
 	
-  </div class="container">
+  </div id="body" class="container">
   <%= render(:partial => "layouts/analytics") %>
 </body>
 

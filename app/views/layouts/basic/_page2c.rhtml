@@ -1,4 +1,4 @@
-
+    </div id="head">
 	
   <div class="column span-29 append-1 border">
   	<div id="nav">
@@ -24,7 +24,7 @@
   <div class="column span-66 prepend-1 borderleft last">
   
     <div id="imagetop">
-      <%= render(:partial => "site/imagetop") if @page != nil %>
+      <%= render(:partial => "imagetop") if @page != nil %>
     </div id="imagetop">
 	
 	<% if flash[:notice] %>	
@@ -43,6 +43,7 @@
 
     <div id="content">
       <%= @page != nil ? content : (yield :layout)  %>
+	  <hr />
 	</div id="content">
  
     <div id="gallery">
@@ -53,9 +54,5 @@
       <%= render(:partial => 'form') if @page != nil %>
     </div id="form">
  
-	<%= formoptions if @page != nil %>
+	<%= formoptions %>
   </div class="column span-66 prepend-1 last">
-  
-
-
-

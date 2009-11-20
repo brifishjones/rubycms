@@ -2,9 +2,9 @@
 
 /* Default font settings */
 body { 
-  background:#FFFFFF none repeat scroll 0%;
+  background: #DDDDDD url(/images/basic/gradiant1000t.gif) top center repeat-y;
   color:#333333;
-  margin:0;
+  margin: 0;
   font-family:Verdana,sans-serif;
   font-size:0.8125em;
   font-size-adjust:none;
@@ -152,8 +152,14 @@ textarea      { width: 390px; height: 250px; padding:5px; }
 ------------------------------------------------------------------------------------ */
 
 /* Used to extend a column if needed.  Change border and margin if span width is modified. */
-div.border { border-right: 1px solid #aaaaaa; }
-div.borderleft { border-left:1px solid #aaaaaa; margin-left:-2px; }
+div.border { border-right: 1px solid #dddddd; }
+div.borderleft { border-left:1px solid #dddddd; margin-left:-2px; }
+
+/* Used to remove spacing at bottom of page
+/* http://blueprintcss.lighthouseapp.com/projects/15318/tickets/5-extra-margin-padding-bottom-of-page#ticket-5-1 */
+.clearfix:after, .container:after {
+  content: "\0020";
+}
 
 /* button class customizes a submit button and styles a link as a button */
 .button {
@@ -196,6 +202,18 @@ a img {
 	margin:0;
 }
 
+#head {
+  background-color: #ffffff;
+  margin: 0 0 10px 0;
+  border-bottom:1px solid #dddddd;
+}
+
+#logo img {
+  height: 120px;
+  width: 120px;
+}
+
+#content hr { background: #ffffff; }
 #content ul, #content ol, body.mceContentBody ul, body.mceContentBody ol { margin: 0 1.0em 2.0em 2.5em; }
 #content ul, body.mceContentBody ul { list-style-type: disc; }
 #content li, body.mceContentBody li, #content dl, body.mceContentBody dl { line-height: 1.5; font-size: 0.950em; }
@@ -221,6 +239,13 @@ body.mceContentBody a {
   text-decoration:none !important;
 }
 
+/* need body div to color background */
+#body {
+  background:#FFFFFF none repeat scroll 0%;
+  padding: 0 0 0 0;
+}
+
+
 /* global navigation
 /* top level directories (.ng classes) can be individually styled using navglobal */
 #navglobal a:link,
@@ -245,9 +270,10 @@ body.mceContentBody a {
 .ng6 { color: #ba4232; }
 ul#navglobal  {
   margin:0;
-  border-bottom:1px solid #AAAAAA;
+  
   height:1.3em;
-  padding: 72px 0 0 20px;
+  padding: 24px 5px 0 20px;
+  float:right;
 }
 #navglobal li {
   display:inline;
@@ -272,7 +298,8 @@ ul#navmain  {
   border-top:5px solid #BBBBBB;
   height:2.0em;
   font-size:1.2em;
-  padding: 0 0 0 220px;
+  padding: 0 12px 0 5px;
+  float: right;
 }
 #navmain li {
   display:inline;
@@ -281,16 +308,21 @@ ul#navmain  {
 
 /* search */
 form#search  {
-  padding: 20px 0 0 480px;
+  padding: 20px 0 0 560px;
 }
 form#search input[type=text] {
-  width:78%;
+  width:88%;
   border-color:#999999 #D9D9D9 #D9D9D9 #999999;
   border-style:solid;
   border-width:2px;
   font-family: verdana,arial,helvetica,sans serif;
   font-size:0.95em;
   color:#222222; 
+}
+form#search .button {
+  background: transparent url(/images/search13x12.gif) no-repeat;
+  border: none;
+  width:15px;
 }
 
 /* page navigation */
@@ -300,12 +332,13 @@ form#search input[type=text] {
 }
 #nav li {
   line-height:2.2em;
+  margin:0 0 0 5px;
 }
 #nav .handle {
   cursor:move;
 }
 #nav #editnav li {
-  margin:0 0 0 -14px;
+  margin:0 0 0 -10px;
 }
 #nav #editnav #list {
   margin:0 0 0 22px;
@@ -332,18 +365,33 @@ form#search input[type=text] {
 
 /* username */
 #username {
-  margin: 10px 10px 10px 0;
-  border:1px dashed #BBBBBB;
+  margin: 10px 10px 10px 10px;
+  border:1px solid #dddddd;
   padding:5px 5px 7px 10px;
 }
 
 /* top image */
 #imagetopframe {
+  margin: 0 0 10px 0;
+  min-width:658px;
+  overflow:hidden;
+  display:block;
+  float:left;
+  width:658px;
+  height:370px;
+  position:relative;
+  z-index:1;
+  border:5px solid #CCCCCC;
+}
+#imagetopframe a img, #imagetopframe img {
+  position: absolute;
+  width:658px;
+  top:-34px; /* offset for a default image with 3:2 aspect ratio */
 }
 
 /* left sidebar images */
 .imagesideframe {
- margin:0 0 5px;
+ margin:0 -2px 5px 10px;
 }
 .imagesideframe img {
  width:92%;
@@ -361,9 +409,9 @@ form#search input[type=text] {
  font-style: italic;
  color: #F0F0F0;
  background-color: #cccccc;
- width: 264px;
+ width: 258px;
  border:5px solid #cccccc;
- margin:0 0 5px 0;
+ margin:0 0 5px 10px;
 }
 /**
 .bannerframe {
@@ -392,37 +440,41 @@ form#search input[type=text] {
 body#primaryLRC #banner, body#pageLRC #banner {
   padding: 20px 0 0 0;
 }
-.bannercontainer a img, body#primaryLRC .bannercontainer a img, body#pageLRC .bannercontainer a img {
-  position: relative;
+.bannercontainer a {
+  display:block;
+  float:left;
+  width:114px;
   height:86px;
-  display:block;  /*needed to get rid of bottom border */  
+  line-height:86px;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
 }
-
-.bannerframetext, body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
-  /*left: 4px;
-  position: relative;
-  margin-right: 0;*/
-  
+.bannercontainer a img {
+  position: absolute;
+  float:left;
+  height:86px;
+  display:block;  /*needed to get rid of bottom border */ 
+}
+.bannerframetext {
   background: #664488;
   position: relative;
   line-height:1.24;
   font-size:1.30em;
-  height:86px;  
-  left: 4px;
+  height:86px;
+  width:138px;  
+  left: 5px;
   overflow: hidden;
-}
-.bannerframetext {
-  /*margin-right:-6px;*/
-  margin-right:-32px;
-}
-body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
-  margin-right: 0;	
 }
 .bannerframetext ul {
   margin-right:0;
+  margin-top:1px;
+  word-wrap:normal;
 }
 .bannerframetext li {
  margin:0 0 0 -15px;
+ word-wrap:normal;
+ width:1000px;
 }
 
 /* contact information */
@@ -445,6 +497,11 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
 /* breadcrumbs */
 #crumbs {
   margin:0 0 1.5em 0;
+}
+#crumbs input {
+  border: none;
+  color: #165284;
+  font-size:1.00em;
 }
 
 /* gallery */
@@ -526,6 +583,9 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
  height:16px;
  width:50%;
 }
+.form-entry input[type=checkbox] {
+ width:auto;
+}
 .form-entry input.wide {
   width:80%;
 }
@@ -559,9 +619,13 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
 
 /* footer */
 #foot {
+  background-color: #eeeeee;
   color:#888888;
   text-align:center;
   font-family: verdana,arial,helvetica,sans serif;
+  border-top: 1px solid #dddddd;
+  padding: 10px 0 1px 0;
+  margin-top: 20px;
 }
 #foot a:link,
 #foot a:visited,
@@ -575,8 +639,8 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
   color:#467294;
 }
 #foot ul {
-  border-top: 1px solid #AAAAAA;
-  padding:20px 0 0 0;
+  /*border-top: 1px solid #AAAAAA;*/
+  /*padding:20px 0 0 0;*/
   margin:3em 0 2em;
 }
 #foot li {
