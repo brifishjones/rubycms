@@ -320,9 +320,12 @@ form#search input[type=text] {
   color:#222222; 
 }
 form#search .button {
-  background: transparent url(/images/search13x12.gif) no-repeat;
+  background: transparent url(/images/search8b_18.gif) no-repeat;
   border: none;
-  width:15px;
+  width:18px;
+}
+form#search .button:hover, form#search.button:focus {
+  background: transparent url(/images/search65_18.gif) no-repeat;
 }
 
 /* page navigation */
