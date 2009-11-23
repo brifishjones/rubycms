@@ -3,7 +3,7 @@
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.4' unless defined? RAILS_GEM_VERSION
 
-RCMS_LAYOUT_DEFAULT = 'modern/page2c'
+RCMS_LAYOUT_DEFAULT = 'basic/page2c'
 MAX_BANNER = 99
 MAX_IMAGESIDE = 99
 MAX_GALLERY = 175

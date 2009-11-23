@@ -175,6 +175,7 @@ def sitetree
     a.add(0,-1,"","javascript: void(0);");'
     
   @filenames = Filename.find(:all,
+      :conditions => ["name != ?", 'add-new-page'],
       :order => 'name' )
   @pages = []
   i = 1
@@ -205,26 +206,27 @@ end
 
 def title
   return if params[:url] == nil
-  return '<div class="notice">Page <i>' + params[:url].join("/") + '</i> does not exist on this server.</div>' + sitetree if @page == nil
-  
-  if !editing_page && @read_access_error == true
-    @page = nil
-    if session[:username] == nil
-      session[:original_uri] = request.request_uri 
-      session[:previous_uri] = nil
-      return '<div class="notice">Login required to read the page: <i>' + params[:url].join("/") + '</i></div><br />' + link_to("[login]", :controller => "login")
-    else
-      return '<div class="error">Access denied.  You do not have privileges to read this page.</div>'
-    end
-    session[:original_uri] = request.request_uri if session[:username] == nil
-    session[:previous_uri] = nil if session[:username] == nil
-    return '<div class="notice">Login required to read page: <i>' + params[:url].join("/") + '</i></div>' + ('<br />' + link_to("[login]", :controller => 'login') if session[:username] == nil)
-  end
-  
-  if !editing_page && @page_valid_message != '' && request.request_uri !~ /^\/staging/ && request.request_uri !~ /^\/pageid/
-    @page = nil
-    return '<div class="notice">' + @page_valid_message + '</div>' + sitetree
-  end
+  return if @page == nil || (!editing_page && @read_access_error == true) ||
+    (!editing_page && @page_valid_message != '' && request.request_uri !~ /^\/staging/ && request.request_uri !~ /^\/pageid/)
+  #return '<div class="notice">Page <i>' + params[:url].join("/") + '</i> does not exist on this server.</div>' + sitetree if @page == nil
+  #if !editing_page && @read_access_error == true
+  #  @page = nil
+  #  if session[:username] == nil
+  #    session[:original_uri] = request.request_uri 
+  #    session[:previous_uri] = nil
+  #    return '<div class="notice">Login required to read the page: <i>' + params[:url].join("/") + '</i></div><br />' + link_to("[login]", :controller => "login")
+  #  else
+  #    return '<div class="error">Access denied.  You do not have privileges to read this page.</div>'
+  #  end
+  #  session[:original_uri] = request.request_uri if session[:username] == nil
+  #  session[:previous_uri] = nil if session[:username] == nil
+  #  return '<div class="notice">Login required to read page: <i>' + params[:url].join("/") + '</i></div>' + ('<br />' + link_to("[login]", :controller => 'login') if session[:username] == nil)
+  #end
+  #
+  #if !editing_page && @page_valid_message != '' && request.request_uri !~ /^\/staging/ && request.request_uri !~ /^\/pageid/
+  #  @page = nil
+  #  return '<div class="notice">' + @page_valid_message + '</div>' + sitetree
+  #end
   
   c = []
   c << '<div id="pagetitle">'

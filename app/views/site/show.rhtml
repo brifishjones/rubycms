@@ -12,6 +12,11 @@
   <% session[:previous_uri] = nil if session[:username] == nil %>
   <% return '<div class="notice">Login required to read page: <i>' + params[:url].join("/") + '</i></div>' + ('<br />' + link_to("[login]", :controller => 'login') if session[:username] == nil) %>
 <% end %>
+  
+<% if @page_valid_message != '' && request.request_uri !~ /^\/staging/ && request.request_uri !~ /^\/pageid/ %>
+  <% @page = nil %>
+  <% return '<div class="notice">' + @page_valid_message + '</div>' + sitetree %>
+<% end %>
 
 <div id="pagetitle">
 <h1>

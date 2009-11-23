@@ -482,7 +482,7 @@ body#primaryLRC #banner, body#pageLRC #banner {
 
 /* contact information */
 .contact-info {
-  padding:0 5px 7px 10px;
+  padding:0 5px 7px 15px;
 }
 .contact-info label, .contact-info a, .contact-info a:hover {
   line-height:1.5em;
