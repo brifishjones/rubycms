@@ -52,13 +52,38 @@ def highslideinit
     </script>'
     hs << stylesheet_link_tag("highslide", :media => "screen")
   else 
-    hs << '<script type="text/javascript">  
+    hs << '<script type="text/javascript">
+      
       hs.graphicsDir = "/javascripts/highslide/graphics/";
       hs.outlineType = "drop-shadow";
       hs.wrapperClassName = "wide-border";
-      hs.outlineWhileAnimating = true;
+      //hs.outlineWhileAnimating = true;
       hs.showCredits = false;
       hs.captionEval = "this.thumb.alt";
+      
+      hs.align = "center";
+      hs.transitions = ["expand", "crossfade"];
+      hs.transitionDuration = 1000;
+      hs.fadeInOut = true;
+      hs.marginBottom = 105; // make room for the thumbstrip and the controls
+
+      // Add the slideshow providing the controlbar and the thumbstrip
+      hs.addSlideshow({
+      slideshowGroup: 1,
+      interval: 5000,
+      repeat: true,
+      useControls: true,
+      fixedControls: "fit",
+      overlayOptions: {
+        position: "bottom center",
+        hideOnMouseOut: true
+      },
+      thumbstrip: {
+        position: "bottom center",
+        mode: "horizontal",
+        relativeTo: "viewport"
+      }
+    });
     </script>'
     hs << stylesheet_link_tag("highslide", :media => "screen")
   end  #if params[:action] == 'edit'

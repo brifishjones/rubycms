@@ -1,8 +1,8 @@
 /******************************************************************************
 Name:    Highslide JS
-Version: 4.1.7 (September 28 2009)
+Version: 4.1.8 (October 27 2009)
 Config:  default +events +unobtrusive +imagemap +slideshow +positioning +transitions +viewport +thumbstrip +inline +ajax +iframe +flash
-Author:  Torstein Hønsi
+Author:  Torstein HÃ¸nsi
 Support: http://highslide.com/support
 
 Licence:
@@ -511,11 +511,6 @@ discardElement : function(d) {
 	hs.garbageBin.innerHTML = '';
 },
 dim : function(exp) {
-	function fix(prop) {
-		return 'expression( ( ( ignoreMe = document.documentElement.'+ prop +
-			' ? document.documentElement.'+ prop +' : document.body.'+ prop +' ) ) + \'px\' );';
-	}
-
 	if (!hs.dimmer) {
 		hs.dimmer = hs.createElement ('div', {
 				className: 'highslide-dimming highslide-viewport-size',
@@ -720,8 +715,16 @@ mouseClickHandler : function(e)
 		if (e.target.form) return true;
 		var match = el.className.match(/highslide-(image|move|resize)/);
 		if (match) {
-			hs.dragArgs = { exp: exp , type: match[1], left: exp.x.pos, width: exp.x.size, top: exp.y.pos, 
-				height: exp.y.size, clickX: e.clientX, clickY: e.clientY };
+			hs.dragArgs = { 
+				exp: exp , 
+				type: match[1], 
+				left: exp.x.pos, 
+				width: exp.x.size, 
+				top: exp.y.pos, 
+				height: exp.y.size, 
+				clickX: e.clientX, 
+				clickY: e.clientY
+			};
 			
 			
 			hs.addEventListener(document, 'mousemove', hs.dragHandler);
@@ -1258,7 +1261,7 @@ calcExpanded: function() {
 	// size and position
 	this.pos = this.tpos - this.cb + this.tb;
 	
-	if (this.dim == 'x')
+	if (this.maxHeight && this.dim == 'x')
 		exp.maxWidth = Math.min(exp.maxWidth || this.full, exp.maxHeight * this.full / exp.y.full); 
 		
 	this.size = Math.min(this.full, exp['max'+ this.ucwh] || this.full);
@@ -1282,13 +1285,14 @@ setSize: function(i) {
 		exp.content.style[this.lt] = this.get('imgPad')+'px';
 	} else
 	this.size = i;
-
+	
 	exp.content.style[this.wh] = i +'px';
 	exp.wrapper.style[this.wh] = this.get('wsize') +'px';
 	if (exp.outline) exp.outline.setPosition();
 	if (exp.releaseMask) exp.releaseMask.style[this.wh] = i +'px';
-	if (this.dim == 'y' && exp.iDoc && exp.body.style.height != 'auto')
+	if (this.dim == 'y' && exp.iDoc && exp.body.style.height != 'auto') try {
 		exp.iDoc.body.style.overflow = 'auto';
+	} catch (e) {}
 	if (exp.isHtml) {
 		var d = exp.scrollerDiv;
 		if (this.sizeDiff === undefined)
@@ -1595,6 +1599,7 @@ contentLoaded : function() {
 		this.justify(y);
 		if (this.isHtml) this.htmlSizeOperations();
 		if (this.overlayBox) this.sizeOverlayBox(0, 1);
+
 		
 		if (this.allowSizeReduction) {
 			if (this.isImage)
@@ -1684,6 +1689,7 @@ htmlGetSize : function() {
 	}
 	hs.setStyles( this.wrapper, { position: 'absolute',	padding: '0'});
 	hs.setStyles( this.content, { width: this.x.t +'px', height: this.y.t +'px'});
+	
 },
 
 getIframePageHeight : function() {
@@ -1707,8 +1713,9 @@ correctIframeSize : function () {
 	if (wDiff < 0) wDiff = 0;
 	
 	var hDiff = this.innerContent.offsetHeight - this.iframe.offsetHeight;
-	if (this.iDoc && !this.objectHeight && this.y.size == this.y.full)
+	if (this.iDoc && !this.objectHeight && !this.height && this.y.size == this.y.full) try {
 		this.iDoc.body.style.overflow = 'hidden';
+	} catch (e) {}
 	hs.setStyles(this.iframe, { 
 		width: Math.abs(this.x.size - wDiff) +'px', 
 		height: Math.abs(this.y.size - hDiff) +'px'
@@ -1915,7 +1922,7 @@ correctRatio : function(ratio) {
 },
 fitOverlayBox : function(ratio, changed) {
 	var x = this.x, y = this.y;
-	if (this.overlayBox) {
+	if (this.overlayBox && (this.isImage || this.allowHeightReduction)) {
 		while (y.size > this.minHeight && x.size > this.minWidth 
 				&&  y.get('wsize') > y.get('fitsize')) {
 			y.size -= 10;
@@ -2160,12 +2167,14 @@ crossfade : function (up, to, from) {
 				props = ['pos', 'size', 'p1', 'p2'];
 			for (var n in props) {
 				prop = props[n];
-				size['x'+ prop] = invPos * lastX[prop] + pos * x[prop];
-				size['y'+ prop] = invPos * lastY[prop] + pos * y[prop];
-				size.ximgSize = invPos * (lastX.imgSize || lastX.size) + pos * (x.imgSize || x.size);
-				size.ximgPad = invPos * lastX.get('imgPad') + pos * x.get('imgPad');
-				size.yimgSize = invPos * (lastY.imgSize || lastY.size) + pos * (y.imgSize || y.size);
-				size.yimgPad = invPos * lastY.get('imgPad') + pos * y.get('imgPad');
+				size['x'+ prop] = Math.round(invPos * lastX[prop] + pos * x[prop]);
+				size['y'+ prop] = Math.round(invPos * lastY[prop] + pos * y[prop]);
+				size.ximgSize = Math.round(
+					invPos * (lastX.imgSize || lastX.size) + pos * (x.imgSize || x.size));
+				size.ximgPad = Math.round(invPos * lastX.get('imgPad') + pos * x.get('imgPad'));
+				size.yimgSize = Math.round(
+					invPos * (lastY.imgSize || lastY.size) + pos * (y.imgSize || y.size));
+				size.yimgPad = Math.round(invPos * lastY.get('imgPad') + pos * y.get('imgPad'));
 			}
 			if (exp.outline) exp.outline.setPosition({ 
 				x: size.xpos, 
@@ -2185,7 +2194,6 @@ crossfade : function (up, to, from) {
 				marginTop: (y.pos - size.ypos) +'px',
 				marginLeft: (x.pos - size.xpos) +'px'
 			});
-			
 			hs.setStyles(wrapper, {
 				top: size.ypos +'px',
 				left: size.xpos +'px',
@@ -3139,8 +3147,11 @@ hs.Thumbstrip = function(slideshow) {
 			mgnRight = 20;
 		if (scrollBy !== undefined) {
 			tblPos = curTblPos - scrollBy;
+			
+			if (minTblPos > 0) minTblPos = 0;
 			if (tblPos > 0) tblPos = 0;
 			if (tblPos < minTblPos) tblPos = minTblPos;
+			
 	
 		} else {
 			for (var j = 0; j < as.length; j++) as[j].className = '';
@@ -3263,8 +3274,8 @@ hs.addEventListener(document, 'ready', function() {
 		}
 		if (hs.expandCursor) addRule ('.highslide img', 
 			'cursor: url('+ hs.graphicsDir + hs.expandCursor +'), pointer !important;');
-    	addRule ('.highslide-viewport-size',
-			(hs.ieLt7 || (hs.ie && document.compatMode == 'BackCompat')) ?
+		addRule ('.highslide-viewport-size',
+			hs.ie && (hs.uaVersion < 7 || document.compatMode == 'BackCompat') ?
 				'position: absolute; '+
 				'left:'+ fix('scrollLeft') +
 				'top:'+ fix('scrollTop') +

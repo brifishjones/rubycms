@@ -707,3 +707,6 @@ body#primaryLRC #banner, body#pageLRC #banner {
   font-style:italic;
   text-align:center;
 }
+.highslide-viewport .highslide-thumbstrip-horizontal table {
+  width: auto;
+}

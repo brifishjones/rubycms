@@ -838,3 +838,6 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
   font-style:italic;
   text-align:center;
 }
+.highslide-viewport .highslide-thumbstrip-horizontal table {
+  width: auto;
+}

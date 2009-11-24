@@ -1,4 +1,7 @@
-
+/**
+* @file: highslide.css 
+* @version: 4.1.8
+*/
 .highslide-container div {
 	font-family: Verdana, Helvetica;
 	font-size: 10pt;
@@ -17,7 +20,7 @@
 	border-color: gray;
 }
 .highslide-active-anchor img {
-	visibility: hidden;
+	/*visibility: hidden;*/
 }
 .highslide-gallery .highslide-active-anchor img {
 	border-color: black;
@@ -370,7 +373,7 @@ html>/**/body .highslide-gallery ul img {
 	position: absolute;
 	right: 2px;
 	top: 2px;
-	z-index: 2;
+	z-index: 5;
 	padding: 0;
 }
 .draggable-header .highslide-header .highslide-close a {
@@ -396,7 +399,8 @@ html>/**/body .highslide-gallery ul img {
 }
 .titlebar .highslide-heading {
 	position: absolute;
-	margin: 1px 0.4em;
+	width: 90%;
+	margin: 1px 0 1px 5px;
 	color: #666666;
 }
 
@@ -798,7 +802,7 @@ html>/**/body .highslide-gallery ul img {
 }
 
 .highslide-thumbstrip-vertical-overlay {
-	/*overflow: hidden !important;*/
+	overflow: hidden !important;
 }
 .highslide-thumbstrip-vertical div {
 	height: 100%;

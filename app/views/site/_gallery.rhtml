@@ -15,8 +15,8 @@
                   <%= image_tag i.public_filename(:largeSq), :title => 'Edit gallery images...' %>   
 	            </a> 
               <% else %>
-			    <a href=<%= '"' +  i.public_filename + '"' %> onclick="return hs.expand(this)">
-		        <%= image_tag i.public_filename(:largeSq), :alt => i.caption, :title => 'Click to enlarge' %>
+			    <a class="highslide" href=<%= '"' +  i.public_filename + '"' %> onclick="return hs.expand(this, {dimmingOpacity: 0.8, slideshowGroup: 1})">
+		        <%= image_tag i.public_filename(:largeSq), :alt => i.caption, :title => 'Click to open gallery' %>
 				</a>
 	          <% end %>
 	        </div class="file_iframe_image">
