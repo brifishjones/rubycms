@@ -7,10 +7,6 @@
 	
     <%= username %>
 	
-    <div id="imageside">
-      <%= render(:partial => 'imageside') if @page != nil %>
-    </div id="imageside">
-	
 	<div id="banner">
       <%= render(:partial => 'banner') if @page != nil %>
     </div id="bannerleft">
@@ -21,7 +17,8 @@
 	
   </div class="column span-29 border">
   
-  <div class="column span-67 prepend-1 borderleft last">
+  <div class="column span-69 last">
+  <div class="column span-68 prepend-1 borderleft last">
   
     <div id="imagetop">
       <%= render(:partial => "imagetop") if @page != nil %>
@@ -36,6 +33,9 @@
     <%= breadcrumbs if @page != nil %>
 	
 	<%= title %>
+  </div class="column span-66 prepend-1 borderleft last">
+
+  <div class="column span-48 prepend-1 borderleft append-1 border ">
   
     <%= layout %>
   
@@ -55,4 +55,11 @@
     </div id="form">
  
 	<%= formoptions %>
-  </div class="column span-66 prepend-1 last">
+  </div class="column span-48 prepend-1 append-1 border">
+  
+  <div class="column span-16 prepend-1 borderleft last">
+    <div id="imageside">
+      <%= render(:partial => 'imageside') if @page != nil %>
+    </div id="imageside">  	
+  </div class="column span-16 prepend-1 borderleft last">
+  </div class="column span-66 last">

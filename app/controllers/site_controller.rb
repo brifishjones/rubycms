@@ -22,7 +22,7 @@ class SiteController < ApplicationController
     if (params[:action] == "show" || params[:action] == "edit") && request.post?
       return RCMS_LAYOUT_DEFAULT if session[:layout] == nil
     elsif params[:action] == "show" || params[:action] == "edit"
-      page = Page.find_page(params[:url].join("/"))
+      page = request.request_uri =~ /^\/pageid\/(\d+)$/ ? Page.find($1) : Page.find_page(params[:url].join("/"))
       if page != nil && page.layout != nil
         return page.layout.name
       else
