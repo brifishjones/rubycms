@@ -49,7 +49,9 @@ class Page < ActiveRecord::Base
     return if self.content == nil
     
     # clean up images that were dragged into tinyMCE content editor before writing to database
+    # tiny will insert relative paths when images are dragged in content area
     self.content.gsub!(/(<a href="\/\S+">)(<img src="[\.\/]*?\S+").*?\/>.*?<\/a>/, '\1' + '\2' + ' /></a>') 
+    self.content.gsub!(/(<a href=")[\.\/]*(\S+"><img src=")[\.\/]*(\S+").*?\/>.*?<\/a>/, '\1/\2/\3 /></a>')
   end
   
   def add_captions_when_editing(pathname)
