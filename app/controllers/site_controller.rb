@@ -19,14 +19,14 @@ class SiteController < ApplicationController
   layout :determine_layout
 
   def determine_layout
-    if (params[:action] == "show" || params[:action] == "edit") && request.post?
-      return RCMS_LAYOUT_DEFAULT if session[:layout] == nil
+    if (params[:action] == "show" || params[:action] == "edit") && request.post? && session[:layout] == nil
+      session[:layout] = RCMS_LAYOUT_DEFAULT
     elsif params[:action] == "show" || params[:action] == "edit"
       page = request.request_uri =~ /^\/pageid\/(\d+)$/ ? Page.find($1) : Page.find_page(params[:url].join("/"))
       if page != nil && page.layout != nil
-        return page.layout.name
+        session[:layout] = page.layout.name
       else
-        return RCMS_LAYOUT_DEFAULT
+        session[:layout] = RCMS_LAYOUT_DEFAULT
       end
     end
     return session[:layout]
