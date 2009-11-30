@@ -5,7 +5,7 @@ class Rubycms::ImagesideController < ApplicationController
     @page = Page.find_page(params[:url].join("/"))
     @imageside = {}
     if session[:imageside] == nil
-      @imageside.default = Imageside.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..MAX_IMAGESIDE, :order => "rank") 
+      @imageside.default = Imageside.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..RCMS_MAX_IMAGESIDE, :order => "rank") 
       session[:imageside] = @imageside.default
     else
       @imageside.default = session[:imageside]

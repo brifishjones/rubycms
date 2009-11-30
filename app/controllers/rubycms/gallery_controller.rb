@@ -5,7 +5,7 @@ class Rubycms::GalleryController < ApplicationController
     @page = Page.find_page(params[:url].join("/"))
     @gallery = {}
     if session[:gallery] == nil
-      @gallery.default = Gallery.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..MAX_GALLERY, :order => "rank")
+      @gallery.default = Gallery.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..RCMS_MAX_GALLERY, :order => "rank")
       session[:gallery] = @gallery.default
     else
       @gallery.default = session[:gallery]

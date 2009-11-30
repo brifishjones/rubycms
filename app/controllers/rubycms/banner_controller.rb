@@ -5,7 +5,7 @@ class Rubycms::BannerController < ApplicationController
     @page = Page.find_page(params[:url].join("/"))
     @banner = {}
     if session[:banner] == nil
-      @banner.default = Banner.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..MAX_BANNER, :order => "rank") 
+      @banner.default = Banner.find(:all, :conditions => {:pathname => params[:url].join("/")}, :rank => 1..RCMS_MAX_BANNER, :order => "rank") 
       session[:banner] = @banner.default
     else
       @banner.default = session[:banner]

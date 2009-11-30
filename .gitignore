@@ -3,6 +3,7 @@ tmp/**/*
 db/development.*
 public/system
 config/database.yml
+config/rubycms_prefs.rb
 app/views/layouts/_analytics.rhtml
 config/deploy
 lib/key.txt

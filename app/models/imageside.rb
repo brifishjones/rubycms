@@ -62,7 +62,7 @@ class Imageside < ActiveRecord::Base
 
   def self.edit(page, url, session)
     g = {"url" => url.dup, "text" => 'Edit sidebar images'}
-    g.default = Imageside.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..MAX_IMAGESIDE}, :order => "rank")
+    g.default = Imageside.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..RCMS_MAX_IMAGESIDE}, :order => "rank")
     session[:imageside] = g.default
     return g
   end
@@ -75,7 +75,7 @@ class Imageside < ActiveRecord::Base
   end
   
   def self.create(fname, funique, url, session)
-    return create_full(fname, funique, url, session[:imageside], MAX_IMAGESIDE)
+    return create_full(fname, funique, url, session[:imageside], RCMS_MAX_IMAGESIDE)
   end
   
   def self.update_rjs(session)

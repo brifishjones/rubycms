@@ -51,7 +51,7 @@ class Gallery < ActiveRecord::Base
 
   def self.edit(page, url, session)
     g = {"url" => url.dup, "text" => 'Edit image gallery'}
-    g.default = Gallery.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..MAX_GALLERY}, :order => "rank")
+    g.default = Gallery.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..RCMS_MAX_GALLERY}, :order => "rank")
     session[:gallery] = g.default
     return g
   end
@@ -64,7 +64,7 @@ class Gallery < ActiveRecord::Base
   end
   
   def self.create(fname, funique, url, session)
-    return create_full(fname, funique, url, session[:gallery], MAX_GALLERY)
+    return create_full(fname, funique, url, session[:gallery], RCMS_MAX_GALLERY)
   end
   
   def self.update_rjs(session)

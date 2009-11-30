@@ -39,7 +39,7 @@ class Banner < ActiveRecord::Base
 
   def self.edit(page, url, session)
     g = {"url" => url.dup, "text" => 'Edit banners'}
-    g.default = Banner.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..MAX_BANNER}, :order => "rank")
+    g.default = Banner.find(:all, :conditions => {:pathname => url.join("/"), :rank => 1..RCMS_MAX_BANNER}, :order => "rank")
     session[:banner] = g.default
     return g
   end
@@ -52,7 +52,7 @@ class Banner < ActiveRecord::Base
   end
   
   def self.create(fname, funique, url, session)
-    return create_full(fname, funique, url, session[:banner], MAX_BANNER)
+    return create_full(fname, funique, url, session[:banner], RCMS_MAX_BANNER)
   end
   
   def self.update_rjs(session)
