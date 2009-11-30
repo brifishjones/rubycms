@@ -103,8 +103,10 @@ def set_tiny_options
 # sets the tinyMCE titlebar based on the chosen layout.
 # looks for file called <layout>_helper.rb in app/helpers/layouts which contains @tiny_mce_options settings
 # for the modern layout the appropriate file would be app/helpers/layouts/modern_helper.rb
+# sets session to page.layout.name if currently nil
   
   if using_tiny_mce?
+    session[:layout] = @page.layout.name if session[:layout] == nil && @page != nil && @page.layout != nil
     Dir.glob("app/views/layouts/*").each do |i|
       if File.directory?(i) && session[:layout] != nil && i.split('/').pop == session[:layout].split('/')[0]
         send("set_tiny_options_" + i.split('/').pop, session)
