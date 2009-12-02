@@ -311,7 +311,7 @@ class SiteController < ApplicationController
     @page.published = p.published
     @page.valid_from = p.valid_from
     @page.valid_to = p.valid_to
-    session[:update_layout] = nil
+    #session[:update_layout] = nil
 
   end
 

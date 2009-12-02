@@ -17,31 +17,6 @@ class Imagetop < ActiveRecord::Base
   class << self
     include RcmsModel
   end
-  
-  # attachment_fu image upload given a url
-  # attach an image by providing its url, rather than uploading
-  # to the system via a form
-  # can be used to batch upload images to server
-  # http://significantbits.wordpress.com/2007/04/06/using-attachment_fu-by-techno-weenie-to-add-image-attachment-support-to-your-rails-application/
-  def source_url=(url)
-    return nil if not url
-    http_getter = Net::HTTP
-    uri = URI.parse(url)
-    response = http_getter.start(uri.host, uri.port) {|http|
-      http.get(uri.path)
-    }
-    case response
-    when Net::HTTPSuccess
-      file_data = response.body
-      return nil if file_data.nil? || file_data.size == 0
-      self.content_type = response.content_type
-      self.temp_data = file_data
-      self.filename = uri.path.split('/')[-1]
-    else
-      return nil
-    end
-  end
- 
       
   def create_thumbnails()
     img = Magick::Image.read(attachment_options[:path_prefix].to_s + '/' + self.pathname + '/' + self.filename).first

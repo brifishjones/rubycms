@@ -108,15 +108,15 @@ class Rubycms::FilemanagerController < ApplicationController
       end
     elsif @upload.content_type.inspect =~ /application\/x?\-?msword/
       if @upload.save
-        flash[:notice] = 'msword doc was successfully saved.'
+        flash[:notice] = 'word doc was successfully saved.'
       else
-        flash[:notice] = 'msword doc NOT saved.'
+        flash[:notice] = 'word doc NOT saved.'
       end
     elsif @upload.content_type.inspect =~ /application\/v?n?d?\.?x?\-?m?s?\-?excel/
       if @upload.save
-        flash[:notice] = 'msexcel was successfully saved.'
+        flash[:notice] = 'excel was successfully saved.'
       else
-        flash[:notice] = 'msexcel NOT saved.'
+        flash[:notice] = 'excel NOT saved.'
       end
     elsif @upload.content_type.inspect =~ /text\/x?\-?rtf/
       if @upload.save

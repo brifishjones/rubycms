@@ -33,7 +33,7 @@ module RcmsModel
     
   def file_data=(fd)
       return nil if fd.nil? || fd.size == 0
-      self.temp_data = fd
+      set_temp_data(fd)
   end
 
   def show(id, info)
@@ -191,7 +191,7 @@ module AttachmentFuModel
   
   def file_data=(fd)
       return nil if fd.nil? || fd.size == 0
-      self.temp_data = fd
+      set_temp_data(fd)
   end
   
 end

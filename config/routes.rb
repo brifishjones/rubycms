@@ -51,8 +51,7 @@ ActionController::Routing::Routes.draw do |map|
     map.connect 'rubycms/' + modname + '/*url', :controller => 'rubycms/' + modname, :action => 'show'
   end
 
-  # work-around for /login proxy
-  map.connect 'rubycms_login/:action/:id', :controller => 'login'
+  map.connect 'login/:action/:id', :controller => 'login'
 
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'

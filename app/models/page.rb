@@ -156,26 +156,5 @@ class Page < ActiveRecord::Base
     # for spotlights use full-size image and disable highslide
     self.content.sub!(/(<div class="figure" style="width.*?class="highslide" onclick="return hs.expand\(this\)".*?)(<img.*?src="\S+\/\w+)(_\w+Ex)(\.\w+").*?(\/>\s?<\/a>\s?<\/div>)/, '<div class="figure"> ' + '\2' + '\4' + '\5')
   end
-  
-  def make_current
-  # transfers imageinfo, imagetopinfo, bannerinfo, imagesideinfo, and galleryinfo from this page instance
-  # to the appropriate model for a given filename.
-  # called when a previous version of a page is made current.
-  
-    # images
-    Image.make_info_current(self)
-  
-    # top image
-    Imagetop.make_info_current(self)
-    
-    # banner
-    Banner.make_info_current(self, self.bannerinfo)
-    
-    # side image
-    Imageside.make_info_current(self, self.imagesideinfo)
-    
-    # gallery
-    Gallery.make_info_current(self)
-  end
 
 end

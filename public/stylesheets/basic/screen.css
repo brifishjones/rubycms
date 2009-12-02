@@ -380,7 +380,6 @@ form#search .button:hover, form#search.button:focus {
   min-width:658px;
   overflow:hidden;
   display:block;
-  float:left;
   width:658px;
   height:370px;
   position:relative;

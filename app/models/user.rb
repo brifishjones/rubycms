@@ -79,9 +79,10 @@ class User < ActiveRecord::Base
     # returns an array [true or false, message]
     wp = published == '1' ? "publish" : "write"
     wppt = published == '1' ? "published" : "written"
+    filename.sub!(/^\/+/, "")
 
     # if user is administrator all privileges granted
-    return true, filename + " successfully " + wppt + "." if Administrator.find(:first, :conditions => ["name = ?", self.name])
+    return true, "/" + filename + " successfully " + wppt + "." if Administrator.find(:first, :conditions => ["name = ?", self.name])
 
     privs = Privilege.find(:all)
     for p in privs do
@@ -89,26 +90,26 @@ class User < ActiveRecord::Base
         if p.user_publish_list != nil
           p.user_publish_list.split.each do |u|
             if u == "*" || self.id == u.to_i
-              return true, filename + " successfully " + wppt + "."
+              return true, "/" + filename + " successfully " + wppt + "."
             end
           end
         end
         if p.group_publish_list != nil
           p.group_publish_list.split.each do |u|
-            return true, filename + " successfully " + wppt + "." if User.member_of_ldap_group(self.name, u)
+            return true, "/" + filename + " successfully " + wppt + "." if User.member_of_ldap_group(self.name, u)
           end
         end
         if wp == "write"
           if p.user_write_list != nil
             p.user_write_list.split.each do |u|
               if u == "*" || self.id == u.to_i
-                return true, filename + " successfully " + wppt + "."
+                return true, "/" + filename + " successfully " + wppt + "."
               end
             end
           end
           if p.group_write_list != nil
             p.group_write_list.split.each do |u|
-              return true, filename + " successfully " + wppt + "." if User.member_of_ldap_group(self.name, u)
+              return true, "/" + filename + " successfully " + wppt + "." if User.member_of_ldap_group(self.name, u)
             end
           end
         end
@@ -117,10 +118,10 @@ class User < ActiveRecord::Base
 
     # allow user to publish into "home" directory, that being community/<username>
     if filename =~ Regexp.new("^\/?community\/" + self.name + "(.*)")
-      return true, filename + " successfully " + wppt + "."
+      return true, "/" + filename + " successfully " + wppt + "."
     end
   
-    return false, "You do not have permissions to " + wp + " " + filename
+    return false, "You do not have permissions to " + wp + " /" + filename
    
   end
 
