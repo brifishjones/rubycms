@@ -128,36 +128,35 @@ end
 def breadcrumbs  # http://rubysnips.com
   return if params[:url] == nil
   r = []
-  r << link_to("Home", "/")
+  #r << link_to("Home", "/")
   segments = params[:url].dup
+  segments.unshift("")
   
   segments.each_with_index do |segment, i|
     
-    page = Page.find_page((0..(i)).collect{|seg| segments[seg]}.join("/"))
+    page = Page.find_page((0..(i)).collect{|seg| segments[seg]}.join("/").sub(/^\/+/, ""))
     if page != nil && page.breadcrumb != nil && page.breadcrumb != ''
       title = page.breadcrumb
     else
-      title = segment.titleize
+      title = i != 0 ? segment.titleize : "Home"
       title.gsub!(/(\d)\s(\d)/, '\1-\2')
     end
     
     if session[:username]
       if i == segments.size - 1 && request.request_uri =~ /^\/edit\//  #last item in list
-        r << (@pageform.text_field :breadcrumb, :title => 'edit breadcrumb') if @pageform != nil
-        #r << link_to(title, "/staging/" + 
-        #  (0..(i)).collect{|seg| segments[seg]}.join("/")) 
+        r << (@pageform.text_field :breadcrumb, :value => title, :title => 'edit breadcrumb') if @pageform != nil
       elsif i == segments.size - 1  #last item in list
         r << link_to(title, "/edit/" + 
-          (0..(i)).collect{|seg| segments[seg]}.join("/")) 
+          (0..(i)).collect{|seg| segments[seg]}.join("/").sub(/^\/+/, "")) 
       else
         r << link_to(title, "/" + 
-          (0..(i)).collect{|seg| segments[seg]}.join("/"))
+          (0..(i)).collect{|seg| segments[seg]}.join("/").sub(/^\/+/, ""))
       end
     elsif session[:username] == nil && i == segments.size - 1
       r << title  # unless user is logged in, last item in url beginning with staging is not a link
     else
       r << link_to_unless_current(title, "/" + 
-        (0..(i)).collect{|seg| segments[seg]}.join("/"))
+        (0..(i)).collect{|seg| segments[seg]}.join("/").sub(/^\/+/, ""))
     end
   end
   
