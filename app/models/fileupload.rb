@@ -4,7 +4,7 @@ class Fileupload < ActiveRecord::Base
 
   has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/octet-stream'],
                  :storage => :file_system, 
-                 :max_size => 5.megabytes,
+                 :max_size => RCMS_MAX_DOCUMENT_SIZE,
                  :path_prefix => 'public/system/files'
                  
   validates_as_attachment

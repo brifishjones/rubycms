@@ -6,6 +6,7 @@ class SiteController < ApplicationController
     :plugins => %w{table,safari,contextmenu,paste},
     :theme_advanced_toolbar_location => 'top',
     :theme_advanced_toolbar_align => 'left',
+    :elements => 'absurls',
     :relative_urls => false,
     :remove_script_host => true,
     :content_css => 'stylesheets/modern/screen.css',

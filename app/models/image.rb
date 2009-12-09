@@ -4,7 +4,7 @@ class Image < ActiveRecord::Base
 
   has_attachment :content_type => [:image, 'application/zip', 'application/x-tar', 'application/x-zip-compressed'],
                  :storage => :file_system, 
-                 :max_size => 8.megabytes,
+                 :max_size => RCMS_MAX_IMAGE_SIZE,
                  #:thumbnails => {:thumb50 => '50x50>'},
                  :path_prefix => "public/system/#{table_name}",
                  :processor => :Rmagick

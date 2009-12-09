@@ -6,7 +6,7 @@ class Banner < ActiveRecord::Base
   
   has_attachment :content_type => :image, 
                  :storage => :file_system, 
-                 :max_size => 5.megabytes,
+                 :max_size => RCMS_MAX_IMAGE_SIZE_BANNER,
                  #:thumbnails => {:thumb50 => '50x50>'},
                  :path_prefix => "public/system/#{table_name}",
                  :processor => :Rmagick
