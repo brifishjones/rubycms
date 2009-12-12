@@ -355,16 +355,30 @@ def formoptions
   end
   
   fields_for :filename, @filename do |form_filename|
+  if @filename != nil && session[:update_layout] == nil
+    v = "/" + @filename.name
+  elsif params[:filename] != nil && params[:filename][:name] != nil
+    v = params[:filename][:name]
+  else
+    v = ""
+  end
   o << '<div class="form-entry form-publish">'
   o << '<label for="name" title="Enter full URL path">Filename:</label>'
-  o << (text_field_with_auto_complete :filename, :name, {:class => 'wide', :value => (@filename != nil && session[:update_layout] == nil) ? "/" + @filename.name : params[:filename][:name]}, {:url => {:controller => 'site', :action => 'auto_complete_for_filename_name'}, :skip_style => true, :tokens => ','})
+  o << (text_field_with_auto_complete :filename, :name, {:class => 'wide', :value => v}, {:url => {:controller => 'site', :action => 'auto_complete_for_filename_name'}, :skip_style => true, :tokens => ','})
   o << '</div>'
   end
 
   fields_for :keyword, @keyword do |form_keyword|
+  if @keyword != nil && session[:update_layout] == nil
+    v = @keyword.list
+  elsif params[:keyword] != nil && params[:keyword][:list] != nil
+    v = params[:keyword][:list]
+  else
+    v = ""
+  end
   o << '<div class="form-entry form-publish">'
   o << '<label for="list" title="Enter keywords separated by a comma">Keywords:</label>'
-  o << (text_field_with_auto_complete :keyword, :list, {:class => 'wide', :value => (@keyword != nil && session[:update_layout] == nil ? @keyword.list : params[:keyword][:list])}, {:url => {:controller => 'site', :action => 'auto_complete_for_keyword_list'}, :skip_style => true, :tokens => ','})
+  o << (text_field_with_auto_complete :keyword, :list, {:class => 'wide', :value => v}, {:url => {:controller => 'site', :action => 'auto_complete_for_keyword_list'}, :skip_style => true, :tokens => ','})
   o << '</div>' 
   end
 
