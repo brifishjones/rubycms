@@ -130,7 +130,7 @@ class Rubycms::FilemanagerController < ApplicationController
       else
         flash[:notice] = 'text file NOT saved.'
       end
-    elsif @upload.content_type.inspect =~ /application\/x?\-?g?zip/
+    elsif @upload.content_type.inspect =~ /application\/x?\-?(zip|tar)/
       if @upload.save
         flash[:notice] = 'zip file was successfully saved.'
       else

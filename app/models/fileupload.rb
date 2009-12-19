@@ -2,7 +2,7 @@ require 'model_helper'     # lib/model_helper.rb contains modules: RcmsModel and
 
 class Fileupload < ActiveRecord::Base
 
-  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/octet-stream'],
+  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/zip', 'application/x-zip', 'application/x-tar', 'application/x-zip-compressed', 'application/octet-stream'],
                  :storage => :file_system, 
                  :max_size => RCMS_MAX_DOCUMENT_SIZE,
                  :path_prefix => 'public/system/files'
