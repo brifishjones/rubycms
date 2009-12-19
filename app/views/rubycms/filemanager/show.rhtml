@@ -26,7 +26,7 @@
 <%= render(:partial => 'image_caption') %> 
 </div>	
 
-<h3>Other files: (pdf, word, rtf, and txt)</h3>
+<h3>Other files: (pdf, word, rtf, txt, and zip)</h3>
 <% if @upload_privileges %>
   <% form_for(:fileupload, :url => {:controller => '/rubycms_filemanager', :action => :file_upload, :path => params[:url]}, :html => { :multipart => true }) do |f| %>
     <p>
