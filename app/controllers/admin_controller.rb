@@ -32,13 +32,10 @@ class AdminController < ApplicationController
         :order => 'name')
     if request.post?
       # verify that username is valid
-      username = params[:user][:name]
-      ldap = Net::LDAP.new(:host => 'ldap.rubycms.org', :port => 389, :base => 'dc=rubycms,dc=org')
-      filter = Net::LDAP::Filter.eq('uid', username)
-      ui = username
-      ldap.search(:filter => filter) {|entry| ui = entry.dn}
-      if !ui.include?("uid=" + username + ",ou=People,dc=rubycms,dc=org") && !Localuser.find(:first, :conditions => ["name = ?", username])
-        flash[:notice] = ui + ' is not a valid username.  Before being added to the user list, a user must first be created in either LDAP or localuser.'
+      u = User.new
+      u.name = params[:user][:name]
+      if !u.exists_in_ldap && !Localuser.find(:first, :conditions => ["name = ?", u.name])        #flash[:notice] = ui + ' is not a valid username.  Before being added to the user list, a user must first be created in either LDAP or localuser.'
+        flash[:notice] = u.name + ' is not a valid username.  Before being added to the user list, a user must first be created in either LDAP or localuser.'
         render(:action => "users")
       else 
         @usr = User.new(params[:user])

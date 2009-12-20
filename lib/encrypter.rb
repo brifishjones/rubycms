@@ -22,6 +22,7 @@ class Encrypter
   # decrypt after saving or finding
   def after_save(model)
     @attrs.each do |field|
+      return if model[field] == nil
       blowfish = Crypt::Blowfish.new(File.open('lib/key.txt', 'r') {|f| f.read } )  # key up to 56 bytes long
       ab = model[field].strip.split    # put series of bytes from db into an array
       s = ""
