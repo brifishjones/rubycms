@@ -5,9 +5,9 @@ class Localuser < ActiveRecord::Base
   validates_format_of :name,
                       :with => /^[A-Za-z0-9]+$/,
                       :message => "is invalid (may only contain letters or numbers)."
-  validates_uniqueness_of :name,
-                          :on => :create,
-                          :message => "is already in use."
+  #validates_uniqueness_of :name,
+  #                        :on => :create,
+  #                        :message => "is already in use."
                           
   encrypt(:password)
   

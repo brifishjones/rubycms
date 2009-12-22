@@ -1,6 +1,7 @@
 <h1>Local Users</h1>
 <p>
-	Note that users present in LDAP could also be present in this list if validation is required when LDAP is unavailable.
+	Note that users present in LDAP could also be present in this list if validation is required when LDAP is unavailable.  To change an existing
+	user's password or email click the local username.
 </p>
 <table>	
   
@@ -12,7 +13,7 @@
 	<% i = 0 %>
     <% for localuser in @localusers %>
       <tr>
-        <td><%=h localuser.name %></td>
+		<td><%= link_to_remote localuser.name, {:url => {:action => 'set_localuser', :luname => localuser.name, :lupassword => localuser.password, :luemail => localuser.email}}, :title => 'Change password or email' %></td>
 		<td><%=h localuser.email %></td>
 		<td><%=link_to("&times;", "/admin/delete_localuser/" + localuser.id.to_s, :confirm => 'Permanently delete  "' + localuser.name + '"?', :title => 'delete') if localuser.name != "admin" %></td>
 		<% i += 1 %>
@@ -23,32 +24,6 @@
 
 </table>
 
-<p>
-<%= error_messages_for 'usr', 
-            :header_message => "Username not saved.",
-            :message => "" %>
-
-<% form_for :localuser do |@form| %>
-   
-    <%= @form.label :name, "User name:" %><br />
-    <%= @form.text_field :name %><br />
-
-  
-
-    <%= @form.label :password, "Password:" %><br />
-    <%= @form.password_field :password %><br />
-
-
- 
-    <%= @form.label :email, "E-mail:" %><br />
-    <%= @form.text_field :email %>
-
-  
-  
-
-  <%= submit_tag "New user" , :title => "Add local user" %>
-  
-<% end %>
-</p>
-
-<p>Enter username, password, and e-mail.  Information will be stored locally, not in LDAP.</p>
+<div id="locusers">
+	<%= render(:partial => 'localusers') %>
+</div>

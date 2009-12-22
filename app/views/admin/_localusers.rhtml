@@ -1,0 +1,28 @@
+<p>
+<%= error_messages_for 'usr', 
+            :header_message => "Username not saved.",
+            :message => "" %>
+			
+
+<% form_for :localuser, :url => {:action => 'localusers'} do |@form| %>
+   
+    <%= @form.label :name, "User name:" %><br />
+    <%= @form.text_field :name %><br />
+
+    <%= @form.label :password, "Password:" %><br />
+	<%= @form.password_field :password %><br />
+
+
+ 
+    <%= @form.label :email, "E-mail:" %><br />
+	<%= @form.text_field :email %><br />
+
+  
+  
+  <br />
+  <%= submit_tag "Update", :title => "Add or update information for local user" %>
+  
+<% end %>
+</p>
+
+<p>Enter username, password, and e-mail.  Information will be stored locally, not in LDAP.</p>

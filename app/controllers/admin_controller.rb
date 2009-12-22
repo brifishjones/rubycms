@@ -54,14 +54,34 @@ class AdminController < ApplicationController
     @localusers = Localuser.find(:all,
         :order => 'name')
     if request.post?
+      @usr = Localuser.find(:first, :conditions => ["name = ?", params[:localuser][:name]])
+      if @usr != nil
+        @usr.password = params[:localuser][:password]  
+        @usr.email = params[:localuser][:email]
+      else
         @usr = Localuser.new(params[:localuser])
-        if @usr.save
-          flash[:notice] = @usr.name + ' successfully added.'
-          redirect_to('/admin/localusers')
-        else
-          flash[:notice] = @usr.name + ' not saved.'
-          render(:action => "localusers")
-        end
+      end
+    
+      if @usr.save
+        flash[:notice] = @usr.name + ' successfully updated.'
+        redirect_to('/admin/localusers')
+      else
+        flash[:notice] = @usr.name + ' not saved.'
+        render(:action => "localusers")
+      end    
+    end
+  end
+  
+  def set_localuser
+  # fills in local user form based on selected user
+    #@localusers = Localuser.find(:all,
+    #    :order => 'name')
+    @localuser = Localuser.new
+    @localuser.name = params[:luname]
+    @localuser.password = params[:lupassword]
+    @localuser.email = params[:luemail]
+    render :update do |page|
+      page.replace_html("locusers", :partial => "localusers")
     end
   end
   
