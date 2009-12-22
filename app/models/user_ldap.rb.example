@@ -1,0 +1,59 @@
+module RcmsUserLDAP
+# user.rb uses this module
+  
+# Modify this file when setting up ldap connection.
+# In particular the following methods will need attention:
+#   authenticate
+#   exists_in_ldap
+#   group_exists_in_ldap
+#   member_of_ldap_group
+
+  # set @@using_ldap to true when ldap is configured
+  @@using_ldap = false
+   
+  @@ldap_host = 'rubycms.org'
+  @@ldap_port = 389
+  @@ldap_base = 'dc=rubycms,dc=org'
+  
+  def self.authenticate(username, password)
+    return false if !@@using_ldap
+    ldap = Net::LDAP.new(:host => @@ldap_host, :port => @@ldap_port, :base => @@ldap_base)
+    filter = Net::LDAP::Filter.eq('uid', username)
+    ldap.search(:filter => filter) {|entry| username = entry.dn}
+    ldap.auth(username, password)
+    return true if ldap.bind
+    return false
+  end
+  
+  def exists_in_ldap
+    return false if !@@using_ldap
+    ldap = Net::LDAP.new(:host => @@ldap_host, :port => @@ldap_port, :base => @@ldap_base)
+    filter = Net::LDAP::Filter.eq('uid', self.name)
+    ui = self.name
+    ldap.search(:filter => filter) {|entry| ui = entry.dn}
+    return false if !ui.include?("uid=" + self.name + ",ou=People," + @@ldap_base)
+    return true 
+  end
+  
+  def group_exists_in_ldap(group)
+    return false if !@@using_ldap
+    ldap = Net::LDAP.new(:host => @@ldap_host, :port => @@ldap_port, :base => @@ldap_base)
+    filter = Net::LDAP::Filter.eq('cn', group)
+    ldap.search(:filter => filter) do |entry| 
+      return true if entry.dn.include?("cn=" + group + ",ou=Group," + @@ldap_base)
+    end
+    return false
+  end
+
+  def self.member_of_ldap_group(username, group)
+    return false if !@@using_ldap
+    return false if username == nil || group == nil
+    ldap = Net::LDAP.new(:host => @@ldap_host, :port => @@ldap_port, :base => @@ldap_base)
+    filter = Net::LDAP::Filter.eq('cn', group) & Net::LDAP::Filter.eq('memberUid', username)
+    ldap.search(:filter => filter, :attributes => "memberUid") do |entry|
+      return true if entry.memberuid.include?(username)
+    end
+    return false
+  end
+
+end
