@@ -1,0 +1,69 @@
+--- !ruby/object:Gem::Specification 
+name: crypt
+version: !ruby/object:Gem::Version 
+  version: 1.1.4
+platform: ruby
+authors: 
+- Richard Kernahan
+autorequire: 
+bindir: bin
+cert_chain: 
+date: 2006-08-06 00:00:00 -05:00
+default_executable: 
+dependencies: []
+
+description: 
+email: kernighan_rich@rubyforge.org
+executables: []
+
+extensions: []
+
+extra_rdoc_files: []
+
+files: 
+- crypt/blowfish-tables.rb
+- crypt/blowfish.rb
+- crypt/cbc.rb
+- crypt/gost.rb
+- crypt/idea.rb
+- crypt/noise.rb
+- crypt/purerubystringio.rb
+- crypt/rijndael-tables.rb
+- crypt/rijndael.rb
+- crypt/stringxor.rb
+- test/break-idea.rb
+- test/devServer.rb
+- test/test-blowfish.rb
+- test/test-gost.rb
+- test/test-idea.rb
+- test/test-rijndael.rb
+has_rdoc: true
+homepage: http://crypt.rubyforge.org/
+licenses: []
+
+post_install_message: 
+rdoc_options: []
+
+require_paths: 
+- .
+required_ruby_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">"
+    - !ruby/object:Gem::Version 
+      version: 0.0.0
+  version: 
+required_rubygems_version: !ruby/object:Gem::Requirement 
+  requirements: 
+  - - ">="
+    - !ruby/object:Gem::Version 
+      version: "0"
+  version: 
+requirements: []
+
+rubyforge_project: crypt
+rubygems_version: 1.3.5
+signing_key: 
+specification_version: 1
+summary: The Crypt library is a pure-ruby implementation of a number of popular encryption algorithms. Block cyphers currently include Blowfish, GOST, IDEA, and Rijndael (AES). Cypher Block Chaining (CBC) has been implemented. Twofish, Serpent, and CAST256 are planned for release soon.
+test_files: []
+
