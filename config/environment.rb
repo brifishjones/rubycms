@@ -39,11 +39,9 @@ Rails::Initializer.run do |config|
   config.gem "net-ssh", :lib => false
   config.gem "net-ssh-gateway", :lib => false
   config.gem "palmtree", :lib => false
-  config.gem "passenger", :lib => false
   config.gem "rack"
   config.gem "rails"
   config.gem "rake"
-  config.gem "rmagick"
   config.gem "rspec", :lib => false
   config.gem "rubygems-update", :lib => false
   config.gem "ruby-net-ldap", :lib => false

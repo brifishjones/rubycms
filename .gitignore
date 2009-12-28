@@ -8,6 +8,7 @@ app/views/layouts/_analytics.rhtml
 app/models/user_ldap.rb
 config/deploy
 lib/key.txt
+mkmf.log
 .DS_Store
 .loadpath
 .project
