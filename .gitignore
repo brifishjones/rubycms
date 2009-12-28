@@ -36,13 +36,3 @@ vendor/gems/mongrel-1.1.5/ext/http11/http11.bundle
 vendor/gems/mongrel-1.1.5/ext/http11/*.o
 vendor/gems/mongrel-1.1.5/ext/http11/mkmf.log
 vendor/gems/mongrel-1.1.5/lib/http11.bundle
-vendor/gems/passenger-2.2.8/ext/phusion_passenger/Makefile
-vendor/gems/passenger-2.2.8/ext/phusion_passenger/native_support.bundle
-vendor/gems/passenger-2.2.8/ext/phusion_passenger/*.o
-vendor/gems/passenger-2.2.8/lib/native_support.bundle
-vendor/gems/rmagick-2.5.1/ext/RMagick/Makefile
-vendor/gems/rmagick-2.5.1/ext/RMagick/RMagick2.bundle
-vendor/gems/rmagick-2.5.1/ext/RMagick/extconf.h
-vendor/gems/rmagick-2.5.1/ext/RMagick/mkmf.log
-vendor/gems/rmagick-2.5.1/ext/RMagick/*.o
-vendor/gems/rmagick-2.5.1/lib/RMagick2.bundle
