@@ -133,6 +133,14 @@
 		//tinyMCE.activeEditor.execCommand('mceRepaint');
 		return true;
 	}
+	// called if user copies image location in rubycms, or copies YouTube thumbnail of a video
+	function handlePaste(){
+		html = tinyMCE.selectedInstance.getDoc().body.innerHTML;
+		html = html.replace(new RegExp('https?://.*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png)[\?]?[0-9]*', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '" /></a>');
+		tinyMCE.selectedInstance.getDoc().body.innerHTML = html;
+		return true;
+
+	}
 	function processDragDrop(){
 		html = tinyMCE.selectedInstance.getDoc().body.innerHTML;
 		//alert('tinyInitInstanceCallback: ' + html);
@@ -221,7 +229,12 @@
                 setTimeout("fixSize(w, h, wh)",100);
             
         }
-    }
+		}
+		if (e.type == 'paste')
+		{
+			//alert(e.type);
+			setTimeout("handlePaste()", 100);
+		}
 
 	  if (e.type == 'dragdrop') {
 		//myprint(e);
