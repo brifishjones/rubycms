@@ -55,6 +55,7 @@
 	  //tinyMCE.addEvent(document, "mouseup", mymouseup(e));
 	
     }
+	
 	function fixSize(w, h, wh){
 	// when an image is resized within the tinyMCE editor, only allow one of three (small, medium, or large) predetermined sizes.
 		aspect = w/h;
@@ -133,10 +134,16 @@
 		//tinyMCE.activeEditor.execCommand('mceRepaint');
 		return true;
 	}
-	// called if user copies image location in rubycms, or copies YouTube thumbnail of a video
+	// called if user copies image location in the image and document manager, or copies YouTube thumbnail of a video
 	function handlePaste(){
 		html = tinyMCE.selectedInstance.getDoc().body.innerHTML;
 		html = html.replace(new RegExp('https?://.*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png)[\?]?[0-9]*', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '" /></a>');
+		
+		html = html.replace(new RegExp('&lt;object width="([0-9]+)" height="([0-9]+)"&gt;.*?value="https?://www.youtube.com/v/([^&]+).*?&lt;/object&gt;', 'i'), '<a href="http://www.youtube.com/v/' + '$3&w=$1&h=$2"><img src="http://i3.ytimg.com/vi/$3/default.jpg /></a>');
+		//html = html.replace(new RegExp('<object width="([0-9]+)" height="([0-9]+)">.*?value="https?://www.youtube.com/v/([^&]+).*?</object>', 'i'), '<a href="http://www.youtube.com/v/' + '$3&w=$1&h=$2"><img src="http://i3.ytimg.com/vi/$3/default.jpg /></a>');
+		
+		//alert(html);
+		
 		tinyMCE.selectedInstance.getDoc().body.innerHTML = html;
 		return true;
 
@@ -169,6 +176,10 @@
 			//ed.getDoc().body.innerHTML = html;
 			return true;	
         });
+		tinymce.dom.Event.add(ed.getWin(), 'paste', function(e) {
+			setTimeout("handlePaste()", 100);
+			return true;
+		});
         
     } else {
         tinymce.dom.Event.add(ed.getDoc(), 'drop', function(e) {
@@ -178,8 +189,19 @@
 		    //ed.getDoc().body.innerHTML = html;
 			return true;	
         });
+		tinymce.dom.Event.add(ed.getDoc(), 'paste', function(e) {
+			setTimeout("handlePaste()", 100);
+			return true;
+		});
  
     }
+	tinymce.dom.Event.add(ed.getDoc(), 'paste', function(e) {
+	//ed.onPaste.add(function(ed, e) {
+		setTimeout("handlePaste()", 100);
+		return true;
+		
+	});
+	 
 	
 }
 	
@@ -222,7 +244,7 @@
 		wh = Math.min(elm.width, elm.height);
 		w = elm.width;
 		h = elm.height;
-		//alert(e.type + "  " + e.target + "  " + elm.width + "  " + elm.height + "  " + elm.tagName);
+		
         if (elm.tagName == "IMG") {
 			//alert (elm.src.indexOf("showPhoto"));
             
@@ -230,27 +252,7 @@
             
         }
 		}
-		if (e.type == 'paste')
-		{
-			//alert(e.type);
-			setTimeout("handlePaste()", 100);
-		}
-
-	  if (e.type == 'dragdrop') {
-		//myprint(e);
-		//tinyMCE.addEvent(document,"mouseup",myOnKeyDown(e));
-		//alert(e.type);
-		//alert("The HTML is now:" + inst.getBody().innerHTML);
-		//e.setContent('<strong>Hello world!</strong>');
-		//tinyMCE.getActiveEditor.selection.getContent({format : 'text'});
-		//tinyMCE.triggerNodeChange();
-
-		var inst = tinyMCE.selectedInstance;
-		var html = inst.getDoc().body.innerHTML;
 		
-		//alert(html);
-		window.setTimeout("tinyMCE.execCommand('afterDragDrop',false,'this is a test');", 100);
-	  }
 	  return true; // Continue handling
     }
     function tinyCustomExecCommandHandler (editor_id, elm, command, user_interface, value) {

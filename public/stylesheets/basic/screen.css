@@ -195,12 +195,23 @@ a img {
   float:right;
   font-style:italic;
   margin:8px 7px 8px 10px;
-  text-align:center;	
+  text-align:center;
+  line-height: 1.25;	
 }
 .figure img {
 	border:1px solid silver;
 	padding:3px;
-	margin:0;
+	margin:0 0 2px 0;
+}
+.figure img.av-play {
+  border:medium none;
+  margin:-76px 0 26px 40px;
+  opacity:0.7;
+  width:44px;
+}
+.figure a:hover img.av-play {
+  opacity: 0.85;
+  border: none;
 }
 
 #head {

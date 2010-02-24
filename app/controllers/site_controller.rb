@@ -3,7 +3,7 @@ class SiteController < ApplicationController
   uses_tiny_mce(:options => {:mode => 'textareas',
     :editor_selector => "mceEditor",
     :theme => 'advanced',
-    :plugins => %w{table,safari,contextmenu,paste},
+    :plugins => %w{table,safari,contextmenu},
     :theme_advanced_toolbar_location => 'top',
     :theme_advanced_toolbar_align => 'left',
     :elements => 'absurls',
@@ -170,6 +170,7 @@ class SiteController < ApplicationController
     return if @page_valid_message != '' && request.request_uri !~ /^\/staging/ && request.request_uri !~ /^\/pageid\/\d+$/
     
     @page.add_captions_to_images
+    @page.format_video
     # hash tags may be present in main content that display headline lists, events, etc.
     # see controllers/application.rb
     process_hashes   

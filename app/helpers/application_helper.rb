@@ -85,6 +85,10 @@ def highslideinit
       }
     });
     </script>'
+    
+    # needed for flash video
+    hs << '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.1/swfobject.js"></script>'
+
     hs << stylesheet_link_tag("highslide", :media => "screen")
   end  #if params[:action] == 'edit'
   return hs

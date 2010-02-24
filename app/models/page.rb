@@ -52,6 +52,9 @@ class Page < ActiveRecord::Base
     # tiny will insert relative paths when images are dragged in content area
     self.content.gsub!(/(<a href="\/\S+">)(<img src="[\.\/]*?\S+").*?\/>.*?<\/a>/, '\1' + '\2' + ' /></a>') 
     self.content.gsub!(/(<a href=")[\.\/]*(\S+"><img src=")[\.\/]*(\S+").*?\/>.*?<\/a>/, '\1/\2/\3 /></a>')
+    self.content.gsub!(/(<a href=")\/(https?:\/\/www\.youtube\.com\/v\/)/, '\1\2')
+    self.content.gsub!(/(<a href=")\/(https?:\/\/www\.youtube\.com\/v\/)/, '\1\2')
+    self.content.gsub!(/(<img src=")\/(https?:\/\/i3.ytimg.com\/vi\/)/, '\1\2')
   end
   
   def add_captions_when_editing(pathname)
@@ -127,6 +130,35 @@ class Page < ActiveRecord::Base
       #t.destroy!  #important to free memory because Rmagick doesn't do it automatically.
       self.full_size_image if self.filename.name =~ /^\/?spotlights\//
     end
+  end
+  
+  def format_video
+    return if self.content == nil
+    i = self.content.scan(/(<a href="https?:\/\/www\.youtube\.com\/v\/)([\w-]+).*?w=(\d+).*?h=(\d+)">(<img src="https?:\/\/i3\.ytimg\.com\/vi\/[\w-]+\/default.jpg").*?\/><\/a>/)
+    i.each do |j|
+      if j != nil && j[0] != nil && j[1] != nil && j[2] != nil && j[3] != nil && j[4] != nil
+        self.content.sub!(/(<a href="https?:\/\/www\.youtube\.com\/v\/)([\w-]+).*?w=(\d+).*?h=(\d+)">(<img src="https?:\/\/i3\.ytimg\.com\/vi\/[\w-]+\/default.jpg").*?\/><\/a>/,
+          '<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
+      end
+    end
+    
+    #self.content.gsub!(/(<a href="https?:\/\/www\.youtube\.com\/v\/)([\w-]+).*?w=(\d+).*?h=(\d+)">(<img src="https?:\/\/i3\.ytimg\.com\/vi\/[\w-]+\/default.jpg").*?\/><\/a>/,
+    #  '<span><div class="figure">\1\2&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: \3, objectWidth: \3, objectHeight: \4, preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">\5 /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + '' + '</div></span>')
+     
+      #<img class=\"av-play\" title=\"Play Video: " . $item->get_value( 'name' ) . "\" src=\"/images/play_44.png\" /></a>
+
+  end
+
+  def add_captions_to_video(id)
+  # finds youtube video based on id and returns the video title
+    # http://code.whytheluckystiff.net/hpricot/
+    require 'hpricot'
+    require 'open-uri'
+    url = "http://www.youtube.com/watch?v=" + id
+    f = Hpricot(open(url), :fixup_tags => true)
+    title = (f/"title")
+    return (title[0].inner_html).sub!(/^\s*YouTube\s*-\s*(\w.*?\w)\s*/, '\1')
+    
   end
   
   def keyword_match(fkey)
