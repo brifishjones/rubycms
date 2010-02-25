@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
                           
   include RcmsUserLDAP
   
+  def self.authenticate(username, password)
+    RcmsUserLDAP.authenticate(username, password)
+  end
+  
   def unique
     return false if User.find(:first,
       :conditions => ["name = ?", self.name])

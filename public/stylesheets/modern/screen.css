@@ -4,7 +4,7 @@
 body {
   background:#FFFFFF none repeat scroll 0%;
   /*-x-system-font:none;*/
-  color:#3A4956;
+  color:#2A3946;
   font-family:"Lucida Grande",Verdana,Tahoma,Helvetica,Arial,sans-serif;
   font-size:0.75em;
   font-size-adjust:none;
@@ -25,7 +25,7 @@ body.mceContentBody {
 h1, h1 input,h2,h3,h4,h5,h6 {
   font-family:"Lucida Grande",Verdana,Tahoma,Helvetica,Arial,sans-serif;
   font-weight: normal;
-  color: #3A4956;
+  color: #2A3946;
 }
 h1, h1 input {
   border:none;
@@ -193,7 +193,7 @@ a img {
 
 /* figure includes image and caption */
 .figure {
-  color:#777777;
+  color:#666666;
   float:right;
   font-style:italic;
   margin:8px 2px 8px 10px;
@@ -201,7 +201,7 @@ a img {
   line-height: 1.25;	
 }
 .figure img {
-	border:1px solid silver;
+	border:1px solid #a0a0a0;
 	padding:3px;
 	margin:0 0 2px 0;
 }
@@ -220,7 +220,7 @@ a img {
 
 #content ul, #content ol, body.mceContentBody ul, body.mceContentBody ol { margin: 0 1.0em 2.0em 2.5em; }
 #content ul, body.mceContentBody ul { list-style-type: disc; }
-#content li, body.mceContentBody li, #content dl, body.mceContentBody dl { line-height: 1.5; font-size: 0.950em; }
+#content li, body.mceContentBody li, #content dl, body.mceContentBody dl { line-height: 1.2; font-size: 1.0em; }
 #content dd, body.mceContentBody dd { margin: 0 0 1.0em 2.5em; }
 
 /* tables */
@@ -236,7 +236,7 @@ body.mceContentBody img {
   float: right;
   margin: 8px 2px 8px 2px;
   padding:3px;
-  border:thin silver solid;
+  border:thin #a0a0a0 solid;
 }
 body.mceContentBody a {
   color: #165284 !important;
@@ -825,11 +825,11 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
   height:0;
 }
 #content .headlines-list a {
-  color:#3A4956;
+  color:#2A3946;
 }
 
 #content .headlines-list a:focus, #content .headlines-list a:hover {
-  color:#5A6976;	
+  color:#4A5966;	
 }
 
 /* highslide iframe */
