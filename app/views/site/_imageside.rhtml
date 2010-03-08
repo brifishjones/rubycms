@@ -28,6 +28,12 @@
 
 	  </div class="imagesideframe">
 	  
+	  <% if i.caption != nil && i.caption != "" %>
+	    <div class="imagesidecaption">
+	    <%= teaser(i.caption) %>
+		</div>
+	  <% end %>
+	  
 	  <% imageside = true %>
 	  <% show += 1 %>
 	<% end %> 

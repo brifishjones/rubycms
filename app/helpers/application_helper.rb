@@ -263,7 +263,7 @@ def title
   c << '<div id="pagetitle">'
   if editing_page
     c << edit_info()
-    c << '<h1>'
+    c << '<h1 id="edittitle">'
     c << (@pageform.text_field :title, :title => 'edit title') if @pageform != nil
   else
     c << '<h1>'
@@ -306,6 +306,21 @@ def file_manager
   c << '</div></a>'
   c << '</div>'
   return c
+end
+
+def teaser(caption)
+# creates a formatted teaser given a caption
+  a = caption.split(/[\.\?!]['"]?\s+/)
+  m = caption.match(/[\.\?!]['"]?\s+/)
+
+  s = [] 
+  s << '<h4>' + a[0]
+  s << m[0] if m != nil
+  s << '</h4><p>'
+  s << $' if $' != nil && $' != ""
+  s << '</p>'
+  
+  return s 
 end
 
 def content

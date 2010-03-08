@@ -24,7 +24,6 @@
 	  
 	  <% cap = i.caption.split('\n') %>
 	  
-	  
 	  <div class="bannerframetext bg<%= show.modulo(5) + 1 %>">
 	  
 	  <%= '<ul>' %>
@@ -32,7 +31,7 @@
 	  
       <% 0.upto(3) do |j| %>
 	    <%= '<li>'  %>
-		  <% if cap[j] == '' %>
+		  <% if cap[j] == nil || cap[j] =~ /^\s*$/ %>
 		    <%= '<br />' %>
 		  <% else %>
 	        <%= cap[j]  %>

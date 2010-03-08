@@ -18,4 +18,11 @@
   <!-- InstanceEndEditable -->
 <% end %>
 <%= '</div id="imagetop-' + @imagetop["current"].filename.gsub('.','-') + '">' if @imagetop["current"] != nil %>
+
 </div id="imagetopframe" <%= 'style="height:auto "' if @imagetop["current"] == nil %>>
+
+<% if @imagetop["current"].caption != nil && @imagetop["current"].caption != "" %>
+  <div class="imagetopcaption">
+  	<%= teaser(@imagetop["current"].caption) %>
+  </div>
+<% end %>
