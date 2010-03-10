@@ -174,7 +174,11 @@ def global_navigation
   gn = []
   i = 1
   nav.each do |n|
-    gn << content_tag("li", link_to(n.nameglobal, n.linkglobal), :class => "ng" + i.to_s) if n.nameglobal != nil && n.linkglobal != nil && n.nameglobal != "" && n.linkglobal != ""
+    if n.linkglobal != nil && @page != nil && n.linkglobal.chomp('/').reverse.chomp('/').reverse == @page.filename.name
+      gn << content_tag("li", n.nameglobal, :class => "ng" + i.to_s + " linolink") if n.nameglobal != nil && n.linkglobal != nil && n.nameglobal != "" && n.linkglobal != ""
+    else
+      gn << content_tag("li", link_to(n.nameglobal, n.linkglobal), :class => "ng" + i.to_s) if n.nameglobal != nil && n.linkglobal != nil && n.nameglobal != "" && n.linkglobal != ""
+    end
     i += 1
   end
   return content_tag("ul", gn, :id => "navglobal")
@@ -186,7 +190,11 @@ def main_navigation
   mn = []
   i = 1
   nav.each do |n|
-    mn << content_tag("li", link_to(n.namemain, n.linkmain), :class => "nm" + i.to_s) if n.namemain != nil && n.linkmain != nil && n.namemain != "" && n.linkmain != ""
+    if n.linkmain != nil && @page != nil && n.linkmain.chomp('/').reverse.chomp('/').reverse == @page.filename.name
+      mn << content_tag("li", n.namemain, :class => "nm" + i.to_s + " linolink") if n.namemain != nil && n.linkmain != nil && n.namemain != "" && n.linkmain != ""
+    else
+      mn << content_tag("li", link_to(n.namemain, n.linkmain), :class => "nm" + i.to_s) if n.namemain != nil && n.linkmain != nil && n.namemain != "" && n.linkmain != ""
+    end
     i += 1
   end
   return content_tag("ul", mn, :id => "navmain")

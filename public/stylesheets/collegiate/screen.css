@@ -2,7 +2,7 @@
 
 /* Default font settings */
 body { 
-  background: #eae9e1 url(/images/collegiate/bodybgsteelblue.gif) top center repeat-x;
+  background: #eae9e1 url(/images/collegiate/bodybggray.gif) top center repeat-x;
   color:#333333;
   margin: 0;
   font-family:Verdana,sans-serif;
@@ -286,11 +286,12 @@ body.mceContentBody a {
 
 /* global navigation
 /* top level directories (.ng classes) can be individually styled using navglobal */
-
+/* class .linolink is specified if link equals the current page */
 #navglobal a:link,
 #navglobal a:visited,
 #navglobal a:hover,
-#navglobal a:active {
+#navglobal a:active,
+#navglobal li.linolink {
   color:#fff8dc;
   font-family: arial, helvetica, sans serif;
   font-size:1.05em;
@@ -319,22 +320,22 @@ ul#navglobal  {
   border-right: 1px solid #dfd8bc;
 }
 #navglobal li:hover {
-  background: #528dc4;
-  padding:5px 15px 5px 15px;
+  background: #8596a7;
 }
 #navglobal li.linolink{
-  background:#C8CED3 none repeat scroll 0 0;
-  padding:5px 15px 5px 15px;
-  color: #5A6976;
+  background:#f7f6ee none repeat scroll 0 0;
+  color: #334455;
+  padding:6px 15px 7px 15px;
 }
 
 /* main navigation */
 /* .nm classes can be individually styled using navmain */
-
+/* class .linolink is specified if link equals the current page */
 #navmain a:link,
 #navmain a:visited,
 #navmain a:hover,
-#navmain a:active {
+#navmain a:active,
+#navmain li.linolink {
   color:#fff8dc;
   font-family: arial, helvetica, sans serif;
   font-size:0.90em;
@@ -490,7 +491,6 @@ form#search .button:hover, form#search.button:focus {
   /*top:-34px; /* offset for a default image with 3:2 aspect ratio */
 }
 .imagetopcaption {
-  background: #6b8e23;
   background: #7b9e43;
   position: absolute;
   z-index:5;

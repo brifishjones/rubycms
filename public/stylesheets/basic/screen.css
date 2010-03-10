@@ -260,10 +260,12 @@ body.mceContentBody a {
 
 /* global navigation
 /* top level directories (.ng classes) can be individually styled using navglobal */
+/* class .linolink is specified if link equals the current page */
 #navglobal a:link,
 #navglobal a:visited,
 #navglobal a:hover,
-#navglobal a:active {
+#navglobal a:active,
+#navglobal li.linolink {
   color:#888;
   font-family: arial, helvetica, sans serif;
   font-size:1.0em;
@@ -282,7 +284,6 @@ body.mceContentBody a {
 .ng6 { color: #ba4232; }
 ul#navglobal  {
   margin:0;
-  
   height:1.3em;
   padding: 24px 5px 0 20px;
   float:right;
@@ -294,10 +295,12 @@ ul#navglobal  {
 
 /* main navigation */
 /* .nm classes can be individually styled using navmain */
+/* class .linolink is specified if link equals the current page */
 #navmain a:link,
 #navmain a:visited,
 #navmain a:hover,
-#navmain a:active {
+#navmain a:active,
+#navmain li.linolink {
   color:#3672A4;
   font-family: arial, helvetica, sans serif;
   text-decoration:none;
@@ -309,8 +312,9 @@ ul#navmain  {
   margin:0;
   border-top:5px solid #BBBBBB;
   height:2.0em;
-  font-size:1.2em;
-  padding: 0 12px 0 5px;
+  font-size:1.1em;
+  letter-spacing: 0.02em;
+  padding: 0 12px 1px 5px;
   float: right;
 }
 #navmain li {
@@ -402,6 +406,32 @@ form#search .button:hover, form#search.button:focus {
   width:658px;
   top:-34px; /* offset for a default image with 3:2 aspect ratio */
 }
+.imagetopcaption {
+  display: none;
+  /*background: #ffffff;
+  opacity: 0.75;
+  position: absolute;
+  z-index:5;
+  margin: -100px 0 0 10px;
+  height: 80px;
+  overflow: hidden;*/
+}
+/*.imagetopcaption h4 {  
+  color: #000000;
+  letter-spacing: 0.20em;
+  width: 635px;
+  font-size: 1.3em;
+  margin: 0;
+  padding: 5px 2px 5px 10px;
+} */
+/*.imagetopcaption p {
+  letter-spacing: 0.10em;
+  font-size: 0.95em;
+  position: relative;
+  color: #000000;
+  margin: 0;
+  padding: 0 2px 5px 10px;
+} */
 
 /* sidebar images */
 .imagesideframe {
@@ -482,7 +512,7 @@ body#primaryLRC #banner, body#pageLRC #banner {
   line-height:1.24;
   font-size:1.30em;
   height:86px;
-  width:138px;  
+  width:139px;  
   left: 5px;
   overflow: hidden;
 }

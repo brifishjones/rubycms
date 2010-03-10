@@ -11,17 +11,15 @@
 
 </a>
 
-
 <% else %>
   <!-- InstanceBeginEditable name="photo" -->
   <%= image_tag @imagetop["current"].public_filename  if @imagetop["current"] != nil %>
   <!-- InstanceEndEditable -->
 <% end %>
 <%= '</div id="imagetop-' + @imagetop["current"].filename.gsub('.','-') + '">' if @imagetop["current"] != nil %>
-
 </div id="imagetopframe" <%= 'style="height:auto "' if @imagetop["current"] == nil %>>
 
-<% if @imagetop["current"].caption != nil && @imagetop["current"].caption != "" %>
+<% if @imagetop["current"] != nil && @imagetop["current"].caption != nil && @imagetop["current"].caption != "" %>
   <div class="imagetopcaption">
   	<%= teaser(@imagetop["current"].caption) %>
   </div>
