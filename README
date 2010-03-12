@@ -1,8 +1,6 @@
 == Welcome to RubyCMS
 
-== There are several more major changes in progress before RubyCMS will be ready for general use.
-
-== Thanksgiving Day 2009 is estimated release date.
+== Please read the overview and use Capistrano to download and install RubyCMS.
 
 == Follow @rubycms on twitter for more information.
 
@@ -13,7 +11,7 @@
 == Source: git://github.com/brifishjones/rubycms.git 
 
 
-Copyright (c) 2007-2009     Brian E. Jones
+Copyright (c) 2007-2010     Brian E. Jones
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

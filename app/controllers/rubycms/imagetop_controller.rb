@@ -62,6 +62,7 @@ class Rubycms::ImagetopController < ApplicationController
     @imagetop = {"current" => Imagetop.find(params[:id])}
     @imagetop["current"].caption = params[:caption]
     @imagetop["current"].save
+    session[:imagetop] = @imagetop["current"]
     @imagetop.default = Imagetop.find(:all, :conditions => {:pathname => params[:url].join("/")})
     render :update do |page|
       page.replace_html("imagetopcap", :partial => "rubycms/imagetop/imagetop")

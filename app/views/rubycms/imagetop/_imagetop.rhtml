@@ -8,7 +8,7 @@
 </div>
 
 <div class="button">
-  <%= link_to_remote 'Remove top image', :url => {:controller => '/rubycms_imagetop', :action => 'remove_imagetop', :id => @imagetop["current"], :url => params[:url]} if @imagetop["current"] != nil %>
+  <%= link_to_remote 'Remove top image', :url => {:controller => '/rubycms_imagetop', :action => 'remove_imagetop', :id => @imagetop["current"].id, :url => params[:url]} if @imagetop["current"] != nil %>
 </div>
 
 <div id="imagetopthumbs">
@@ -21,7 +21,7 @@
     <h3>Caption</h3>
     <% form_remote_tag(:url => {:controller => '/rubycms_imagetop', :action => 'update_imagetop_caption', :id => @imagetop["current"].id, :url => params[:url]}) do %> 
 	  <div class="button">
-	    <%= text_area_tag 'caption', @imagetop["current"].caption, :size => '24x2' %>
+	    <%= text_area_tag 'caption', @imagetop["current"].caption, :size => "36x3" %>
         <%= submit_tag 'ok' %>
 	    <%= link_to_remote 'cancel', :url => {:controller => '/rubycms_imagetop', :action => 'cancel_imagetop_caption', :id => @imagetop["current"].id, :url => params[:url]} %>
 	  </div class="button">

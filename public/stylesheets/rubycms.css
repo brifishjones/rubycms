@@ -552,6 +552,10 @@ form#search input[type=text] {
   /*border-style:solid;*/
   /*border-width:1px;*/
 }
+.hs-iframe #imagetopcap textarea {
+  height: 48px;
+  width:300px;
+}
 .hs-iframe select, select:focus {
   border-color:#999999 #D9D9D9 #D9D9D9 #999999;
   border-width:2px;
