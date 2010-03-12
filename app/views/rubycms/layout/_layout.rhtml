@@ -5,11 +5,10 @@
 <p>
 <!-- get a list of all layouts in app/views/layouts -->
 <% dirlist = [] %>
-<% Dir.glob("app/views/layouts/**/[^_]*.rhtml").each do |i| %>
+<% Dir.glob("app/views/layouts/*/[^_]*.rhtml").each do |i| %>
   <% dirlist << i.sub(/^app\/views\/layouts\//, "").sub(/\.rhtml$/, "") %>
 <% end %>
 </p>
-
 
 <% if session[:layout] != nil %>
   <%= select_tag 'name', options_for_select(dirlist, @layout["name"]) %>

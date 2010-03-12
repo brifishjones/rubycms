@@ -17,7 +17,7 @@ class Rubycms::LayoutController < ApplicationController
     @page = Page.find(params[:page])
     @layout = {"name" => nil}
     session[:layout] = nil
-    render :partial => 'ruby/layout/layout'
+    render :partial => 'rubycms/layout/layout'
   end
 
 end
