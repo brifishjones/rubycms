@@ -379,12 +379,12 @@ form#search input[type=submit] {
   display: inline;
   /*padding:10px 5px 10px 18px;*/
   margin:10px 0px 10px 0px;
-  background:#C8CED3 none repeat scroll 0 0;
+  background:#9da9ae none repeat scroll 0 0;
 }
 #nav li.linolink {
   /*line-height:2.2em;*/
   background:#C8CED3 none repeat scroll 0 0;
-  padding:10px 10px 10px 10px;
+  padding:10px 10px 12px 10px;
   color: #5A6976;
 }
 #nav li a {
