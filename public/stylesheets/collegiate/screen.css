@@ -33,6 +33,9 @@ h1 {
   padding-bottom:0.25em;
   margin:0.5em 0 0.5em 0;
 }
+#home #pagetitle h1 {
+  margin: 0 0 0.5em 0;
+}
 h1#edittitle {
   margin: 0 0 0.2em 0;
 }
@@ -399,6 +402,9 @@ form#search .button:hover, form#search.button:focus {
   /*padding:10px 2px 20px 0px;*/
   width:258px;
 }
+#home #nav, #home #nav #editnav {
+  margin-top: 0;
+}
 #nav li {
   background: #d6d6ce;
   line-height:1.3em;
@@ -438,7 +444,6 @@ form#search .button:hover, form#search.button:focus {
   /*position: relative;
   left: -18px;*/
 }
-
 #nav #editnav #list {
   margin:0 0 0 22px;
 }
@@ -517,6 +522,13 @@ form#search .button:hover, form#search.button:focus {
   color: #666666;
   margin: 0;
   padding: 0;
+}
+#home .imagetopcaption {
+  margin: -290px 0 0 380px;
+  background: #483d8b;
+}
+#home .imagetopcaption p {
+  top: 50px;
 }
 
 /* sidebar images */
@@ -655,10 +667,7 @@ form#search .button:hover, form#search.button:focus {
 .gallery-info #gallerycontainer {
   margin:18px 0 0 -2px;
   overflow:hidden;
-  width:700px;
-}
-#page3c .gallery-info #gallerycontainer {
-  width:500px;
+  width:100%;
 }
 .gallery-info #gallerycontainer ul {
   margin:0;
