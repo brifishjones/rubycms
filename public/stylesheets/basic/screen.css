@@ -742,6 +742,35 @@ body#primaryLRC #banner, body#pageLRC #banner {
   margin:20px 0 0 0;	
 }
 
+/* rubycms list hash */
+#content ul.list-overviews {
+  list-style-type:none;
+  margin: 1em 0 1em 0;
+}
+#content li.overviews-item {
+  margin: 0 0 10px 0;
+}
+#content .overviews-item .overviews-item-title {
+  margin:0 0 5px 0;  
+}
+#content .overviews-item .overviews-item-title a {
+  font-weight:bold;
+  font-size:0.95em;
+}
+#content .overviews-item .figure img {
+  width: 60px;
+  margin: 14px -7px 8px 6px;	
+}
+#content .titles-list hr {
+  height:0;
+}
+#content .titles-list a {
+  color:#2A3946;
+}
+#content .titles-list a:focus, #content .titles-list a:hover {
+  color:#4A5966;	
+}
+
 /* highslide iframe */
 /* class in main window with links to iframes */
 .ifile {

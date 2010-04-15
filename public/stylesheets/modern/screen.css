@@ -808,34 +808,32 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
   margin:20px 0 0 0;	
 }
 
-/* rubycms news hash */
-#content ul.news-list {
+/* rubycms list hash */
+#content ul.list-overviews {
   list-style-type:none;
   margin: 1em 0 1em 0;
 }
-#content li.news-item {
+#content li.overviews-item {
   margin: 0 0 10px 0;
 }
-#content .news-item .news-item-title {
+#content .overviews-item .overviews-item-title {
   margin:0 0 5px 0;  
 }
-#content .news-item .news-item-title a {
+#content .overviews-item .overviews-item-title a {
   font-weight:bold;
   font-size:0.95em;
 }
-#content .news-item .figure img {
+#content .overviews-item .figure img {
   width: 60px;
   margin: 14px -7px 8px 6px;	
 }
-/* rubycms headlines hash */
-#content .headlines-list hr {
+#content .titles-list hr {
   height:0;
 }
-#content .headlines-list a {
+#content .titles-list a {
   color:#2A3946;
 }
-
-#content .headlines-list a:focus, #content .headlines-list a:hover {
+#content .titles-list a:focus, #content .titles-list a:hover {
   color:#4A5966;	
 }
 
