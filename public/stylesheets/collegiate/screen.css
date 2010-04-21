@@ -849,6 +849,59 @@ form#search .button:hover, form#search.button:focus {
   margin:20px 0 0 0;	
 }
 
+/* rubycms list hash */
+#content ul.list-overviews {
+  list-style-type:none;
+  margin: 1em 0 1em 0;
+}
+#content li.overviews-item {
+  margin: 0 0 10px 0;
+}
+#content .overviews-item .overviews-item-title {
+  margin:0 0 5px 0;  
+}
+#content .overviews-item .overviews-item-title a {
+  font-weight:bold;
+  font-size:0.95em;
+}
+#content .overviews-item .figure img {
+  width: 60px;
+  margin: 14px -7px 8px 6px;	
+}
+#content .titles-list hr {
+  height:0;
+}
+#content .titles-list a {
+  color:#2A3946;
+}
+#content .titles-list a:focus, #content .titles-list a:hover {
+  color:#4A5966;	
+}
+/* rubycms google calendar */
+#content table.google-calendar, #content table.google-calendar tr, #content table.google-calendar td {
+  background-color: transparent;
+  border: none;
+  vertical-align: top;
+}
+#content table.google-calendar td.google-calendar-date {
+  background-color: #f4f4e6;
+  border: none;
+  font-weight: bold;
+  color: #514721;
+  font-size: 0.92em;
+}
+#content table.google-calendar td.google-calendar-time {
+  width: 30%;
+}
+#content table.google-calendar div.google-calendar-where, #content table.google-calendar div.google-calendar-description {
+  font-size: 0.89em;
+  line-height: 0.55;
+  color:#334455;
+}
+#content table.google-calendar div.google-calendar-where {
+  font-style: italic;
+}
+
 /* highslide iframe */
 /* class in main window with links to iframes */
 .ifile {

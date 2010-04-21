@@ -200,13 +200,14 @@ class ApplicationController < ActionController::Base
   end
   
   def rubycms_google_calendar(s)
-  # replaces #rubycms_google_calendar in content given a user_id and magic_cookie
-    # https://www.google.com/calendar/feeds/jonebr01%40luther.edu/private-bee07b40fa4e3cc52d8a83427f7be186/basic?fields=@gd:*,id,entry%28@gd:*,title,content%29&orderby=starttime&sortorder=ascending&singleevents=true&futureevents=true&prettyprint=true 
+  # replaces #rubycms_google_calendar in content given a user_id and magic_cookie.  Note that public calendars still require a magic cookie
+    # https://www.google.com/calendar/feeds/jonebr01%40luther.edu/private-123456abcdef/basic?fields=@gd:*,id,entry%28@gd:*,title,content%29&orderby=starttime&sortorder=ascending&singleevents=true&futureevents=true&prettyprint=true 
     # http://wiki.github.com/hpricot/hpricot/
     require 'hpricot'
     #require 'open-uri'
     require 'net/https'
     require 'uri'
+    require 'cgi'  # used to decode html entities (like &#036; and &Eacute;)
    
     s.gsub!(/["']/, "")
     s.gsub!(/&gt;/, ">")
@@ -216,7 +217,7 @@ class ApplicationController < ActionController::Base
     return "" if i.length == 0
 
     # construct the hash given the string s
-    h = {"user_id" => "", "magic_cookie" => "", "end_time" => false, "display" => 30}
+    h = {"user_id" => "", "magic_cookie" => "", "end_time" => false, "display" => 30, "date_format" => "%A, %d %B %Y", "time_format" => "%I:%M %p"}
     uid = []
     mcook = []
     i.each do |line|
@@ -226,8 +227,8 @@ class ApplicationController < ActionController::Base
         uid = $2.split(',') if $1 == "user_id"
         mcook = $2.split(',') if $1 == "magic_cookie"
       end
-      #h[$1] = true if $2 == "true"
-      #h[$1] = false if $2 == "false"
+      h[$1] = true if $2 == "true"
+      h[$1] = false if $2 == "false"
     end
     
     return "" if h["user_id"] == "" || h["magic_cookie"] == "" || uid.length != mcook.length
@@ -240,7 +241,12 @@ class ApplicationController < ActionController::Base
     
     uid.each_index do |k|
       uid[k].gsub!(/@/ , "%40")
-      url = "https://www.google.com/calendar/feeds/" + uid[k].strip + "/private-" + mcook[k].strip + "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true&futureevents=true&prettyprint=true"
+      if /^public$/ =~ mcook[k].strip.downcase
+        mcook[k] = "/public"
+      else
+        mcook[k] = "/private-" + mcook[k].strip
+      end
+      url = "https://www.google.com/calendar/feeds/" + uid[k].strip + mcook[k] + "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true&futureevents=true&prettyprint=true"
       url.gsub!(/\[/, "%28")
       url.gsub!(/\]/, "%29")
       
@@ -259,6 +265,7 @@ class ApplicationController < ActionController::Base
           #c << uri.path
           #c << uri.query
           e = (f/"entry")
+          #c << e
           
           sort_index = 0
           e.each do |i|
@@ -271,26 +278,51 @@ class ApplicationController < ActionController::Base
             end
             start_time.insert(sort_index, st)
             end_time.insert(sort_index, et)
-            title.insert(sort_index, /<title type\=\"html\">(.*?)<\/title>/ =~ i.to_s ? $1 : nil)
-            where.insert(sort_index, /Where:\s+(.*?)\s*$/ =~ i.to_s ? $1 : nil)
-            
-            description.insert(sort_index, /Event Description:\s+(.*?)\s*$/ =~ i.to_s ? $1: nil)
-            
+            title.insert(sort_index, /<title type\=\"html\">(.*?)<\/title>/ =~ i.to_s ? CGI.unescapeHTML($1) : nil)
+            where.insert(sort_index, /Where:\s+(.*?)\s*$/ =~ i.to_s ? CGI.unescapeHTML($1) : nil) 
+            description.insert(sort_index, /Event Description:\s+(.*?)\s*$/ =~ i.to_s ? CGI.unescapeHTML($1) : nil)   
           end      
         }      
       }
     end
     start_time.sort!
+    c << '<table class="google-calendar">'
+    prev_date = Time.parse("1/1/1970")
     title.each_index do |i|
-      c << title[i] + '<br />' if title[i] != nil 
-      c << start_time[i].strftime("%a %d %b %Y %I:%M %p")
-      c << ' - ' + end_time[i].strftime("%I:%M %p") if h["end_time"] == true
-      c << '<br />'
-      c << where[i] + '<br />' if where[i] != nil
-      c << description[i] + '<br />' if description[i] != nil
-      c << '<br />'
+      if prev_date.day != start_time[i].day || prev_date.month != start_time[i].month || prev_date.year != start_time[i].year
+        c << '<tr><td colspan=2 class="google-calendar-date">'
+        c << start_time[i].strftime(h["date_format"])
+        c << '</td></tr>'
+      end
+      
+      c << '<tr><td class="google-calendar-time">'
+      c << start_time[i].strftime(h["time_format"])
+      c << ' - ' + end_time[i].strftime(h["time_format"]) if h["end_time"] == true
+      c << '</td>'
+      
+      c << '<td class="google-calendar-title">'
+      c << title[i]
+      
+      if where[i] != nil || description[i] != nil
+        if where[i] != nil
+          c << '<div class="google-calendar-where">'
+          c << '<br />' + where[i]
+          c << '</div class="google_calendar_where">'
+        end
+        if description[i] != nil
+          c << '<div class="google-calendar-description">'
+          c << '<br />' + description[i]
+          c << '</div class="google-calendar-description">'
+        end
+      end
+      
+      c << '</td></tr>'
+      prev_date = start_time[i]
+      
       break if i + 1 == h["display"]
     end
+    
+    c << '</table class="google-calendar">'
     return c.join
     
   end
