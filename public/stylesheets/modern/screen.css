@@ -853,12 +853,13 @@ body#primaryLRC .bannerframetext, body#pageLRC .bannerframetext {
   width: 30%;
 }
 #content table.google-calendar div.google-calendar-where, #content table.google-calendar div.google-calendar-description {
-  font-size: 0.89em;
-  line-height: 0.55;
-  color:#334455;
+  font-size: 0.89em;  
+  color:#446655;
+  margin: 3px 0 0 0;
 }
 #content table.google-calendar div.google-calendar-where {
   font-style: italic;
+  color:#445577;
 }
 
 /* highslide iframe */

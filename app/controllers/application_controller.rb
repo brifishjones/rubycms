@@ -208,30 +208,36 @@ class ApplicationController < ActionController::Base
     require 'net/https'
     require 'uri'
     require 'cgi'  # used to decode html entities (like &#036; and &Eacute;)
-   
-    s.gsub!(/["']/, "")
+
     s.gsub!(/&gt;/, ">")
-    #s.gsub!(/@/, "\@")
-    i = s.scan(/\w+\s*=>\s*[\w@\.]+/)
-    i = s.scan(/\w+\s*=>\s*\[?[\w@\.,\s]+\]?/) if i.length == 0
+    s.gsub!(/\[(\S+,\s*)+\S+\]/) {|m| m.gsub!(/,/, "!044!")}  # replace , with !044! between [ ]
+    s.gsub!(/date_format\s*=>\s*["'].*?["']/) {|m| m.gsub(/,/, '!c0Mma!')}
+    s.gsub!(/time_format\s*=>\s*["'].*?["']/) {|m| m.gsub(/,/, '!c0Mma!')}
+    s.gsub!(/(date_format\s*=>\s*)(["'].*?["'])/) {|m| $1 + $2.gsub(/\s/, '!sPaCE!')}
+    s.gsub!(/(time_format\s*=>\s*)(["'].*?["'])/) {|m| $1 + $2.gsub(/\s/, '!sPaCE!')}
+    s.gsub!(/["']/, "")
+    i = s.scan(/\w+\s*=>\s*\[?[\w@#\-\+\.!:;%\s\(\)]+\]?/) #if i.length == 0
     return "" if i.length == 0
 
     # construct the hash given the string s
-    h = {"user_id" => "", "magic_cookie" => "", "end_time" => false, "display" => 30, "date_format" => "%A, %d %B %Y", "time_format" => "%I:%M %p"}
+    h = {"user_id" => "", "magic_cookie" => "", "end_time" => false, "display" => 50, "date_format" => "%A, %d %B %Y", "time_format" => "%I:%M %p",
+      "start_date" => "", "end_date" => ""}
+    display_max = 1000
     uid = []
     mcook = []
     i.each do |line|
-      #h[$1] = $2 if /^(\w+)\s*=>\s*([\w@\.]+)$/ =~ line
-      if /^(\w+)\s*=>\s*([\w@\.]+)$/ =~ line || /^(\w+)\s*=>\s*\[?([\w@\.,\s]+)\]?$/ =~ line
+      if /^(\w+)\s*=>\s*\[?([\w@#\-\+\.!:;%\s\(\)]+)\]?$/ =~ line
         h[$1] = $2
-        uid = $2.split(',') if $1 == "user_id"
-        mcook = $2.split(',') if $1 == "magic_cookie"
+        uid = $2.split('!044!') if $1 == "user_id"
+        mcook = $2.split('!044!') if $1 == "magic_cookie"
       end
       h[$1] = true if $2 == "true"
       h[$1] = false if $2 == "false"
     end
+    #return h.inspect
     
     return "" if h["user_id"] == "" || h["magic_cookie"] == "" || uid.length != mcook.length
+
     c = []
     title = []
     start_time = []
@@ -239,14 +245,26 @@ class ApplicationController < ActionController::Base
     where = []
     description = []
     
+    h["start_date"] = gdate(h["start_date"], false)
+    h["end_date"] = gdate(h["end_date"], true) 
+    h["date_format"].gsub!(/!c0Mma!/, ",")
+    h["time_format"].gsub!(/!c0Mma!/, ",")
+    h["date_format"].gsub!(/!sPaCE!/, " ")
+    h["time_format"].gsub!(/!sPaCE!/, " ")
+    
     uid.each_index do |k|
       uid[k].gsub!(/@/ , "%40")
+      uid[k].gsub!(/#/ , "%23")
       if /^public$/ =~ mcook[k].strip.downcase
         mcook[k] = "/public"
       else
         mcook[k] = "/private-" + mcook[k].strip
       end
-      url = "https://www.google.com/calendar/feeds/" + uid[k].strip + mcook[k] + "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true&futureevents=true&prettyprint=true"
+      url = "https://www.google.com/calendar/feeds/" + uid[k].strip + mcook[k] +
+        "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true" +
+        (h["start_date"] == "" && h["end_date"] == "" ? "&futureevents=true" : "") +
+        (h["end_date"] == "" ? "&max-results=" + h["display"].to_s : "&max-results=" + display_max.to_s) +
+        (h["start_date"] != "" ? "&start-min=" + h["start_date"] : "") + (h["end_date"] != "" ? "&start-max=" + h["end_date"] : "")
       url.gsub!(/\[/, "%28")
       url.gsub!(/\]/, "%29")
       
@@ -262,8 +280,10 @@ class ApplicationController < ActionController::Base
       http.start {
         http.request_get(uri.path + '?' + uri.query) {|res|
           f = Hpricot(res.body)
-          #c << uri.path
-          #c << uri.query
+          c << uri.path + '<br />'
+          c << uri.query + '<br />'
+          c << h["start_date"] + '<br />'
+          c << h["end_date"] + '<br />'
           e = (f/"entry")
           #c << e
           
@@ -272,6 +292,9 @@ class ApplicationController < ActionController::Base
             if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
               st = Time.parse($1 + ' ' + $2 + ' ' + $3)
               et = Time.parse($1 + ' ' + $4 + ' ' + $5)
+            elsif /When:\s+\w+\s+(\w+\s+\d+,\s+\d+).*?$/ =~ i.to_s  # no time given
+              st = Time.parse($1)
+              et = Time.parse($1 + ' 23:59:59')
             end
             while start_time.length > sort_index && st > start_time[sort_index]
               sort_index += 1  
@@ -285,7 +308,7 @@ class ApplicationController < ActionController::Base
         }      
       }
     end
-    start_time.sort!
+    #start_time.sort!
     c << '<table class="google-calendar">'
     prev_date = Time.parse("1/1/1970")
     title.each_index do |i|
@@ -296,8 +319,12 @@ class ApplicationController < ActionController::Base
       end
       
       c << '<tr><td class="google-calendar-time">'
-      c << start_time[i].strftime(h["time_format"])
-      c << ' - ' + end_time[i].strftime(h["time_format"]) if h["end_time"] == true
+      if start_time[i].hour == 0 && start_time[i].min == 0 && end_time[i].hour == 23 && end_time[i].min == 59 && end_time[i].sec == 59
+        c << '&nbsp;'
+      else
+        c << start_time[i].strftime(h["time_format"])
+        c << ' - ' + end_time[i].strftime(h["time_format"]) if h["end_time"] == true
+      end
       c << '</td>'
       
       c << '<td class="google-calendar-title">'
@@ -306,12 +333,12 @@ class ApplicationController < ActionController::Base
       if where[i] != nil || description[i] != nil
         if where[i] != nil
           c << '<div class="google-calendar-where">'
-          c << '<br />' + where[i]
+          c << where[i]
           c << '</div class="google_calendar_where">'
         end
         if description[i] != nil
           c << '<div class="google-calendar-description">'
-          c << '<br />' + description[i]
+          c << description[i]
           c << '</div class="google-calendar-description">'
         end
       end
@@ -319,13 +346,28 @@ class ApplicationController < ActionController::Base
       c << '</td></tr>'
       prev_date = start_time[i]
       
-      break if i + 1 == h["display"]
+      break if i + 1 == h["display"] && h["end_date"] == ""
     end
     
     c << '</table class="google-calendar">'
     return c.join
     
   end
+  
+  def gdate(s, is_end_date)
+  # tweak google start or end date parameters
+    if s =~ /^[\+\-]\d+$/
+      t = Time.now.advance(:days => $&.to_i).to_date
+    elsif s != ""
+      t = Time.parse(s)
+    end
+    return "" if s == "" || t == ""
+    
+    t = is_end_date ? Time.parse(t.to_date.to_s + " 23:59:59") : Time.parse(t.to_date.to_s)
+    return t.strftime("%Y-%m-%dT%H:%M:%S") #+ (t.gmt_offset / 3600).to_s + ":" + ("0" if t.gmt_offset % 3600 < 10) + (t.gmt_offset % 3600).to_s
+  end
+  
+
 
   def process_hashes
   # searches for #rubycms_news, #rubycms_people, #rubycms_events hashes and replaces with appropriate ruby code for a given list
