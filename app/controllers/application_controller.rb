@@ -280,10 +280,10 @@ class ApplicationController < ActionController::Base
       http.start {
         http.request_get(uri.path + '?' + uri.query) {|res|
           f = Hpricot(res.body)
-          c << uri.path + '<br />'
-          c << uri.query + '<br />'
-          c << h["start_date"] + '<br />'
-          c << h["end_date"] + '<br />'
+          #c << uri.path + '<br />'
+          #c << uri.query + '<br />'
+          #c << h["start_date"] + '<br />'
+          #c << h["end_date"] + '<br />'
           e = (f/"entry")
           #c << e
           
