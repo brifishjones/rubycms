@@ -41,6 +41,10 @@ class SiteController < ApplicationController
         edit_refresh
         flash[:notice] = fn.name + " already exists and cannot be replaced."
         @message_submit = ""
+      elsif fn.name =~ /^\/*add\-new\-page/
+        edit_refresh
+        flash[:notice] = "Please replace <i>add-new-page</i> with a different filename."
+        @message_submit = ""
       elsif get_privileges == true && session[:update_layout] != true
         create
       else
