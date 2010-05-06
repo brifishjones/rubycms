@@ -222,19 +222,21 @@ def sitetree
   nodes = []
   nodes[0] = 0
   for filename in @filenames
-    fcur = filename.name.split('/')
-    0.upto(fcur.size - 1) do |j|
-      if j == fcur.size - 1 && fcur[j] != fprev[j]
-        st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "' + fcur[j] + '","/' + filename.name + '");'
-        nodes[j + 1] = i
-        i += 1
-      elsif fcur[j] != fprev[j]
-        st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "[' + fcur[j] + ']","javascript:void(0);");'
-        nodes[j + 1] = i
-        i += 1
-      end 
-    end  
-    fprev = fcur.dup
+    if Page.find_published(filename.name)
+      fcur = filename.name.split('/')
+      0.upto(fcur.size - 1) do |j|
+        if j == fcur.size - 1 && fcur[j] != fprev[j]
+          st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "' + fcur[j] + '","/' + filename.name + '");'
+          nodes[j + 1] = i
+          i += 1
+        elsif fcur[j] != fprev[j]
+          st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "[' + fcur[j] + ']","javascript:void(0);");'
+          nodes[j + 1] = i
+          i += 1
+        end 
+      end  
+      fprev = fcur.dup
+    end
   end 
   
     st << 'document.write(a);
