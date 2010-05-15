@@ -161,15 +161,29 @@ class ApplicationController < ActionController::Base
           :order => 'modified DESC')
         pages << p[0]
       end
+      
+      # order list based on a date at the beginning of the publication, or the valid_from date, or date last modified.
+      date_order = []
+      hdate = {}
+      for i in 0..pages.size - 1
+        date_order[i] = Time.parse(pages[i].modified.to_s)        
+        date_order[i] = Time.parse(pages[i].valid_from.to_s) if pages[i].valid_from != nil && pages[i].valid_from != ''        
+        date = pages[i].content.gsub(/\s{2,}/, ' ').match(/<p>.*?(\w+.\d+.{1,2}\d+|\d+.\w+.\d+).*?<\/p>/)
+        date_order[i] = Time.parse(date[0]) if date != nil && date[0] != nil
+        #c << pages[i].title + ': ' + date_order[i].to_i.to_s + ' ' + date_order[i].asctime + '<br />'
+        hdate[pages[i]] = date_order[i]
+      end 
+      date_order = hdate.sort {|a,b| b[1] <=> a[1]}
+      pages.each_index {|i| pages[i] = date_order[i][0]}
 
       j = 0
-      for i in 0..filenames.size - 1
+      for i in 0..pages.size - 1
         if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-          pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(filenames[i].name) == true
+          pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(pages[i].filename.name) == true
           if h["type"] == "titles"
             c << '<p>'
-            c << '<a href="/' + filenames[i].name + '">' + pages[i].title + '</a>' if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-            pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(filenames[i].name) == true
+            c << '<a href="/' + pages[i].filename.name + '">' + pages[i].title + '</a>' if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
+            pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(pages[i].filename.name) == true
             c << '</p>'
           elsif h["type"] == "overviews"
             imgs = pages[i].content.scan(/(<a href="\S+">\s*)(<img src="\S+_\w+Ex\.\w+"\s*\/>)\s*<\/a>/)
@@ -177,14 +191,17 @@ class ApplicationController < ActionController::Base
             c << '<li class="overviews-item">'
             c << '<span><div class="figure">' + imgs[0][1] + '</div></span>' if imgs[0] != nil
             c << '<div class="overviews-item-title">'
-            c << '<a href="/' + filenames[i].name + '">' + pages[i].title + '</a>'
+            c << '<a href="/' + pages[i].filename.name + '">' + pages[i].title + '</a>'
             c << '</div class="overviews-item-title">'
             c << '<div class="overviews-item-teaser">'
   
+            # remove images and any other links from overview
             pages[i].content.gsub!(/<a href="\S+">\s*<img src="\S+_\w+Ex\.\w+"\s*\/>\s*<\/a>/, '')
+            pages[i].content.gsub!(/<a href.*?>\s*(.*?)\s*<\/a>/, '\1')
 
-            c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^p>]*>)/, "").slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
-            c << '<a href="/' + filenames[i].name + '">&nbsp;Read more...</a>'
+            #c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^p>]*>)/, "").slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
+            c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^pem>]*>|<\/?span.*?>)/, "").slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
+            c << '<a href="/' + pages[i].filename.name + '" title="Read more ...">&nbsp;[...]</a>'
             
             c << '</div class="overviews-item-teaser">'
             c << '</li class="overviews-item">'
@@ -386,8 +403,8 @@ class ApplicationController < ActionController::Base
     #    page.replace_html("#{$4}", :partial => "#{$4}")
     #  end
     #@page.content.gsub!(/#rubycms_list\s*(\(.*?\))/, rubycms_list())
-    @page.content.gsub!(/#rubycms_headlines/, rubycms_headlines)
-    @page.content.gsub!(/#rubycms_news/, rubycms_news)
+    #@page.content.gsub!(/#rubycms_headlines/, rubycms_headlines)
+    #@page.content.gsub!(/#rubycms_news/, rubycms_news)
   end
 
 end

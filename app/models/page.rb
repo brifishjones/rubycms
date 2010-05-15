@@ -110,7 +110,11 @@ class Page < ActiveRecord::Base
     
     i = self.content.scan(/<img src="(\S+_\w+Ex\.\w+)"/)
     i.each do |j|
-      img = Magick::Image.read('public' + j.to_s).first
+      begin
+        img = Magick::Image.read('public' + j.to_s).first
+      rescue
+        self.content.sub!(/<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">.*?XiLU6h3xB7r4NyzV<\/div><\/span>/, "")
+      else
       self.content.sub!(/(<span><div class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
       filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
       
@@ -129,6 +133,7 @@ class Page < ActiveRecord::Base
       # uncomment destroy! when newer ImageMagick rpm released on server
       #t.destroy!  #important to free memory because Rmagick doesn't do it automatically.
       self.full_size_image if self.filename.name =~ /^\/?spotlights\//
+      end
     end
   end
   
@@ -177,9 +182,9 @@ class Page < ActiveRecord::Base
     return true if valid_from == nil && valid_to == nil
     
     if valid_from == nil
-      return false if Time.now > Time.valid_to
+      return false if Time.now > valid_to
     elsif valid_to == nil 
-      return false if Time.now < Time.valid_from
+      return false if Time.now < valid_from
     end
     return true
   end
