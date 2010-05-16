@@ -45,6 +45,12 @@ class Page < ActiveRecord::Base
     end  
   end
   
+  def has_children?()
+    u = Filename.find(:first,
+      :conditions => ["name like ?", self.filename.name + "/%"])
+    return u != nil ? true : false
+  end
+  
   def clean_content_before_save
     return if self.content == nil
     

@@ -137,7 +137,7 @@ class ApplicationController < ActionController::Base
     i = s.scan(/\w+\s*=>\s*\w+/)
 
     # construct the hash given the string s
-    h = {"type" => "titles", "filename" => @filename.name}
+    h = {"type" => "titles", "filename" => @filename.name, "hierarchy" => "leaves"}
     i.each do |line|
       h[$1] = $2 if /^(\w+)\s*=>\s*(\w+)$/ =~ line 
     end
@@ -159,17 +159,17 @@ class ApplicationController < ActionController::Base
         p = Page.find(:all,
           :conditions => ["filename_id = ? and published = ?", i.id, true],
           :order => 'modified DESC')
-        pages << p[0]
+        pages << p[0] if h["hierarchy"] != "leaves" || (h["hierarchy"] == "leaves" && !p[0].has_children?)
       end
       
-      # order list based on a date at the beginning of the publication, or the valid_from date, or date last modified.
+      # order list based on the valid_from date, the a date at the beginning of the publication, or date last modified (in that order).
       date_order = []
       hdate = {}
       for i in 0..pages.size - 1
         date_order[i] = Time.parse(pages[i].modified.to_s)        
-        date_order[i] = Time.parse(pages[i].valid_from.to_s) if pages[i].valid_from != nil && pages[i].valid_from != ''        
         date = pages[i].content.gsub(/\s{2,}/, ' ').match(/<p>.*?(\w+.\d+.{1,2}\d+|\d+.\w+.\d+).*?<\/p>/)
         date_order[i] = Time.parse(date[0]) if date != nil && date[0] != nil
+        date_order[i] = Time.parse(pages[i].valid_from.to_s) if pages[i].valid_from != nil && pages[i].valid_from != ''
         #c << pages[i].title + ': ' + date_order[i].to_i.to_s + ' ' + date_order[i].asctime + '<br />'
         hdate[pages[i]] = date_order[i]
       end 
@@ -198,9 +198,16 @@ class ApplicationController < ActionController::Base
             # remove images and any other links from overview
             pages[i].content.gsub!(/<a href="\S+">\s*<img src="\S+_\w+Ex\.\w+"\s*\/>\s*<\/a>/, '')
             pages[i].content.gsub!(/<a href.*?>\s*(.*?)\s*<\/a>/, '\1')
-
-            #c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^p>]*>)/, "").slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
-            c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^pem>]*>|<\/?span.*?>)/, "").slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
+            
+            pages[i].content.gsub!(/\s{2,}/, ' ')
+            # change headings to paragraphs
+            pages[i].content.gsub!(/((<\/?)h\d.*?>)/, '\2p>')
+            # remove all but p and em tags
+            pages[i].content.gsub!(/(<\/?[^pem\/].*?>)/, '')
+            # remove p or em descriptors e.g. p style="" or em class="" if they exist
+            pages[i].content.gsub!(/(<\/?[pem]+).*?>/, '\1>')
+            
+            c << pages[i].content.slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
             c << '<a href="/' + pages[i].filename.name + '" title="Read more ...">&nbsp;[...]</a>'
             
             c << '</div class="overviews-item-teaser">'
