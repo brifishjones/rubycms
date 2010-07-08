@@ -884,23 +884,23 @@ form#search .button:hover, form#search.button:focus {
   vertical-align: top;
 }
 #content table.google-calendar td.google-calendar-date {
-  background-color: #f4f4e6;
+  background-color: #d6d6ce;
   border: none;
   font-weight: bold;
-  color: #514721;
-  font-size: 0.92em;
+  color: #6a5555;
+  font-size: 0.85em;
 }
 #content table.google-calendar td.google-calendar-time {
   width: 30%;
 }
 #content table.google-calendar div.google-calendar-where, #content table.google-calendar div.google-calendar-description {
   font-size: 0.89em;  
-  color:#446655;
+  color:#336644;
   margin: 3px 0 0 0;
 }
 #content table.google-calendar div.google-calendar-where {
   font-style: italic;
-  color:#445577;
+  color:#335588;
 }
 
 /* highslide iframe */

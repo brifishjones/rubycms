@@ -166,9 +166,12 @@ class ApplicationController < ActionController::Base
       date_order = []
       hdate = {}
       for i in 0..pages.size - 1
-        date_order[i] = Time.parse(pages[i].modified.to_s)        
+        date_order[i] = Time.parse(pages[i].modified.to_s)       
         date = pages[i].content.gsub(/\s{2,}/, ' ').match(/<p>.*?(\w+.\d+.{1,2}\d+|\d+.\w+.\d+).*?<\/p>/)
-        date_order[i] = Time.parse(date[0]) if date != nil && date[0] != nil
+        begin
+          date_order[i] = Time.parse(date[0]) if date != nil && date[0] != nil
+        rescue
+        end
         date_order[i] = Time.parse(pages[i].valid_from.to_s) if pages[i].valid_from != nil && pages[i].valid_from != ''
         #c << pages[i].title + ': ' + date_order[i].to_i.to_s + ' ' + date_order[i].asctime + '<br />'
         hdate[pages[i]] = date_order[i]
@@ -313,7 +316,8 @@ class ApplicationController < ActionController::Base
           
           sort_index = 0
           e.each do |i|
-            if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
+            #if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
+            if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s*\w*\s*\w*\s*\d*,?\s*\d*\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
               st = Time.parse($1 + ' ' + $2 + ' ' + $3)
               et = Time.parse($1 + ' ' + $4 + ' ' + $5)
             elsif /When:\s+\w+\s+(\w+\s+\d+,\s+\d+).*?$/ =~ i.to_s  # no time given
