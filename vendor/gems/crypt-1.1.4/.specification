@@ -1,6 +1,11 @@
 --- !ruby/object:Gem::Specification 
 name: crypt
 version: !ruby/object:Gem::Version 
+  hash: 27
+  segments: 
+  - 1
+  - 1
+  - 4
   version: 1.1.4
 platform: ruby
 authors: 
@@ -50,18 +55,26 @@ required_ruby_version: !ruby/object:Gem::Requirement
   requirements: 
   - - ">"
     - !ruby/object:Gem::Version 
+      hash: 31
+      segments: 
+      - 0
+      - 0
+      - 0
       version: 0.0.0
   version: 
 required_rubygems_version: !ruby/object:Gem::Requirement 
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
   version: 
 requirements: []
 
 rubyforge_project: crypt
-rubygems_version: 1.3.5
+rubygems_version: 1.3.7
 signing_key: 
 specification_version: 1
 summary: The Crypt library is a pure-ruby implementation of a number of popular encryption algorithms. Block cyphers currently include Blowfish, GOST, IDEA, and Rijndael (AES). Cypher Block Chaining (CBC) has been implemented. Twofish, Serpent, and CAST256 are planned for release soon.

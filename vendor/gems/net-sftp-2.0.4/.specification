@@ -1,6 +1,12 @@
 --- !ruby/object:Gem::Specification 
 name: net-sftp
 version: !ruby/object:Gem::Version 
+  hash: 7
+  prerelease: false
+  segments: 
+  - 2
+  - 0
+  - 4
   version: 2.0.4
 platform: ruby
 authors: 
@@ -14,14 +20,20 @@ default_executable:
 dependencies: 
 - !ruby/object:Gem::Dependency 
   name: net-ssh
-  type: :runtime
-  version_requirement: 
-  version_requirements: !ruby/object:Gem::Requirement 
+  prerelease: false
+  requirement: &id001 !ruby/object:Gem::Requirement 
+    none: false
     requirements: 
     - - ">="
       - !ruby/object:Gem::Version 
+        hash: 29
+        segments: 
+        - 2
+        - 0
+        - 9
         version: 2.0.9
-    version: 
+  type: :runtime
+  version_requirements: *id001
 description: A pure Ruby implementation of the SFTP client protocol
 email: jamis@jamisbuck.org
 executables: []
@@ -129,21 +141,28 @@ rdoc_options:
 require_paths: 
 - lib
 required_ruby_version: !ruby/object:Gem::Requirement 
+  none: false
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 3
+      segments: 
+      - 0
       version: "0"
-  version: 
 required_rubygems_version: !ruby/object:Gem::Requirement 
+  none: false
   requirements: 
   - - ">="
     - !ruby/object:Gem::Version 
+      hash: 11
+      segments: 
+      - 1
+      - 2
       version: "1.2"
-  version: 
 requirements: []
 
 rubyforge_project: net-ssh
-rubygems_version: 1.3.5
+rubygems_version: 1.3.7
 signing_key: 
 specification_version: 3
 summary: A pure Ruby implementation of the SFTP client protocol

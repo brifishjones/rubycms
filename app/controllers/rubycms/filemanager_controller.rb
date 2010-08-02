@@ -143,7 +143,7 @@ class Rubycms::FilemanagerController < ApplicationController
         flash[:notice] = 'binary file NOT saved.'
       end
     else
-      flash[:notice] = 'upload of this file format not supported'
+      flash[:notice] = 'upload of the ' + @upload.content_type.inspect + ' file format not supported'
     end
     redirect_to :controller => '/rubycms_filemanager', :action => 'show', :url => params[:path]
   end
