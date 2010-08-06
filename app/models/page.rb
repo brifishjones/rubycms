@@ -149,7 +149,9 @@ class Page < ActiveRecord::Base
     i.each do |j|
       if j != nil && j[0] != nil && j[1] != nil && j[2] != nil && j[3] != nil && j[4] != nil
         self.content.sub!(/(<a href="https?:\/\/www\.youtube\.com\/v\/)([\w-]+).*?w=(\d+).*?h=(\d+)">(<img src="https?:\/\/i3\.ytimg\.com\/vi\/[\w-]+\/default.jpg").*?\/><\/a>/,
-          '<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
+          #'<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
+     '<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
+
       end
     end
     
@@ -168,7 +170,8 @@ class Page < ActiveRecord::Base
     url = "http://www.youtube.com/watch?v=" + id
     f = Hpricot(open(url), :fixup_tags => true)
     title = (f/"title")
-    return (title[0].inner_html).sub!(/^\s*YouTube\s*-\s*(\w.*?\w)\s*/, '\1')
+    #return (title[0].inner_html).sub!(/^\s*YouTube\s*-\s*(\w.*?\w)\s*/, '\1')
+    return title[0] != nil ? (title[0].inner_html).sub(/^\s*YouTube\s*-\s*/, '') : ''
     
   end
   

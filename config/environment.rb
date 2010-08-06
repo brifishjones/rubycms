@@ -34,7 +34,7 @@ Rails::Initializer.run do |config|
   config.gem "hpricot"
   config.gem "libxml-ruby", :lib => false
   config.gem "mongrel"
-  config.gem "mongrel_cluster", :lib => false
+  #config.gem "mongrel_cluster", :lib => false
   config.gem "net-scp", :lib => false
   config.gem "net-sftp", :lib => false
   config.gem "net-ssh", :lib => false
