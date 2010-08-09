@@ -210,8 +210,13 @@ class ApplicationController < ActionController::Base
             # remove p or em descriptors e.g. p style="" or em class="" if they exist
             pages[i].content.gsub!(/(<\/?[pem]+).*?>/, '\1>')
             
-            c << pages[i].content.slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
-            c << '<a href="/' + pages[i].filename.name + '" title="Read more ...">&nbsp;[...]</a>'
+            if pages[i].content.length > h["description_length"]
+              # truncate content to h["description_lenth"], separate paragraphs with a bullet, and show read more link to article
+              c << pages[i].content.slice(0..h["description_length"]).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
+              c << '<a href="/' + pages[i].filename.name + '" title="Read more ...">&nbsp;[...]</a>'
+            else
+              c << pages[i].content.gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
+            end
             
             c << '</div class="overviews-item-teaser">'
             c << '</li class="overviews-item">'

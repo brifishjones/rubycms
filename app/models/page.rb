@@ -176,7 +176,7 @@ class Page < ActiveRecord::Base
   end
   
   def keyword_match(fkey)
-  # returns true or false based on keyword existance or if keywords match
+  # returns true or false based on keyword existence or if keywords match
     return true if self.keyword == nil || self.keyword.list == ''
     return false if fkey == nil || fkey.list == ''
     return true if self.keyword.list.split & fkey.list.split
