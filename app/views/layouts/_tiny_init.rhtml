@@ -139,7 +139,7 @@
 		html = tinyMCE.selectedInstance.getDoc().body.innerHTML;
 		html = html.replace(new RegExp('https?://.*?(/system/images/.*?)_smallSq\.(jpe?g|JPE?G|Jpe?g|gif|GIF|Gif|png|PNG|Png)[\?]?[0-9]*', 'i'), '<a href="' + '$1' + '.' + '$2' + '"><img src="' + '$1' + '_mediumEx.' + '$2' + '" /></a>');
 		
-		html = html.replace(new RegExp('&lt;object width="([0-9]+)" height="([0-9]+)"&gt;.*?value="https?://www.youtube.com/v/([^&]+).*?&lt;/object&gt;', 'i'), '<a href="http://www.youtube.com/v/' + '$3&w=$1&h=$2"><img src="http://i3.ytimg.com/vi/$3/default.jpg /></a>');
+		html = html.replace(new RegExp('&lt;object width="([0-9]+)" height="([0-9]+)"&gt;.*?value="https?://www.youtube.com/v/([^&?]+).*?&lt;/object&gt;', 'i'), '<a href="http://www.youtube.com/v/' + '$3&w=$1&h=$2"><img src="http://i3.ytimg.com/vi/$3/default.jpg /></a>');
 		//html = html.replace(new RegExp('<object width="([0-9]+)" height="([0-9]+)">.*?value="https?://www.youtube.com/v/([^&]+).*?</object>', 'i'), '<a href="http://www.youtube.com/v/' + '$3&w=$1&h=$2"><img src="http://i3.ytimg.com/vi/$3/default.jpg /></a>');
 		
 		//alert(html);
