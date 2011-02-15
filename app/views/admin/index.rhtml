@@ -12,9 +12,9 @@
     <% for filename in @filenames %>
       <tr>
       	<% if filename.name.length >= 45 %>
-          <td><%= link_to("..." + filename.name[-45..-1], "/staging/" + filename.name, :title => filename.name) %></td>
+          <td><%= link_to("..." + filename.name[-45..-1], "/staging/" + filename.name, :title => "/" + filename.name) %></td>
 		<% else %>
-		  <td><%= link_to(filename.name, "/staging/" + filename.name) %></td>
+		  <td><%= link_to("/" + filename.name, "/staging/" + filename.name) %></td>
 		<% end %>
 		<td><%= link_to(@pages[i][0].modified.to_date, "/admin/filename/" + filename.id.to_s) if @pages[i][0] != nil %></td>
 		<td><%=h @pages[i][0].published if @pages[i][0] != nil %></td>
