@@ -17,11 +17,11 @@
      Version list: &nbsp;&nbsp;(&radic; = published)<br />
 	<% @version_list.each do |v| %>
 	  <% if v.published == true && v != @page && v != @version_list.first %>
-	    <%= link_to(v.modified.to_s, "/pageid/" + v.id.to_s, :title => 'view this version') + " (" + v.user.name + ") &radic;" %>
+	    <%= link_to(v.modified.to_s, "/pageid/" + v.id.to_s, :title => 'view this version') + " (" + v.user.name + ") "%> &radic;
 	  <% elsif v.published == true && v != @page && v == @version_list.first %>
-	    <%= link_to(v.modified.to_s, "/staging/" + @page.filename.name, :title => 'view this version') + " (" + v.user.name + ") &radic;" %>
+	    <%= link_to(v.modified.to_s, "/staging/" + @page.filename.name, :title => 'view this version') + " (" + v.user.name + ") "%> &radic;
 	  <% elsif v.published == true && v == @page %>
-	    <%= v.modified.to_s + " (" + v.user.name + ") &radic;" %>
+	    <%= v.modified.to_s + " (" + v.user.name + ") "%> &radic;
 	  <% elsif  v != @page && v != @version_list.first %>
 	    <%= link_to(v.modified.to_s, "/pageid/" + v.id.to_s, :title => 'view this version') + " (" + v.user.name + ")" %>
 	  <% elsif  v != @page && v == @version_list.first %>
