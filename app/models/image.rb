@@ -45,13 +45,23 @@ class Image < ActiveRecord::Base
     basename = File.basename(self.filename, ".*")
     extension = self.filename.scan(/\.\w+$/)
     max_aspect_ratio = 10
-    max_image_size = 720
+    max_image_size_horizontal = 1080   # 3:2 aspect ratio
+    max_image_size_vertical = 720
     
     # name uploaded file ORIG
     img.write(attachment_options[:path_prefix].to_s + '/' + self.pathname + '/' + "#{basename}" + '_' + "ORIG" + "#{extension}" )
-    # reduce image if necessary
-    if img.columns > max_image_size || img.rows > max_image_size
-      img = img.resize_to_fit(max_image_size, max_image_size) 
+    # reduce image if necessary - ORIG and resized will be the same if ORIG <= than 1080 X 720
+    if img.rows > max_image_size_vertical || img.columns > max_image_size_horizontal
+      img = img.resize_to_fit(max_image_size_vertical, max_image_size_vertical)
+    #if img.rows > max_image_size_vertical && img.columns.to_f / img.rows.to_f <= 1.0   # square or vertical image
+    #  img = img.resize_to_fit(max_image_size_vertical, max_image_size_vertical)
+    #elsif img.rows > max_image_size_vertical && img.columns.to_f / img.rows.to_f > 1.0 && (img.columns.to_f / img.rows.to_f) <= max_image_size_horizontal.to_f / max_image_size_vertical.to_f
+    #  img = img.resize_to_fit(max_image_size_vertical, max_image_size_vertical)
+    #elsif img.columns > max_image_size_horizontal && (img.columns.to_f / img.rows.to_f) > max_image_size_horizontal.to_f / max_image_size_vertical.to_f
+    #  img = img.resize_to_fit(max_image_size_horizontal, max_image_size_horizontal)
+    #elsif img.columns > max_image_size_horizontal
+    #  isize = (max_image_size_vertical.to_f * img.columns.to_f / img.rows.to_f).to_i
+    #  img = img.resize_to_fit(isize, isize)
     end
     ifile = attachment_options[:path_prefix].to_s + '/' + self.pathname + '/' + self.filename
     img.write(ifile)
