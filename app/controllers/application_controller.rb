@@ -292,8 +292,9 @@ class ApplicationController < ActionController::Base
       else
         mcook[k] = "/private-" + mcook[k].strip
       end
+      # added hl=en see: http://www.google.com/support/forum/p/Calendar/thread?tid=25ac3d762b235a51
       url = "https://www.google.com/calendar/feeds/" + uid[k].strip + mcook[k] +
-        "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true" +
+        "/basic?fields=@gd:*,id,entry[title,content]&orderby=starttime&sortorder=ascending&singleevents=true&hl=en" +
         (h["start_date"] == "" && h["end_date"] == "" ? "&futureevents=true" : "") +
         (h["end_date"] == "" ? "&max-results=" + h["display"].to_s : "&max-results=" + display_max.to_s) +
         (h["start_date"] != "" ? "&start-min=" + h["start_date"] : "") + (h["end_date"] != "" ? "&start-max=" + h["end_date"] : "")
@@ -303,12 +304,13 @@ class ApplicationController < ActionController::Base
       # workaround for https requests using hpricot
       # see http://notetoself.vrensk.com/2008/09/verified-https-in-ruby/
       uri = URI.parse(url)
+      
       http = Net::HTTP.new(uri.host, uri.port)
       if uri.scheme == "https"  # enable SSL/TLS
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-      end    
-      
+      end 
+
       http.start {
         http.request_get(uri.path + '?' + uri.query) {|res|
           f = Hpricot(res.body)
