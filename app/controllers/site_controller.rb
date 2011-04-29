@@ -10,7 +10,7 @@ class SiteController < ApplicationController
     :relative_urls => false,
     :remove_script_host => true,
     :content_css => 'stylesheets/modern/screen.css',
-    :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|ondragdrop] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style]},
+    :extended_valid_elements => %w{a[name|href|target|title|onclick] img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|ondragdrop] hr[class|width|size|noshade] font[face|size|color|style] span[class|align|style] iframe[class|style|title|frameborder|height|marginheight|marginwidth|name|scrolling|src|width]},
     :init_instance_callback => 'tinyInitInstanceCallback',
     :handle_event_callback => 'tinyHandleEvent'  
   })
