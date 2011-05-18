@@ -59,7 +59,6 @@ class Page < ActiveRecord::Base
     self.content.gsub!(/(<a href="\/\S+">)(<img src="[\.\/]*?\S+").*?\/>.*?<\/a>/, '\1' + '\2' + ' /></a>') 
     self.content.gsub!(/(<a href=")[\.\/]*(\S+"><img src=")[\.\/]*(\S+").*?\/>.*?<\/a>/, '\1/\2/\3 /></a>')
     self.content.gsub!(/(<a href=")\/(https?:\/\/www\.youtube\.com\/v\/)/, '\1\2')
-    self.content.gsub!(/(<a href=")\/(https?:\/\/www\.youtube\.com\/v\/)/, '\1\2')
     self.content.gsub!(/(<img src=")\/(https?:\/\/i3.ytimg.com\/vi\/)/, '\1\2')
   end
   
@@ -99,7 +98,7 @@ class Page < ActiveRecord::Base
     return if self.content == nil
     require 'RMagick'
     # XiLU6h3xB7r4NyzV is a randomly generated string
-    self.content.gsub!(/(<a href="\S+")>(<img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + ' class="highslide" onclick="return hs.expand(this)">' + '\2' + ' alt="XiLU6h3xB7r4NyzV" title="Click to enlarge" /></a>' + 'XiLU6h3xB7r4NyzV</div></span>')
+    self.content.gsub!(/(<a href="\S+")>(<img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '<span class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + ' class="highslide" onclick="return hs.expand(this)">' + '\2' + ' alt="XiLU6h3xB7r4NyzV" title="Click to enlarge" /></a>' + 'XiLU6h3xB7r4NyzV</span>')
 
     image_hash = {}
     if self.imageinfo != nil && self.imageinfo != ""
@@ -119,22 +118,22 @@ class Page < ActiveRecord::Base
       begin
         img = Magick::Image.read('public' + j.to_s).first
       rescue
-        self.content.sub!(/<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">.*?XiLU6h3xB7r4NyzV<\/div><\/span>/, "")
+        self.content.sub!(/<span class="figure" style="width: XiLU6h3xB7r4NyzVpx">.*?XiLU6h3xB7r4NyzV<\/span>/, "")
       else
-      self.content.sub!(/(<span><div class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
+      self.content.sub!(/(<span class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
       filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
       
       imgfile = Image.find(:first, :conditions => ["filename = ? and pathname = ?", filename, self.filename.name])
       
       if self.imageinfo != nil && self.imageinfo != "" && imgfile != nil && image_hash[imgfile.id] != ""
         self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + image_hash[imgfile.id].to_s + '\3')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/div>)/, image_hash[imgfile.id].to_s + '\2')
+        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, image_hash[imgfile.id].to_s + '\2')
       elsif (self.imageinfo == nil || self.imageinfo == "") && imgfile != nil && imgfile.caption != nil
         self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + imgfile.caption + '\3')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/div>)/, imgfile.caption + '\2')
+        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, imgfile.caption + '\2')
       else
         self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/div>)/, '\2')
+        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, '\2')
       end
       # uncomment destroy! when newer ImageMagick rpm released on server
       #t.destroy!  #important to free memory because Rmagick doesn't do it automatically.
@@ -150,7 +149,7 @@ class Page < ActiveRecord::Base
       if j != nil && j[0] != nil && j[1] != nil && j[2] != nil && j[3] != nil && j[4] != nil
         self.content.sub!(/(<a href="https?:\/\/www\.youtube\.com\/v\/)([\w-]+).*?w=(\d+).*?h=(\d+)">(<img src="https?:\/\/i3\.ytimg\.com\/vi\/[\w-]+\/default.jpg").*?\/><\/a>/,
           #'<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
-     '<span><div class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</div></span>')  
+     '<span class="figure" style="width: 120px">' + j[0] + j[1] + '&hl=en&rel=0&fs=0&autoplay=1" onclick="return hs.htmlExpand(this, { objectType: \'swf\', width: ' + j[2] + ', objectWidth: ' + j[2] + ', objectHeight: ' + j[3] + ', preserveContent: false, outlineType: \'rounded-white\', wrapperClassName: \'draggable-header no-footer\', maincontentText: \'You need to upgrade your Flash player\', swfOptions: { version: \'7\' } })" class="highslide">' + j[4] + ' /><img class="av-play" title="Click to play video" src="/images/play_44.png" /></a>' + add_captions_to_video(j[1]) + '</span>')  
 
       end
     end
