@@ -94,7 +94,9 @@ class Rubycms::FilemanagerController < ApplicationController
     extension = @upload.filename.scan(/\.\w+$/)
     @upload.filename = "#{basename}#{Time.now.strftime("%Y%m%d%H%M%S")}#{extension}"
     
-    if @upload.content_type.inspect =~ /application\/x?\-?pdf/
+    # firefox 5 on Mac OS X 10.6.7 thinks pdfs have content type 'image/ipeg'  Added workaround
+    # http://codeigniter.com/forums/viewthread/140480/#698879
+    if @upload.content_type.inspect =~ /application\/x?\-?pdf/ || @upload.content_type.inspect =~ /image\/ipeg/
       if @upload.save
         flash[:notice] = 'pdf was successfully saved.'
       else

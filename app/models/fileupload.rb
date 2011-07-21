@@ -1,8 +1,10 @@
 require 'model_helper'     # lib/model_helper.rb contains modules: RcmsModel and AttachmentFuModel
 
 class Fileupload < ActiveRecord::Base
-
-  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/zip', 'application/x-zip', 'application/x-tar', 'application/x-zip-compressed', 'application/octet-stream'],
+  
+  # firefox 5 on Mac OS X 10.6.7 thinks pdfs have content type 'image/ipeg'  Added workaround
+  # http://codeigniter.com/forums/viewthread/140480/#698879
+  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/zip', 'application/x-zip', 'application/x-tar', 'application/x-zip-compressed', 'application/octet-stream', 'image/ipeg'],
                  :storage => :file_system, 
                  :max_size => RCMS_MAX_DOCUMENT_SIZE,
                  :path_prefix => 'public/system/files'
