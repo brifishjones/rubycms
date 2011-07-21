@@ -115,8 +115,9 @@ class Page < ActiveRecord::Base
     
     i = self.content.scan(/<img src="(\S+_\w+Ex\.\w+)"/)
     i.each do |j|
+      
       begin
-        img = Magick::Image.read('public' + j.to_s).first
+        img = Magick::Image.read('public' + CGI.unescape(j.to_s)).first
       rescue
         self.content.sub!(/<span class="figure" style="width: XiLU6h3xB7r4NyzVpx">.*?XiLU6h3xB7r4NyzV<\/span>/, "")
       else
