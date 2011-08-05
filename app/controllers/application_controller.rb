@@ -319,7 +319,7 @@ class ApplicationController < ActionController::Base
           #c << h["start_date"] + '<br />'
           #c << h["end_date"] + '<br />'
           e = (f/"entry")
-          c << e
+          #c << e
           
           sort_index = 0
           e.each do |i|
