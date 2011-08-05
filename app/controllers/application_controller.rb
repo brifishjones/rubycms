@@ -319,14 +319,20 @@ class ApplicationController < ActionController::Base
           #c << h["start_date"] + '<br />'
           #c << h["end_date"] + '<br />'
           e = (f/"entry")
-          #c << e
+          c << e
           
           sort_index = 0
           e.each do |i|
             #if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
-            if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s*\w*\s*\w*\s*\d*,?\s*\d*\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
+            if /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
               st = Time.parse($1 + ' ' + $2 + ' ' + $3)
-              et = Time.parse($1 + ' ' + $4 + ' ' + $5)
+              et = Time.parse($4 + ' ' + $5 + ' ' + $6)   # end date is different than start date
+            elsif /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+(\d+:?\d?\d?)(\w+)\s+to\s*\w*\s*\w*\s*\d*,?\s*\d*\s+(\d+:?\d?\d?)(\w+)\s*$/ =~ i.to_s
+              st = Time.parse($1 + ' ' + $2 + ' ' + $3)
+              et = Time.parse($1 + ' ' + $4 + ' ' + $5)   # end date same as start date, time given
+            elsif /When:\s+\w+\s+(\w+\s+\d+,\s+\d+)\s+to\s+\w+\s+(\w+\s+\d+,\s+\d+).*?$/ =~ i.to_s   # end date different
+              st = Time.parse($1)
+              et = Time.parse($2 + ' 23:59:59')
             elsif /When:\s+\w+\s+(\w+\s+\d+,\s+\d+).*?$/ =~ i.to_s  # no time given
               st = Time.parse($1)
               et = Time.parse($1 + ' 23:59:59')
@@ -350,6 +356,9 @@ class ApplicationController < ActionController::Base
       if prev_date.day != start_time[i].day || prev_date.month != start_time[i].month || prev_date.year != start_time[i].year
         c << '<tr><td colspan=2 class="google-calendar-date">'
         c << start_time[i].strftime(h["date_format"])
+        if start_time[i].day != end_time[i].day || start_time[i].month != end_time[i].month || start_time[i].year != end_time[i].year
+          c << ' - ' + end_time[i].strftime(h["date_format"])
+        end
         c << '</td></tr>'
       end
       
