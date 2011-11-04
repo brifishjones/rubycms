@@ -12,6 +12,7 @@ mkmf.log
 .DS_Store
 .loadpath
 .project
+.bundle
 vendor/gems/fastthread-1.0.7/ext/fastthread/Makefile
 vendor/gems/fastthread-1.0.7/ext/fastthread/fastthread.bundle
 vendor/gems/fastthread-1.0.7/ext/fastthread/*.o

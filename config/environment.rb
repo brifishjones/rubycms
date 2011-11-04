@@ -2,6 +2,7 @@
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
+RMAGICK_BYPASS_VERSION_TEST = true
 
 # rubycms specific constants
 require 'config/rubycms_prefs'
@@ -22,30 +23,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "capistrano"
-  config.gem "capistrano-ext", :lib => false
-  config.gem "cgi_multipart_eof_fix"
-  config.gem "crypt", :lib => false
-  config.gem "daemons"
-  config.gem "fastthread"
-  config.gem "gem_plugin"
-  config.gem "highline"
-  config.gem "hpricot"
-  config.gem "libxml-ruby", :lib => false
-  config.gem "mongrel"
-  #config.gem "mongrel_cluster", :lib => false
-  config.gem "net-scp", :lib => false
-  config.gem "net-sftp", :lib => false
-  config.gem "net-ssh", :lib => false
-  config.gem "net-ssh-gateway", :lib => false
-  config.gem "palmtree", :lib => false
-  config.gem "rack"
-  config.gem "rails"
-  config.gem "rake"
-  config.gem "rspec", :lib => false
-  config.gem "rubygems-update", :lib => false
-  config.gem "ruby-net-ldap", :lib => false
-  config.gem "rubyzip", :lib => false
+
   
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
