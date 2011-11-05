@@ -1,18 +1,73 @@
 /* file iframe for importing images and documents */
 
-#file_iframe_image img {
-  border:1px solid;
-  border-color: #ABB;
+.filemanagerframeupload,
+#fupload {
+    height: 86px;
+    position: relative;
+    width: 417px;
 }
-#file_iframe_image img:hover{
-  border-color: #899;
+
+/* file iframe for image */
+ul#imagecontainer {
+ float: none;
+ text-align: center;
+ border: 1px solid #999999;
+ background-color: #999999;
+ min-height:100px;
+ min-height:92px;
+ width: 385px;
+ width: 360px;
+ position: relative;
+ left: 20px;
+ margin-bottom: 30px;
+ overflow:auto;
+ padding: 2px 2px 2px 2px;
+ margin: 0;
 }
-#file_iframe_image {
-  margin-top: 12px;	
+#imagecontainer li {
+ float:left;
+} 
+
+.imageframe {
+ margin:2px;
+ background-color: #AABBBB;
+ width: 73px;
+ width: 65px;
+ height: 90px;
+ height: 82px;
+ position: relative;
+ line-height:1.0em;
 }
-#file_iframe_image a {
-  background-color: #ABB;
-  border:1px solid;
-  border-color: #ABB;
-  padding:0px;
+.imageframe a img {
+ border: 1px solid #E0E0E0;
+}
+.imageframe a img:hover {
+ border-color: #FFFFFF;
+}
+.imageframe a {
+ padding:0 0 1px 1px;
+}
+.imageframe a:link,
+.imageframe li a:visited,
+.iamgeframe li a:hover,
+.iamgeframe li a:active {
+ background-color: #AABBBB; 
+}
+
+.imageframe .file_iframe_image .delete-image {
+ position: absolute;
+ top: 0px;
+ right: 2px;
+}
+.imageframe .file_iframe_image .delete-image a {
+ padding: 0;
+ background:inherit;
+ font-weight:normal;
+ border:none;
+ color:#555555;
+ font-size:1.2em; 
+ 
+}
+.imageframe .file_iframe_image .delete-image a:hover {
+ color:#666677;
 }

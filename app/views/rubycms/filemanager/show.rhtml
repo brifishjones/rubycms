@@ -5,43 +5,47 @@
 
 <p style="color: green"><%= flash[:notice] %></p>
 
-<h3>Image files: (jpg, png, and gif)</h3>
-<% if @upload_privileges %>
-  <% form_for(:image, :url => {:controller => '/rubycms_filemanager', :action => :image_upload, :path => params[:url]}, :html => { :multipart => true }) do |f| %>
-    <p>
-      <label for="uploaded_data"></label>
-      <%= f.file_field :uploaded_data %>
-    </p>
-    <p>
-      <%= submit_tag "Upload Image" %>
-    </p>
-  <% end %>
-<% else %>
-  <p>
-  	(No privileges to upload images)
-  </p>
-<% end %>
+<div class="filemanagerframeupload">
+	<h3>Image files: (jpg, png, and gif)</h3>
+	<% if @upload_privileges %>
+	  <% form_for(:image, :url => {:controller => '/rubycms_filemanager', :action => :image_upload, :path => params[:url]}, :html => { :multipart => true }) do |f| %>
+	    <p>
+	      <label for="uploaded_data"></label>
+	      <%= f.file_field :uploaded_data %>
+	    </p>
+	    <p>
+	      <%= submit_tag "Upload Image" %>
+	    </p>
+	  <% end %>
+	<% else %>
+	  <p>
+	  	(No privileges to upload images)
+	  </p>
+	<% end %>
+</div class="filemanagerframeupload">
 
 <div id="imgcap">
 <%= render(:partial => 'image_caption') %> 
 </div>	
 
-<h3>Other files: (pdf, word, rtf, txt, and zip)</h3>
-<% if @upload_privileges %>
-  <% form_for(:fileupload, :url => {:controller => '/rubycms_filemanager', :action => :file_upload, :path => params[:url]}, :html => { :multipart => true }) do |f| %>
-    <p>
-      <label for="uploaded_data"></label>
-      <%= f.file_field :uploaded_data %>
-    </p>
-    <p>
-      <%= submit_tag "Upload file" %>
-    </p>
-  <% end %>
-<% else %>
-  <p>
-  	(No privileges to upload documents)
-  </p>
-<% end %>
+<div class="filemanagerframeupload">
+	<h3>Other files: (pdf, word, rtf, txt, and zip)</h3>
+	<% if @upload_privileges %>
+	  <% form_for(:fileupload, :url => {:controller => '/rubycms_filemanager', :action => :file_upload, :path => params[:url]}, :html => { :multipart => true }) do |f| %>
+	    <p>
+	      <label for="uploaded_data"></label>
+	      <%= f.file_field :uploaded_data %>
+	    </p>
+	    <p>
+	      <%= submit_tag "Upload file" %>
+	    </p>
+	  <% end %>
+	<% else %>
+	  <p>
+	  	(No privileges to upload documents)
+	  </p>
+	<% end %>
+</div class="filemanagerframeupload">
 
 <div id="fileuploadlist">
 <%= render(:partial => 'file_upload_list') %> 

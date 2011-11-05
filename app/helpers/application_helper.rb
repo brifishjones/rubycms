@@ -310,7 +310,7 @@ def file_manager
   return if @page == nil || !editing_page
   c = []
   c << '<div class="ifile">'
-  c << '<a href="/rubycms/filemanager/' + params[:url].join("/").to_s + '" ' + 'onclick="return hs.htmlExpand(this, { objectType: \'iframe\', targetX: \'fmfrm -340px\', targetY: \'fmfrm 2px\', width: 320, height: 600} )" >'
+  c << '<a href="/rubycms/filemanager/' + params[:url].join("/").to_s + '" ' + 'onclick="return hs.htmlExpand(this, { objectType: \'iframe\', targetX: \'fmfrm -340px\', targetY: \'fmfrm 2px\', width: 430, height: 600} )" >'
   c << '<div id="fmfrm" title="Import images and documents for article below..." >'
   c << 'Image & Document Manager'
   c << '</div></a>'
