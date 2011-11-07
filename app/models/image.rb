@@ -103,11 +103,21 @@ class Image < ActiveRecord::Base
   def self.create(page, filename, funique, url, session)
   # initialize instance variable @image_uploads and imageinfo list (ili) for site controller create definition
     image_uploads = Image.find(:all, :conditions => {:pathname => url})
+    
+    for i in image_uploads
+      basename = File.basename(i.public_filename, ".*")
+      # make any hidden images visible again if they are referenced in page content
+      if page.content =~ Regexp.new('(/images/)(' + CGI.escape(i.pathname) + '/)(' + basename + ')') && i.caption =~ /^HIDEe584f2e1ed91IMAGE/     
+        i.caption = i.caption.gsub("HIDEe584f2e1ed91IMAGE", "")
+        i.save
+      end
+    end
+    
     if funique == true
       # copy images used in content
       for i in image_uploads
         basename = File.basename(i.public_filename, ".*")
-        if page.content =~ Regexp.new('(/images/)(' + i.pathname + '/)(' + basename + ')')
+        if page.content =~ Regexp.new('(/images/)(' + CGI.escape(i.pathname) + '/)(' + basename + ')')
           extension = File.extname(i.public_filename)
           fn = ""
           if File.exist?("#{RAILS_ROOT}/public/system/images/" + i.pathname + "/" + basename + "_ORIG" + extension)
@@ -124,7 +134,7 @@ class Image < ActiveRecord::Base
             m.content_type = i.content_type
             m.attachment_options[:path_prefix] = i.attachment_options[:path_prefix]
             m.create_thumbnails() if m.save
-            page.content.gsub!("#{$1}#{$2}#{$3}", "#{$1}" + m.pathname + "/" + "#{$3}")
+            page.content.gsub!("#{$1}#{$2}#{$3}", "#{$1}" + CGI.escape(filename.name) + "/" + "#{$3}")
            end
         end
       end

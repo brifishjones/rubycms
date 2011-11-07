@@ -149,6 +149,20 @@ class Rubycms::FilemanagerController < ApplicationController
     end
     redirect_to :controller => '/rubycms_filemanager', :action => 'show', :url => params[:path]
   end
+  
+  def delete_image
+    # hide image by adding 'HIDEe584f2e1ed91IMAGE' to beginning of caption
+    # won't affect images already placed on page
+    params[:url] = Array.new if params[:url] == nil
+    @image = {"current" => Image.find(params[:id])}
+    @image["current"].caption = "HIDEe584f2e1ed91IMAGE" + @image["current"].caption if /^HIDEe584f2e1ed91IMAGE/ !~ @image["current"].caption
+    @image["current"].save
+    @image["edit_caption"] = false
+    @image.default = Image.find(:all, :conditions => {:pathname => params[:url].join("/")})
+    render :update do |page|
+      page.replace_html("imgcap", :partial => "rubycms/filemanager/image_caption")
+    end
+  end
 
   def edit_image_caption
     params[:url] = Array.new if params[:url] == nil

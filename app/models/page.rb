@@ -68,6 +68,17 @@ class Page < ActiveRecord::Base
     # note that titles will only appear on image hovers after a page has been saved.
     # any changes to the caption during editing using the Image and Document Manager will not propagate to the tinyMCE editor.
     # odK8H1TG6gkqI0Vt is a randomly generated string
+    
+    image_uploads = Image.find(:all, :conditions => {:pathname => pathname})
+    for img in image_uploads
+      basename = File.basename(img.public_filename, ".*")
+      # make any hidden images visible again if they are referenced in page content
+      if CGI.unescape(self.content) =~ Regexp.new('(/images/)(' + img.pathname + '/)(' + basename + ')') && img.caption =~ /^HIDEe584f2e1ed91IMAGE/     
+        img.caption = img.caption.gsub("HIDEe584f2e1ed91IMAGE", "")
+        img.save
+      end
+    end  
+      
     self.content.gsub!(/(<a href="\S+"><img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '\1' + ' title="odK8H1TG6gkqI0Vt" /></a>')
 
     image_hash = {}
@@ -121,24 +132,24 @@ class Page < ActiveRecord::Base
       rescue
         self.content.sub!(/<span class="figure" style="width: XiLU6h3xB7r4NyzVpx">.*?XiLU6h3xB7r4NyzV<\/span>/, "")
       else
-      self.content.sub!(/(<span class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
-      filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
-      
-      imgfile = Image.find(:first, :conditions => ["filename = ? and pathname = ?", filename, self.filename.name])
-      
-      if self.imageinfo != nil && self.imageinfo != "" && imgfile != nil && image_hash[imgfile.id] != ""
-        self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + image_hash[imgfile.id].to_s + '\3')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, image_hash[imgfile.id].to_s + '\2')
-      elsif (self.imageinfo == nil || self.imageinfo == "") && imgfile != nil && imgfile.caption != nil
-        self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + imgfile.caption + '\3')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, imgfile.caption + '\2')
-      else
-        self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '')
-        self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, '\2')
-      end
-      # uncomment destroy! when newer ImageMagick rpm released on server
-      #t.destroy!  #important to free memory because Rmagick doesn't do it automatically.
-      self.full_size_image if self.filename.name =~ /^\/?spotlights\//
+        self.content.sub!(/(<span class="figure" style="width: )(XiLU6h3xB7r4NyzV)(px">)/, '\1' + img.columns.to_s + '\3')
+        filename = File.basename(j.to_s).sub(/(\S+)(_\w+Ex)(\.\w+)/, '\1' + '\3')
+        
+        imgfile = Image.find(:first, :conditions => ["filename = ? and pathname = ?", filename, self.filename.name])
+        
+        if self.imageinfo != nil && self.imageinfo != "" && imgfile != nil && image_hash[imgfile.id] != ""
+          self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + image_hash[imgfile.id].to_s + '\3')
+          self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, image_hash[imgfile.id].to_s + '\2')
+        elsif (self.imageinfo == nil || self.imageinfo == "") && imgfile != nil && imgfile.caption != nil
+          self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '\1' + imgfile.caption + '\3')
+          self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, imgfile.caption + '\2')
+        else
+          self.content.sub!(/(alt=")(XiLU6h3xB7r4NyzV)(")/, '')
+          self.content.sub!(/(XiLU6h3xB7r4NyzV)(<\/span>)/, '\2')
+        end
+        # uncomment destroy! when newer ImageMagick rpm released on server
+        #t.destroy!  #important to free memory because Rmagick doesn't do it automatically.
+        self.full_size_image if self.filename.name =~ /^\/?spotlights\//
       end
     end
   end

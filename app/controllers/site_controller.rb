@@ -260,10 +260,12 @@ class SiteController < ApplicationController
       self.instance_variable_set("@#{c.downcase}", ActiveRecord::Base.const_get(c).create(@filename.name, funique, params[:url].join("/"), session)) if defined?(ActiveRecord::Base.const_get(c).create)
     end
 
-    self.instance_variable_set("@#{"image"}", ActiveRecord::Base.const_get("Image").create(@page, @filename, funique, params[:url], session))
+    self.instance_variable_set("@#{"image"}", ActiveRecord::Base.const_get("Image").create(@page, @filename, funique, params[:url].join("/"), session))
     @page.content = @image["content"]
-    self.instance_variable_set("@#{"fileupload"}", ActiveRecord::Base.const_get("Fileupload").create(@page, @filename, funique, params[:url], session))
+    self.instance_variable_set("@#{"fileupload"}", ActiveRecord::Base.const_get("Fileupload").create(@page, @filename, funique, params[:url].join("/"), session))
     @page.content = @fileupload["content"]
+    
+    img = Image.find(:all, :conditions => {:pathname => @filename.name})
 
     @page.clean_content_before_save
     @page.modified = Time.now
@@ -440,7 +442,8 @@ class SiteController < ApplicationController
     Dir['app/controllers/rubycms/**/*.rb'].each do |i|
       c = i.sub(/^app\/controllers\/rubycms\//, "").sub(/(_controller)?\.rb$/, "").capitalize
       ActiveRecord::Base.const_get(c).make_info_current(@page) if defined?(ActiveRecord::Base.const_get(c).make_info_current)
-    end 
+    end     
+    Image.make_info_current(@page);
 
     @page.save
    
