@@ -38,10 +38,19 @@ class Fileupload < ActiveRecord::Base
   def self.create(page, filename, funique, url, session)
   # initialize instance variable @file_upload for site controller create definition
     file_uploads = Fileupload.find(:all, :conditions => {:pathname => url})
+    
+    for d in file_uploads
+      # make any hidden files visible again if they are referenced in page content
+      if page.content =~ Regexp.new('(/files/)(' + CGI.escape(d.pathname) + '/)(' + d.filename.gsub("HIDEm4afK6RpFILE", "") + ')') && d.filename =~ /^HIDEm4afK6RpFILE/     
+        d.filename = d.filename.gsub("HIDEm4afK6RpFILE", "")
+        d.save
+      end
+    end
+    
     if funique == true
       # copy documents used in content
       for d in file_uploads  
-        if page.content =~ Regexp.new('(/files/)(' + d.pathname + '/)(' + d.filename + ')')
+        if page.content =~ Regexp.new('(/files/)(' + CGI.escape(d.pathname) + '/)(' + d.filename + ')')
           if File.exist?("#{RAILS_ROOT}/public" + d.public_filename)
             fd = File.open("#{RAILS_ROOT}/public" + d.public_filename, "rb").read
             m = Fileupload.new(:file_data => fd)

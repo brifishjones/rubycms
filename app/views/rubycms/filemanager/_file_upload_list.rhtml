@@ -1,9 +1,14 @@
 <div id="fupload">
 <ul>
 <% for i in @fileupload.default %>
+  <% if /^HIDEm4afK6RpFILE/ !~ i.filename %>
   <li>
     <%= link_to i.filename, i.public_filename  %>
+	<span class="delete-file">
+	<%= (link_to_remote '&nbsp;&times;', {:url => {:controller => '/rubycms_filemanager', :action => 'delete_file', :id => i.id, :url => params[:url]}, :confirm => 'Remove file?'}, :title => 'delete') %>
+	</span>
   </li>
+  <% end %>
 <% end %>
 </ul>
 </div id="fupload">

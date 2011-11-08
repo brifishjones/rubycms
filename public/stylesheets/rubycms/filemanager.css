@@ -1,10 +1,22 @@
 /* file iframe for importing images and documents */
 
+.filemanagerframeupload {
+	height: 86px;
+}
 .filemanagerframeupload,
 #fupload {
-    height: 86px;
     position: relative;
     width: 417px;
+}
+#fupload li {
+  line-height: 1.3em;
+}
+#fupload .delete-file a {
+ color:#555555;
+}
+#fupload .delete-file a:hover {
+ color:#666677;
+ background-color: #AABBBB;
 }
 
 /* file iframe for image */

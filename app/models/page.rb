@@ -73,11 +73,20 @@ class Page < ActiveRecord::Base
     for img in image_uploads
       basename = File.basename(img.public_filename, ".*")
       # make any hidden images visible again if they are referenced in page content
-      if CGI.unescape(self.content) =~ Regexp.new('(/images/)(' + img.pathname + '/)(' + basename + ')') && img.caption =~ /^HIDEe584f2e1ed91IMAGE/     
+      if self.content =~ Regexp.new('(/images/)(' + CGI.escape(img.pathname) + '/)(' + basename + ')') && img.caption =~ /^HIDEe584f2e1ed91IMAGE/     
         img.caption = img.caption.gsub("HIDEe584f2e1ed91IMAGE", "")
         img.save
       end
-    end  
+    end
+    
+    file_uploads = Fileupload.find(:all, :conditions => {:pathname => pathname})
+    for d in file_uploads
+      # make any hidden files visible again if they are referenced in page content
+      if self.content =~ Regexp.new('(/files/)(' + CGI.escape(d.pathname) + '/)(' + d.filename.gsub("HIDEm4afK6RpFILE", "") + ')') && d.filename =~ /^HIDEm4afK6RpFILE/     
+        d.filename = d.filename.gsub("HIDEm4afK6RpFILE", "")
+        d.save
+      end
+    end
       
     self.content.gsub!(/(<a href="\S+"><img src="\S+_\w+Ex\.\w+")\s?\/><\/a>/, '\1' + ' title="odK8H1TG6gkqI0Vt" /></a>')
 

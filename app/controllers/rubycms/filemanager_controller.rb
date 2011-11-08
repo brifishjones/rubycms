@@ -150,6 +150,19 @@ class Rubycms::FilemanagerController < ApplicationController
     redirect_to :controller => '/rubycms_filemanager', :action => 'show', :url => params[:path]
   end
   
+  def delete_file
+    # hide file by adding 'HIDEm4afK6RpFILE' to beginning of filename
+    # won't affect files already placed on page
+    f = Fileupload.find(params[:id])
+    f.filename = "HIDEm4afK6RpFILE" + f.filename if /^HIDEm4afK6RpFILE/ !~ f.filename
+    f.save
+    @fileupload = {}
+    @fileupload.default = Fileupload.find(:all, :conditions => {:pathname => params[:url].join("/")})
+    render :update do |page|
+      page.replace_html("fileuploadlist", :partial => "rubycms/filemanager/file_upload_list")
+    end
+  end
+  
   def delete_image
     # hide image by adding 'HIDEe584f2e1ed91IMAGE' to beginning of caption
     # won't affect images already placed on page
