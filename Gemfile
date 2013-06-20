@@ -19,7 +19,7 @@ gem "palmtree", "0.0.6", :require => false
 gem "rack", "1.1.0"
 gem "rails", "2.3.8"
 gem "rake", "0.8.7"
-gem "rmagick", "2.13.1", :require => false
+gem "rmagick", "2.13.2", :require => false
 gem "rspec", "1.3.0", :require => false
 gem "rubygems-update", "1.3.7", :require => false
 gem "ruby-net-ldap", "0.0.4", :require => false
