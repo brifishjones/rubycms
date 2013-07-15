@@ -96,7 +96,8 @@ class Rubycms::FilemanagerController < ApplicationController
     
     # firefox 5 on Mac OS X 10.6.7 thinks pdfs have content type 'image/ipeg'  Added workaround
     # http://codeigniter.com/forums/viewthread/140480/#698879
-    if @upload.content_type.inspect =~ /application\/x?\-?pdf/ || @upload.content_type.inspect =~ /image\/ipeg/
+    # firefox 22 on Mac OS X 10.6.8 thinks pdfs have content type 'application/x-download' Added workaround
+    if @upload.content_type.inspect =~ /application\/x?\-?(pdf|download)/ || @upload.content_type.inspect =~ /image\/ipeg/
       if @upload.save
         flash[:notice] = 'pdf was successfully saved.'
       else
