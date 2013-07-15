@@ -4,7 +4,8 @@ class Fileupload < ActiveRecord::Base
   
   # firefox 5 on Mac OS X 10.6.7 thinks pdfs have content type 'image/ipeg'  Added workaround
   # http://codeigniter.com/forums/viewthread/140480/#698879
-  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/zip', 'application/x-zip', 'application/x-tar', 'application/x-zip-compressed', 'application/octet-stream', 'image/ipeg'],
+  # firefox 22 on Mac OS X 10.6.8 thinks pdfs have content type 'application/x-download' Added workaround
+  has_attachment :content_type => ['application/pdf', 'application/x-pdf', 'application/msword', 'text/rtf', 'text/plain', 'application/x-shockwave-flash', 'application/zip', 'application/x-zip', 'application/x-tar', 'application/x-zip-compressed', 'application/octet-stream', 'application/x-download', 'image/ipeg'],
                  :storage => :file_system, 
                  :max_size => RCMS_MAX_DOCUMENT_SIZE,
                  :path_prefix => 'public/system/files'
