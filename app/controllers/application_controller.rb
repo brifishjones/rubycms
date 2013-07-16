@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
       pages = []
       filenames.each do |i|
         p = Page.find(:all,
-          :conditions => ["filename_id = ? and published = ?", i.id, true],
+          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
           :order => 'modified DESC')
         pages << p[0]
       end
@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
       pages = []
       filenames.each do |i|
         p = Page.find(:all,
-          :conditions => ["filename_id = ? and published = ?", i.id, true],
+          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
           :order => 'modified DESC')
         pages << p[0]
       end
@@ -157,7 +157,7 @@ class ApplicationController < ActionController::Base
       pages = []
       filenames.each do |i|
         p = Page.find(:all,
-          :conditions => ["filename_id = ? and published = ?", i.id, true],
+          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
           :order => 'modified DESC')
         pages << p[0] if h["hierarchy"] != "leaves" || (h["hierarchy"] == "leaves" && !p[0].has_children?)
       end

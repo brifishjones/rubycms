@@ -39,8 +39,7 @@ class Page < ActiveRecord::Base
     if u != nil
       p = Page.find(:all,
         :order => 'modified DESC',
-        :conditions => ["filename_id = ? and published = ?", u.id, true])
-        #:conditions => ["filename_id = ? and published = '1'", u.id])
+        :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id])
       return p[0]
     end  
   end
