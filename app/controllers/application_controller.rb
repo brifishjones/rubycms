@@ -48,79 +48,6 @@ class ApplicationController < ActionController::Base
     FileUtils.rm_rf directory if empty == true
   end
 
-  def rubycms_headlines
-  # replaces #rubycms_headlines in content with the following: 
-    c = []
-    filenames = Filename.find(:all,
-      :order => 'updated_at DESC',
-      :conditions => ["name like ?", "%news/%"])
-    if filenames != []
-      c << '<div class="headlines-list">'
-      c << '<hr />'
-      pages = []
-      filenames.each do |i|
-        p = Page.find(:all,
-          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
-          :order => 'modified DESC')
-        pages << p[0]
-      end
-      for i in 0..filenames.size - 1
-        c << '<p>'
-        c << '<a href="/' + filenames[i].name + '">' + pages[i].title + '</a>' if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-          pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(filenames[i].name) == true
-        c << '</p>'
-      end
-      c << '</div> <!-- class="headlines-list" -->'
-    end
-    return c.join
-  end
-
-  def rubycms_news
-  # replaces #rubycms_news in content with the following: 
-    c = []
-    filenames = Filename.find(:all,
-      :order => 'updated_at DESC',
-      :conditions => ["name like ?", "%news/%"])
-    if filenames != []
-      c << '<ul class="news-list">'
-      pages = []
-      filenames.each do |i|
-        p = Page.find(:all,
-          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
-          :order => 'modified DESC')
-        pages << p[0]
-      end
-      j = 0
-      for i in 0..filenames.size - 1
-        if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-          pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(filenames[i].name) == true
-          imgs = pages[i].content.scan(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)">)(<img src="\S+_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/)
-          c << '<hr />'
-          c << '<li class="news-item">'
-          c << '<span><div class="figure">' + imgs[0][1] + '/></a></div></span>' if imgs[0] != nil
-          c << '<div class="news-item-title">'
-          c << '<a href="/' + filenames[i].name + '">' + pages[i].title + '</a>'
-          c << '</div class="news-item-title">'
-          c << '<div class="news-item-teaser">'
-
-          pages[i].content.gsub!(/(<a href="\S+" class="highslide" onclick="return hs.expand\(this\)"><img src="\S+_\w+Ex\.\w+" border="0"\s)(alt="(.*?)"\s+)?(title="Click to enlarge"\s?\/><\/a>)/, '')#'<span><div class="figure" style="width: XiLU6h3xB7r4NyzVpx">' + '\1' + 'alt="XiLU6h3xB7r4NyzV" ' + '\4' + 'XiLU6h3xB7r4NyzV</div></span>')
-    
-          c << pages[i].content.gsub(/\s{2,}/, ' ').gsub(/(<[^p>]*>)/, "").slice(0..400).slice(/.*\s/).gsub(/<\s*p\s*>/, '').gsub(/<\s*\/\s*p\s*>/, '&nbsp;&bull;&nbsp;')
-          c << '<a href="/' + filenames[i].name + '">&nbsp;Read more...</a>'
-          
-          
-          c << '</div class="news-item-teaser">'
-          c << '</li class="news-item">'
-          j += 1
-          break if j == 10
-        end
-        
-      end
-      c << '</ul> <!-- class="news-list" -->'
-    end
-    return c.join
-  end
-
   def rubycms_people
   # replaces #rubycms_people in content with the following: 
     
@@ -132,6 +59,7 @@ class ApplicationController < ActionController::Base
   
   def rubycms_list(s)
   # replaces #rubycms_list in content given a type (titles, or overviews), and a site-wide filename
+  # often used for displaying list of news or blog posts
     s.gsub!(/["']/, "")
     s.gsub!(/&gt;/, ">")
     i = s.scan(/\w+\s*=>\s*\w+/)
@@ -157,12 +85,12 @@ class ApplicationController < ActionController::Base
       pages = []
       filenames.each do |i|
         p = Page.find(:all,
-          :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id],
+          :conditions => ["filename_id = ?", i.id],
           :order => 'modified DESC')
         pages << p[0] if h["hierarchy"] != "leaves" || (h["hierarchy"] == "leaves" && !p[0].has_children?)
       end
       
-      # order list based on the valid_from date, the a date at the beginning of the publication, or date last modified (in that order).
+      # order list based on the valid_from date, the date at the beginning of the publication, or date last modified (in that order).
       date_order = []
       hdate = {}
       for i in 0..pages.size - 1
@@ -182,11 +110,11 @@ class ApplicationController < ActionController::Base
       j = 0
       for i in 0..pages.size - 1
         if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-          pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(pages[i].filename.name) == true
+          (pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) || request.request_uri =~ /^\/staging/) &&
+          read_access(pages[i].filename.name) == true
           if h["type"] == "titles"
             c << '<p>'
-            c << '<a href="/' + pages[i].filename.name + '">' + pages[i].title + '</a>' if pages[i] != nil && @page.keyword_match(pages[i].keyword) &&
-            pages[i].published && pages[i].page_valid(pages[i].valid_from, pages[i].valid_to) && read_access(pages[i].filename.name) == true
+            c << '<a href="/' + pages[i].filename.name + '">' + pages[i].title + '</a>'
             c << '</p>'
           elsif h["type"] == "overviews"
             imgs = pages[i].content.scan(/(<a href="\S+">\s*)(<img src="\S+_\w+Ex\.\w+"\s*\/>)\s*<\/a>/)
@@ -410,28 +338,12 @@ class ApplicationController < ActionController::Base
     t = is_end_date ? Time.parse(t.to_date.to_s + " 23:59:59") : Time.parse(t.to_date.to_s)
     return t.strftime("%Y-%m-%dT%H:%M:%S") #+ (t.gmt_offset / 3600).to_s + ":" + ("0" if t.gmt_offset % 3600 < 10) + (t.gmt_offset % 3600).to_s
   end
-  
-
 
   def process_hashes
-  # searches for #rubycms_news, #rubycms_people, #rubycms_events hashes and replaces with appropriate ruby code for a given list
-    return if @page.content == nil
-    
-    @page.content.gsub!(/#rubycms_list\s*\{(.*?)\}/) {rubycms_list($1)} 
-    
-    @page.content.gsub!(/#rubycms_google_calendar\s*\{(.*?)\}/) {rubycms_google_calendar($1)}
-   
-    #i = self.content.scan(/<img src="(\S+_\w+Ex\.\w+)"/)
-    #i.each do |j|
-    
-    #if params[:url] =~ /^(http(s?):\/\/)?([\w\-\.:]+)\/rubycms\/(\w+)/
-    #self.instance_variable_set("@#{$4}", ActiveRecord::Base.const_get("#{$4}".capitalize).update_rjs(session))
-    #  render :update do |page|
-    #    page.replace_html("#{$4}", :partial => "#{$4}")
-    #  end
-    #@page.content.gsub!(/#rubycms_list\s*(\(.*?\))/, rubycms_list())
-    #@page.content.gsub!(/#rubycms_headlines/, rubycms_headlines)
-    #@page.content.gsub!(/#rubycms_news/, rubycms_news)
+  # searches main content for #rubycms_list and #rubycms_google_calendar hashes and replaces with appropriate ruby code for a given list
+    return if @page.content == nil    
+    @page.content.gsub!(/#rubycms_list\s*\{(.*?)\}/) {rubycms_list($1)}     
+    @page.content.gsub!(/#rubycms_google_calendar\s*\{(.*?)\}/) {rubycms_google_calendar($1)}   
   end
-
+  
 end

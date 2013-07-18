@@ -451,6 +451,13 @@ class SiteController < ApplicationController
       page.redirect_to('/staging/' + @page.filename.name)
     end 
   end
+  
+  def redirect_highslide
+  # rubycms modules with highslide files need to find files in javascript folder
+    if params[:file]
+      redirect_to "/javascripts/#{params[:file].join('/')}"
+    end
+  end
 
   def update_rjs
   # called to refresh appropriate part of page after closing iframes rubycms_imagetop, rubycms_contact, rubycms_banner, rubycms_gallery, rubycms_filemanager, rubycms_layout, ...

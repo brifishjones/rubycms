@@ -33,15 +33,11 @@ class Page < ActiveRecord::Base
     end  
   end
   
-  def self.find_published(filename)
-    u = Filename.find(:first,
-      :conditions => ["name = ?", filename])
-    if u != nil
-      p = Page.find(:all,
-        :order => 'modified DESC',
-        :conditions => ["filename_id = ? and (published = '1' or published = 't')", u.id])
-      return p[0]
-    end  
+  def self.find_published(filename)   
+    p = find_page(filename)
+    if p != nil
+      return p.published ? p : nil
+    end
   end
   
   def has_children?()

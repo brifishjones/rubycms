@@ -200,6 +200,34 @@ def main_navigation
   return content_tag("ul", mn, :id => "navmain")
 end
 
+def navbar_bootstrap
+# top navigation for twitter bootstrap responsive design
+  nav = Navglobal.find(:all,
+      :order => 'id')
+  nb = []
+  nb << '<div class="navbar-inner">
+    <div class="container-fluid">
+    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">' 
+  nav.each do |n|
+    nb << '<span class="icon-bar"></span>'
+  end
+  nb << '</button>
+    <a class="brand" href="/"><img alt="Home" src="/images/basic/logo.jpg" /></a>
+    <div class="nav-collapse collapse">
+    <p class="navbar-text pull-right">
+    <%= render(:partial => "layouts/search") %>
+    </p>
+    <ul class="nav">'
+  nav.each do |n|
+    nb << content_tag("li", link_to(n.nameglobal, n.linkglobal)) if n.nameglobal != nil && n.linkglobal != nil && n.nameglobal != "" && n.linkglobal != ""
+  end
+  nb << '</ul>
+    </div><!--/.nav-collapse -->
+    </div>
+    </div>
+    </div>'
+end
+
 def sitetree
   st = []
   st << '<link rel="StyleSheet" href="/javascripts/dtree/dtree.css" type="text/css" />
@@ -222,11 +250,17 @@ def sitetree
   nodes = []
   nodes[0] = 0
   for filename in @filenames
-    if Page.find_published(filename.name)
+    if request.request_uri =~ /^\/staging/
+      pg = Page.find_page(filename.name)
+    else
+      pg = Page.find_published(filename.name) 
+    end
+    if pg
+      fout = pg.published ? filename.name : 'staging/' + filename.name
       fcur = filename.name.split('/')
       0.upto(fcur.size - 1) do |j|
         if j == fcur.size - 1 && fcur[j] != fprev[j]
-          st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "' + fcur[j] + '","/' + filename.name + '");'
+          st << 'a.add(' + i.to_s + ', ' + nodes[j].to_s + ', "' + fcur[j] + '","/' + fout + '");'
           nodes[j + 1] = i
           i += 1
         elsif fcur[j] != fprev[j]
