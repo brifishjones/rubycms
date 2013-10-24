@@ -59,6 +59,7 @@ class Fileupload < ActiveRecord::Base
             m.pathname = filename.name
             m.content_type = d.content_type
             m.attachment_options[:path_prefix] = d.attachment_options[:path_prefix]
+            mkdir_p(m.pathname)
             m.save
             page.content.gsub!("#{$1}#{$2}#{$3}", "#{$1}" + m.pathname + "/" + "#{$3}")
           end

@@ -99,6 +99,7 @@ module RcmsModel
             b.caption = i.caption
             b.content_type = i.content_type
             b.attachment_options[:path_prefix] = i.attachment_options[:path_prefix]
+            mkdir_p(b.pathname)
             b.create_thumbnails() if b.save
             rank += 1
           end

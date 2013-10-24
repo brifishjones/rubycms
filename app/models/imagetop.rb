@@ -108,6 +108,7 @@ class Imagetop < ActiveRecord::Base
         t.href = imagetop.href
         t.content_type = imagetop.content_type
         t.attachment_options[:path_prefix] = imagetop.attachment_options[:path_prefix]
+        mkdir_p(t.pathname)
         t.create_thumbnails() if t.save
         imagetop = t
       end

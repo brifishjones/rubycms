@@ -133,6 +133,7 @@ class Image < ActiveRecord::Base
             m.caption = i.caption
             m.content_type = i.content_type
             m.attachment_options[:path_prefix] = i.attachment_options[:path_prefix]
+            mkdir_p(m.pathname)
             m.create_thumbnails() if m.save
             page.content.gsub!("#{$1}#{$2}#{$3}", "#{$1}" + CGI.escape(filename.name) + "/" + "#{$3}")
            end
